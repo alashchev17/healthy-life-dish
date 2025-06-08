@@ -1,15 +1,79 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Color Tokens */
+  --color-black: #1a1a1a;
+  --color-light-gray: #545454;
+  --color-white: #f8f8f8;
+  --color-green-acid: #c3f02f;
+  --color-dark-gray: #272727;
+  --color-non-accent-green: #78941b;
+  --color-error: #ff0101;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jura-sans);
+  --font-mono: var(--font-manrope-sans);
+
+  /* Typography Tokens */
+  --font-jura: var(--font-jura-sans);
+  --font-manrope: var(--font-manrope-sans);
+
+  /* Color Tokens */
+  --color-black: var(--color-black);
+  --color-light-gray: var(--color-light-gray);
+  --color-white: var(--color-white);
+  --color-green-acid: var(--color-green-acid);
+  --color-dark-gray: var(--color-dark-gray);
+  --color-non-accent-green: var(--color-non-accent-green);
+  --color-error: var(--color-error);
+
+  /* Desktop Typography */
+  --typography-title1-size: 4rem;
+  --typography-title1-line-height: 120%;
+  --typography-title2-size: 2.5rem;
+  --typography-title2-line-height: 120%;
+  --typography-title3-size: 1.75rem;
+  --typography-title3-line-height: 120%;
+  --typography-menu-size: 1rem;
+  --typography-menu-line-height: 100%;
+  --typography-bottoms-size: 1rem;
+  --typography-bottoms-line-height: 100%;
+  --typography-body-size: 1rem;
+  --typography-body-line-height: 125%;
+  --typography-small-size: 0.875rem;
+  --typography-small-line-height: 125%;
+  --typography-blog-title-size: 1rem;
+  --typography-blog-title-line-height: 125%;
+  --typography-blog-intro-size: 1rem;
+  --typography-blog-intro-line-height: 125%;
+  --typography-link-size: 0.75rem;
+  --typography-link-line-height: 125%;
+
+  /* Mobile Typography */
+  --typography-mobile-title1-size: 2.5rem;
+  --typography-mobile-title1-line-height: 120%;
+  --typography-mobile-title2-size: 2rem;
+  --typography-mobile-title2-line-height: 120%;
+  --typography-mobile-title3-size: 1.5rem;
+  --typography-mobile-title3-line-height: 120%;
+  --typography-mobile-menu-size: 1rem;
+  --typography-mobile-menu-line-height: 100%;
+  --typography-mobile-bottoms-size: 1rem;
+  --typography-mobile-bottoms-line-height: 100%;
+  --typography-mobile-body-size: 1rem;
+  --typography-mobile-body-line-height: 125%;
+  --typography-mobile-small-size: 0.875rem;
+  --typography-mobile-small-line-height: 125%;
+  --typography-mobile-blog-title-size: 1rem;
+  --typography-mobile-blog-title-line-height: 125%;
+  --typography-mobile-blog-intro-size: 1rem;
+  --typography-mobile-blog-intro-line-height: 125%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +86,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Manrope, Helvetica, sans-serif;
 }
