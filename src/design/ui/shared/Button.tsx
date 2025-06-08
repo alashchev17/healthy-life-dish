@@ -51,7 +51,7 @@ const getButtonStyles = (variant: ButtonVariant, fullWidth: boolean, disabled: b
         variantStyles =
           'border-b-[3px] rounded-tl-[24px] rounded-tr-[24px] border-non-accent-green text-non-accent-green cursor-not-allowed pointer-events-none'
       }
-      sizeStyles += 'py-4 px-9'
+      sizeStyles += 'py-6 px-9'
       break
     case 'special-dark':
       variantStyles =
@@ -60,7 +60,7 @@ const getButtonStyles = (variant: ButtonVariant, fullWidth: boolean, disabled: b
         variantStyles =
           'border-b-[3px] rounded-tl-[24px] rounded-tr-[24px] border-light-gray text-light-gray cursor-not-allowed pointer-events-none'
       }
-      sizeStyles += 'py-4 px-9'
+      sizeStyles += 'py-6 px-9'
       break
   }
 
