@@ -21,8 +21,8 @@ export function getButtonStyles({
   const widthStyles = variant === "icon" ? "" : fullWidth ? "w-full" : "w-auto";
 
   // Size styles - icon variant gets fixed dimensions, otherwise use variant-specific sizing
-  let iconButtonDimensions = size === 'sm' ? "w-12 h-12" : "w-17 h-17";
-  let sizeStyles =
+  const iconButtonDimensions = size === 'sm' ? "w-12 h-12" : "w-17 h-17";
+  const sizeStyles =
     variant === "icon" ? `${iconButtonDimensions} p-0` : "text-base min-h-[48px] py-6 px-9";
 
   // Variant styles and variant-specific disabled styles
