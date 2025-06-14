@@ -13,6 +13,42 @@
  */
 
 // Source: schema.json
+export type TranslationMetadata = {
+  _id: string;
+  _type: "translation.metadata";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  translations?: Array<{
+    _key: string;
+  } & InternationalizedArrayReferenceValue>;
+  schemaTypes?: Array<string>;
+};
+
+export type InternationalizedArrayReferenceValue = {
+  _type: "internationalizedArrayReferenceValue";
+  value?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "hero";
+  };
+};
+
+export type Hero = {
+  _id: string;
+  _type: "hero";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  slogan?: string;
+};
+
+export type InternationalizedArrayReference = Array<{
+  _key: string;
+} & InternationalizedArrayReferenceValue>;
+
 export type SanityImagePaletteSwatch = {
   _type: "sanity.imagePaletteSwatch";
   background?: string;
@@ -131,5 +167,5 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = TranslationMetadata | InternationalizedArrayReferenceValue | Hero | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
