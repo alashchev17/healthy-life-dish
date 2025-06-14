@@ -22,7 +22,10 @@
 
 # misc
 .DS_Store
+.idea
+.vscode
 *.pem
+chrome
 
 # debug
 npm-debug.log*

@@ -1,4 +1,4 @@
-import { FC, SVGProps } from 'react'
+import { FC, SVGProps } from "react";
 
 export const ArrowRight: FC<SVGProps<SVGSVGElement>> = (props) => {
   return (
@@ -10,7 +10,13 @@ export const ArrowRight: FC<SVGProps<SVGSVGElement>> = (props) => {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M15.7499 9L2.25 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M15.7499 9L2.25 9"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
-  )
-}
+  );
+};

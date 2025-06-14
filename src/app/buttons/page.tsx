@@ -1,5 +1,6 @@
-import { Button } from '#/design/ui/shared'
-import { Typography } from '#/design/Layout/shared/Typography'
+import { Button } from "#/design/ui/shared";
+import { Typography } from "#/design/Layout/shared/Typography";
+import { ArrowRight } from "#/design/icons";
 
 export default function ButtonsPage() {
   return (
@@ -75,6 +76,31 @@ export default function ButtonsPage() {
             <Button variant="secondary" icon={<span>⚡</span>}>
               Обрати програму
             </Button>
+          </div>
+        </section>
+
+        {/* Icon Variant Buttons */}
+        <section id="icon-only-section" className="space-y-6">
+          <Typography variant="title3">Icon Variant Buttons</Typography>
+          <div className="flex flex-wrap gap-4 items-center">
+            <Button variant="icon" icon={<ArrowRight />} size="md" />
+            <Button variant="icon" icon={<ArrowRight />} size="md" disabled />
+            <Button variant="icon" icon={<ArrowRight />} size="md" loading />
+          </div>
+        </section>
+
+        {/* Icon Variant + Fully Rounded */}
+        <section className="space-y-6">
+          <Typography variant="title3">Icon Variant + Fully Rounded</Typography>
+          <div className="flex flex-wrap gap-4 items-center">
+            <Button variant="icon" icon={<ArrowRight />} fullyRounded />
+            <Button
+              variant="icon"
+              icon={<ArrowRight />}
+              fullyRounded
+              disabled
+            />
+            <Button variant="icon" icon={<ArrowRight />} fullyRounded loading />
           </div>
         </section>
 

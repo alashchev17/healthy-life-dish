@@ -1,4 +1,4 @@
-import { Typography } from '#/design/Layout/shared/Typography'
+import { Typography } from "#/design/Layout/shared/Typography";
 
 export default function Home() {
   return (
@@ -7,5 +7,5 @@ export default function Home() {
         <Typography>Content of the Home page</Typography>
       </div>
     </div>
-  )
+  );
 }

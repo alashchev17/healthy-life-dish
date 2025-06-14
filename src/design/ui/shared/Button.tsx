@@ -1,92 +1,77 @@
-import { FC, ReactNode } from 'react'
-import { ArrowRight } from '../../icons/ArrowRight'
+import { FC, ReactNode } from "react";
+import { ArrowRight } from "../../icons/ArrowRight";
+import { getButtonStyles } from "#/design/ui/shared/Button.styles";
 
-export type ButtonVariant = 'primary' | 'secondary' | 'special-light' | 'special-dark'
-export type IconPosition = 'left' | 'right'
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "special-light"
+  | "special-dark"
+  | "icon";
+export type IconPosition = "left" | "right";
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode
-  variant?: ButtonVariant
-  loading?: boolean
-  icon?: ReactNode
-  iconPosition?: IconPosition
-  fullWidth?: boolean
+// Base props without children
+interface BaseButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant;
+  loading?: boolean;
+  icon?: ReactNode;
+  iconPosition?: IconPosition;
+  fullWidth?: boolean;
 }
 
-const getButtonStyles = (variant: ButtonVariant, fullWidth: boolean, disabled: boolean) => {
-  // Base styles
-  const baseStyles =
-    'font-jura font-bold text-[20px] leading-[90%] uppercase transition-all duration-200 ease-in-out disabled:cursor-not-allowed cursor-pointer'
-
-  // Width styles
-  const widthStyles = fullWidth ? 'w-full' : 'w-auto'
-
-  // Size styles (will be modified per variant)
-  let sizeStyles = 'text-base min-h-[48px] '
-
-  // Variant styles and variant-specific disabled styles
-  let variantStyles = ''
-
-  switch (variant) {
-    case 'primary':
-      variantStyles =
-        'border-[3px] rounded-[24px] bg-green-acid border-green-acid text-black hover:bg-black hover:text-white active:bg-white active:text-black active:border-transparent'
-      if (disabled) {
-        variantStyles = 'border-[3px] rounded-[24px] bg-dark-gray border-dark-gray text-light-gray cursor-not-allowed pointer-events-none'
+// Conditional type: if variant is 'icon', children is forbidden, otherwise required
+export type ButtonProps = BaseButtonProps &
+  (
+    | {
+        variant: "icon";
+        children?: never;
+        fullyRounded?: boolean;
+        size?: "sm" | "md";
       }
-      sizeStyles += 'py-6 px-9'
-      break
-    case 'secondary':
-      variantStyles =
-        'border-[3px] rounded-[24px] bg-black border-green-acid text-green-acid hover:bg-green-acid hover:text-black active:bg-white active:border-white focus:ring-black'
-      if (disabled) {
-        variantStyles = 'border-[3px] rounded-[24px] border-light-gray text-light-gray cursor-not-allowed pointer-events-none'
+    | {
+        variant?: Exclude<ButtonVariant, "icon">;
+        children: ReactNode;
+        fullyRounded?: never;
+        size?: never;
       }
-      sizeStyles += 'py-4 px-9'
-      break
-    case 'special-light':
-      variantStyles =
-        'text-black border-b-[3px] rounded-tl-[24px] rounded-tr-[24px] border-b-light-gray hover:bg-non-accent-green hover:border-white hover:text-white active:bg-black active:border-white focus:ring-light-gray'
-      if (disabled) {
-        variantStyles =
-          'border-b-[3px] rounded-tl-[24px] rounded-tr-[24px] border-non-accent-green text-non-accent-green cursor-not-allowed pointer-events-none'
-      }
-      sizeStyles += 'py-6 px-9'
-      break
-    case 'special-dark':
-      variantStyles =
-        'text-white border-b-[3px] rounded-tl-[24px] rounded-tr-[24px] border-b-green-acid hover:bg-non-accent-green hover:border-white hover:text-white active:bg-white active:border-white active:text-black focus:ring-light-gray'
-      if (disabled) {
-        variantStyles =
-          'border-b-[3px] rounded-tl-[24px] rounded-tr-[24px] border-light-gray text-light-gray cursor-not-allowed pointer-events-none'
-      }
-      sizeStyles += 'py-6 px-9'
-      break
-  }
-
-  return `${baseStyles} ${sizeStyles} ${widthStyles} ${variantStyles}`.trim()
-}
+  );
 
 export const Button: FC<ButtonProps> = ({
   children,
-  variant = 'primary',
+  variant = "primary",
   loading = false,
   icon,
-  iconPosition = 'right',
+  size = "sm",
+  iconPosition = "right",
   fullWidth = false,
+  fullyRounded = false,
   disabled = false,
-  className = '',
+  className = "",
   ...props
 }) => {
-  const buttonStyles = getButtonStyles(variant, fullWidth, disabled || loading)
-  const combinedClassName = `${buttonStyles} ${className}`.trim()
+  const buttonStyles = getButtonStyles({
+    variant,
+    fullWidth,
+    disabled: disabled || loading,
+    fullyRounded,
+    size,
+  });
+  const combinedClassName = `${buttonStyles} ${className}`.trim();
 
   const renderIcon = () => {
     if (loading) {
       return (
         <div className="animate-spin">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24">
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
             <path
               className="opacity-75"
               fill="currentColor"
@@ -94,32 +79,44 @@ export const Button: FC<ButtonProps> = ({
             ></path>
           </svg>
         </div>
-      )
+      );
     }
 
     if (icon) {
-      return icon
+      return icon;
     }
 
     // Default arrow icon for primary and secondary buttons
-    if (variant === 'primary' || variant === 'secondary') {
-      return <ArrowRight className="w-4 h-4" />
+    if (variant === "primary" || variant === "secondary") {
+      return <ArrowRight />;
     }
 
-    return null
-  }
+    return null;
+  };
 
-  const iconElement = renderIcon()
+  const iconElement = renderIcon();
 
   return (
-    <button className={combinedClassName} disabled={disabled || loading} {...props}>
-      <div className="flex justify-between items-center gap-2">
-        {iconPosition === 'left' && iconElement && <span className="flex-shrink-0">{iconElement}</span>}
+    <button
+      className={combinedClassName}
+      disabled={disabled || loading}
+      {...props}
+    >
+      {variant === "icon" ? (
+        <div className="flex justify-center items-center">{iconElement}</div>
+      ) : (
+        <div className="flex justify-between items-center gap-2">
+          {iconPosition === "left" && iconElement && (
+            <span className="flex-shrink-0">{iconElement}</span>
+          )}
 
-        <span className="flex-1 text-left">{children}</span>
+          <span className="flex-1 text-left">{children}</span>
 
-        {iconPosition === 'right' && iconElement && <span className="flex-shrink-0">{iconElement}</span>}
-      </div>
+          {iconPosition === "right" && iconElement && (
+            <span className="flex-shrink-0">{iconElement}</span>
+          )}
+        </div>
+      )}
     </button>
-  )
-}
+  );
+};

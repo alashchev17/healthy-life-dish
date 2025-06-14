@@ -1,1 +1,1 @@
-export { ArrowRight } from './ArrowRight'
+export { ArrowRight } from "./ArrowRight";
