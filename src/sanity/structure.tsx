@@ -1,6 +1,5 @@
 import type { StructureResolver } from "sanity/structure";
 import {
-  HashIcon,
   EarthGlobeIcon,
   CogIcon,
   CaseIcon,
