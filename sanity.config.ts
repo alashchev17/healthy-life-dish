@@ -7,7 +7,8 @@ import { visionTool } from "@sanity/vision";
 import { documentInternationalization } from "@sanity/document-internationalization";
 
 import { projectId, apiVersion, dataset } from "#/sanity/env";
-import { schema } from "#/sanity/schemaTypes";
+import { CUSTOM_STRUCTURED_SCHEMAS, schema } from "#/sanity/schemaTypes";
+import { structure } from "#/sanity/structure";
 
 export default defineConfig({
   basePath: "/dashboard", // `basePath` must match the route of your Studio
@@ -17,7 +18,7 @@ export default defineConfig({
   apiVersion,
   schema,
   plugins: [
-    structureTool(),
+    structureTool({ structure }),
     ...(process.env.NODE_ENV === "development"
       ? [visionTool({ defaultApiVersion: apiVersion, defaultDataset: dataset })]
       : []),
@@ -27,7 +28,7 @@ export default defineConfig({
         { id: "ua", title: "Ukrainian" },
         { id: "es", title: "Spanish" },
       ],
-      schemaTypes: ["hero"],
+      schemaTypes: CUSTOM_STRUCTURED_SCHEMAS,
       languageField: "language",
       weakReferences: true,
       apiVersion,

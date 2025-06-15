@@ -13,6 +13,21 @@
  */
 
 // Source: schema.json
+export type HighlightText = Array<{
+  children?: Array<{
+    marks?: Array<string>;
+    text?: string;
+    _type: "span";
+    _key: string;
+  }>;
+  style?: "normal";
+  listItem?: never;
+  markDefs?: null;
+  level?: number;
+  _type: "block";
+  _key: string;
+}>;
+
 export type TranslationMetadata = {
   _id: string;
   _type: "translation.metadata";
@@ -32,7 +47,115 @@ export type InternationalizedArrayReferenceValue = {
     _type: "reference";
     _weak?: boolean;
     [internalGroqTypeReferenceTo]?: "hero";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "about";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "promo";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "reviews";
+  } | {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "reviewCard";
   };
+};
+
+export type ReviewCard = {
+  _id: string;
+  _type: "reviewCard";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  person?: {
+    name?: string;
+    surname?: string;
+    occupation?: string;
+    avatar?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  };
+  rating?: number;
+  text?: string;
+};
+
+export type Reviews = {
+  _id: string;
+  _type: "reviews";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  description?: HighlightText;
+  reviews?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "reviewCard";
+  }>;
+};
+
+export type Promo = {
+  _id: string;
+  _type: "promo";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  slogan?: HighlightText;
+};
+
+export type About = {
+  _id: string;
+  _type: "about";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  description?: HighlightText;
+  callToAction?: {
+    label?: string;
+    action?: string;
+  };
+  cards?: Array<{
+    title?: string;
+    description?: string;
+    image?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    _type: "aboutCard";
+    _key: string;
+  }>;
+  slogan?: HighlightText;
 };
 
 export type Hero = {
@@ -42,7 +165,7 @@ export type Hero = {
   _updatedAt: string;
   _rev: string;
   language?: string;
-  slogan?: string;
+  slogan?: HighlightText;
 };
 
 export type InternationalizedArrayReference = Array<{
@@ -167,5 +290,5 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = TranslationMetadata | InternationalizedArrayReferenceValue | Hero | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = HighlightText | TranslationMetadata | InternationalizedArrayReferenceValue | ReviewCard | Reviews | Promo | About | Hero | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;

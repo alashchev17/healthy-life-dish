@@ -1,8 +1,8 @@
 import { defineType, defineField } from "sanity";
 
-export const heroSchema = defineType({
-  name: "hero",
-  title: "Главная секция",
+export const promoSchema = defineType({
+  name: "promo",
+  title: "Промо-секция",
   type: "document",
   fields: [
     // Language field required for document internationalization
