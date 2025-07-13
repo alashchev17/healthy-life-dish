@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
-import { ArrowRight } from "../../icons/ArrowRight";
-import { getButtonStyles } from "#/design/ui/shared/Button.styles";
+import { ArrowRight } from "../icons/ArrowRight";
+import { getButtonStyles } from "#/design/ui/Button.styles";
 
 export type ButtonVariant =
   | "primary"

@@ -1,5 +1,5 @@
-import { Typography } from "#/design/Layout/shared/Typography";
-import { HighlightedText } from "#/design/ui/shared";
+import { Typography } from "#/design/shared/Typography";
+import { HighlightedText } from "#/design/ui";
 
 // Mock data to demonstrate the HighlightedText component
 const mockHighlightedContent = [

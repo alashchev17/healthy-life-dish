@@ -1,4 +1,4 @@
-import { Typography } from "#/design/Layout/shared/Typography";
+import { Typography } from "#/design/shared/Typography";
 
 export default function TypographyTestPage() {
   return (

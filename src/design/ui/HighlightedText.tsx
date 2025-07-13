@@ -3,7 +3,7 @@ import { PortableTextBlock } from "@portabletext/types";
 import {
   Typography,
   TypographyVariant,
-} from "#/design/Layout/shared/Typography";
+} from "#/design/shared/Typography";
 
 interface HighlightedTextProps {
   value: PortableTextBlock[];
