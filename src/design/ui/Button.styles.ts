@@ -1,4 +1,4 @@
-import { ButtonVariant } from "#/design/ui/shared/Button";
+import { ButtonVariant } from "#/design/ui/Button";
 
 export function getButtonStyles({
   variant,

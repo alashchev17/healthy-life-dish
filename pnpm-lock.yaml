@@ -23,9 +23,18 @@ importers:
       '@sanity/image-url':
         specifier: ^1.1.0
         version: 1.1.0
+      '@sanity/locale-ru-kz':
+        specifier: ^1.1.20
+        version: 1.1.20(sanity@3.99.0(@emotion/is-prop-valid@1.2.2)(@types/node@20.19.7)(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(immer@10.1.1)(jiti@2.4.2)(lightningcss@1.30.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(yaml@2.8.0))
       '@sanity/vision':
         specifier: ^3.92.0
         version: 3.99.0(@babel/runtime@7.27.6)(@codemirror/lint@6.8.5)(@codemirror/theme-one-dark@6.1.3)(@emotion/is-prop-valid@1.2.2)(codemirror@6.0.2)(react-dom@19.1.0(react@19.1.0))(react-is@18.3.1)(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
+      groq:
+        specifier: ^3.99.0
+        version: 3.99.0
+      nanoid:
+        specifier: ^5.1.5
+        version: 5.1.5
       next:
         specifier: 15.3.3
         version: 15.3.3(@babel/core@7.28.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -38,6 +47,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.1.0(react@19.1.0)
+      speakingurl:
+        specifier: ^14.0.1
+        version: 14.0.1
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -57,6 +69,9 @@ importers:
       '@types/react-dom':
         specifier: ^19
         version: 19.1.6(@types/react@19.1.8)
+      '@types/speakingurl':
+        specifier: ^13.0.6
+        version: 13.0.6
       eslint:
         specifier: ^9
         version: 9.31.0(jiti@2.4.2)
@@ -1804,6 +1819,11 @@ packages:
       react: ^18 || ^19
       sanity: ^3.36.4 || ^4.0.0-0
       styled-components: ^6.1
+
+  '@sanity/locale-ru-kz@1.1.20':
+    resolution: {integrity: sha512-rONQcvQ/h7mE84sWYqAxZSMLntuk2GODRtO4jmvUxRtkGWJmbPqHAdnU/TGArifkJYgaBC9jMGQS7/SN6jSs0g==}
+    peerDependencies:
+      sanity: ^3.22.0 || ^4.0.0-0
 
   '@sanity/logos@2.2.1':
     resolution: {integrity: sha512-jz7bvoSrwTAEFw4wlgGsPDquQsBG+k//XEEJIzlLK9bBp2q3Ln6xZiUAjhhScqUa+ThrUfxjfbf7UUecOeLzEQ==}
@@ -7941,6 +7961,10 @@ snapshots:
       - debug
       - react-dom
       - react-is
+
+  '@sanity/locale-ru-kz@1.1.20(sanity@3.99.0(@emotion/is-prop-valid@1.2.2)(@types/node@20.19.7)(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(immer@10.1.1)(jiti@2.4.2)(lightningcss@1.30.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(yaml@2.8.0))':
+    dependencies:
+      sanity: 3.99.0(@emotion/is-prop-valid@1.2.2)(@types/node@20.19.7)(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(immer@10.1.1)(jiti@2.4.2)(lightningcss@1.30.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(styled-components@6.1.19(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(typescript@5.8.3)(yaml@2.8.0)
 
   '@sanity/logos@2.2.1(@sanity/color@3.0.6)(react@19.1.0)':
     dependencies:
