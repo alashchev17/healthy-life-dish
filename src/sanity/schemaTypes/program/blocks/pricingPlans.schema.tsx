@@ -253,7 +253,8 @@ export const pricingPlansSchema = defineType({
               hidden: ({ parent }) => !parent?.isDiscounted,
               validation: (Rule) =>
                 Rule.custom((value, ctx) => {
-                  const parent = ctx.parent as NonNullable<PricingPlans['planTypes']>[number]
+                  const parent = ctx.parent as NonNullable<PricingPlans['groupPlans']>[number]
+                  if (!parent.isDiscounted) return true
                   if (!value) {
                     return {
                       message: 'Укажите цену со скидкой',
