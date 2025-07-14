@@ -32,6 +32,33 @@ export const programBuilderSchema = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'imagery',
+      title: 'Изображения',
+      type: 'object',
+      validation: (Rule) => Rule.required(),
+      fields: [
+        defineField({
+          name: 'splash',
+          title: 'Основное изображение программы',
+          type: 'image',
+          validation: (Rule) => Rule.required(),
+          options: {
+            hotspot: true,
+          },
+        }),
+        defineField({
+          name: 'thumb',
+          title: 'Предварительное изображение программы',
+          description: 'Данное изображение будет использовано в виджете программ, только PNG картинки без заднего фона',
+          type: 'image',
+          options: {
+            accept: 'image/png',
+            hotspot: true,
+          },
+        }),
+      ],
+    }),
+    defineField({
       name: 'content',
       title: 'Содержание программы',
       description: 'Создайте свою программу, добавляя различные блоки контента',

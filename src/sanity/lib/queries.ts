@@ -1,6 +1,6 @@
 import groq from 'groq'
 import { sanityFetch } from './client'
-import type { LANDING_PAGE_QUERYResult, PROGRAM_BY_SLUG_QUERYResult } from '../types'
+import type { LANDING_PAGE_QUERYResult, PROGRAM_BY_SLUG_QUERYResult, ProgramBuilder } from '../types'
 
 // Query to fetch all landing page data
 const LANDING_PAGE_QUERY = groq`{
@@ -295,8 +295,6 @@ const ALL_PROGRAMS_QUERY = groq`*[_type == "programBuilder" && language == $lang
   }
 }`
 
-
-
 // Type definitions for the fetched data
 export type LandingPageData = LANDING_PAGE_QUERYResult
 
@@ -344,6 +342,7 @@ export async function fetchProgramsByType(type: 'diet' | 'training', language: s
     title,
     type,
     slug,
+    imagery,
     seo {
       metaTitle,
       metaDescription,
