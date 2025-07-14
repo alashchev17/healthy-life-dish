@@ -1,23 +1,15 @@
-import { PortableText } from "@portabletext/react";
-import { PortableTextBlock } from "@portabletext/types";
-import {
-  Typography,
-  TypographyVariant,
-} from "#/design/shared/Typography";
+import { PortableText } from '@portabletext/react'
+import { Typography, TypographyVariant } from '#/design/shared/Typography'
+import { HighlightText } from '#/sanity/types'
 
 interface HighlightedTextProps {
-  value: PortableTextBlock[];
-  className?: string;
-  variant?: TypographyVariant;
-  as?: keyof HTMLElementTagNameMap;
+  value: HighlightText
+  className?: string
+  variant?: TypographyVariant
+  as?: keyof HTMLElementTagNameMap
 }
 
-export function HighlightedText({
-  value,
-  className = "",
-  variant = "body",
-  as,
-}: HighlightedTextProps) {
+export function HighlightedText({ value, className = '', variant = 'body', as }: HighlightedTextProps) {
   return (
     <PortableText
       value={value}
@@ -31,16 +23,12 @@ export function HighlightedText({
         },
         marks: {
           highlight: ({ children }) => (
-            <Typography
-              variant={variant}
-              as="span"
-              className={`text-green-acid ${className}`}
-            >
+            <Typography variant={variant} as="span" className={`text-green-acid ${className}`}>
               {children}
             </Typography>
           ),
         },
       }}
     />
-  );
+  )
 }
