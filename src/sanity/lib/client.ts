@@ -1,30 +1,31 @@
-import { createClient, type QueryParams } from "next-sanity";
+import { createClient, type QueryParams } from 'next-sanity'
 
-import { apiVersion, dataset, projectId } from "#/sanity/env";
+import { apiVersion, dataset, projectId } from '#/sanity/env'
 
 export const client = createClient({
   projectId,
   dataset,
   apiVersion,
   useCdn: true,
-});
+})
 
-export async function sanityFetch<const QueryString extends string>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function sanityFetch<T = any>({
   query,
   params = {},
   revalidate = 60, // default revalidation time in seconds
   tags = [],
 }: {
-  query: QueryString;
-  params?: QueryParams;
-  revalidate?: number | false;
-  tags?: string[];
-}) {
-  return client.fetch(query, params, {
-    cache: "force-cache", // on next v14 it's force-cache by default, in v15 it has to be set explicitly
+  query: string
+  params?: QueryParams
+  revalidate?: number | false
+  tags?: string[]
+}): Promise<T> {
+  return client.fetch<T>(query, params, {
+    cache: 'force-cache', // on next v14 it's force-cache by default, in v15 it has to be set explicitly
     next: {
       revalidate: tags.length ? false : revalidate, // for simple, time-based revalidation
       tags, // for tag-based revalidation
     },
-  });
+  })
 }

@@ -1,5 +1,5 @@
-import { Button } from "#/design/ui/shared";
-import { Typography } from "#/design/Layout/shared/Typography";
+import { Button } from "#/design/ui";
+import { Typography } from "#/design/shared/Typography";
 import { ArrowRight } from "#/design/icons";
 
 export default function ButtonsPage() {
