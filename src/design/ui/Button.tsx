@@ -1,5 +1,4 @@
 import { FC, ReactNode } from 'react'
-import { ArrowRight } from '../icons/ArrowRight'
 import { getButtonStyles } from '#/design/ui/Button.styles'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'special-light' | 'special-dark' | 'icon'
@@ -71,7 +70,6 @@ export const Button: FC<ButtonProps> = ({
 
     if (icon) {
       return icon
-      fullyRounded
     }
 
     return null
