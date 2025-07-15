@@ -13,7 +13,7 @@ interface HeroSectionProps {
 export const HeroSection: FC<HeroSectionProps> = ({ heroSlogan, dietPrograms, trainingPrograms }) => {
   return (
     <Container>
-      <section className="xl:max-h-screen h-[1250px] lg:h-screen bg-black pt-20 pb-12 gap-4 flex flex-col xl:flex-row">
+      <section className="xl:max-h-screen h-[1250px] lg:h-screen pt-20 pb-12 xl:pb-20 gap-4 flex flex-col xl:flex-row">
         <div className="shrink-0 px-6 pt-6 pb-6 lg:pt-14 lg:pb-8 lg:px-9 bg-green-acid flex flex-col justify-between rounded-3xl max-w-full xl:max-w-1/3 w-full">
           {heroSlogan && (
             <div className="text-center mb-0 lg:mb-15 mx-auto w-full sm:w-[85%] lg:w-full">
@@ -28,7 +28,7 @@ export const HeroSection: FC<HeroSectionProps> = ({ heroSlogan, dietPrograms, tr
           {dietPrograms.length > 0 && <ProgramCarousel programs={dietPrograms} type="diet" />}
         </div>
 
-        <div className="max-w-full xl:max-w-2/3 w-full min-h-[565px]">
+        <div className="max-w-full xl:max-w-[calc(66.7%-1rem)] w-full min-h-[565px]">
           {trainingPrograms.length > 0 && <ProgramCarousel programs={trainingPrograms} type="training" />}
         </div>
       </section>

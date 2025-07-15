@@ -1,53 +1,47 @@
-import { FC, ReactNode } from "react";
-import { ArrowRight } from "../icons/ArrowRight";
-import { getButtonStyles } from "#/design/ui/Button.styles";
+import { FC, ReactNode } from 'react'
+import { ArrowRight } from '../icons/ArrowRight'
+import { getButtonStyles } from '#/design/ui/Button.styles'
 
-export type ButtonVariant =
-  | "primary"
-  | "secondary"
-  | "special-light"
-  | "special-dark"
-  | "icon";
-export type IconPosition = "left" | "right";
+export type ButtonVariant = 'primary' | 'secondary' | 'special-light' | 'special-dark' | 'icon'
+export type IconPosition = 'left' | 'right'
 
 // Base props without children
-interface BaseButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ButtonVariant;
-  loading?: boolean;
-  icon?: ReactNode;
-  iconPosition?: IconPosition;
-  fullWidth?: boolean;
+interface BaseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: ButtonVariant
+  loading?: boolean
+  icon?: ReactNode
+  iconPosition?: IconPosition
+  fullWidth?: boolean
 }
 
 // Conditional type: if variant is 'icon', children is forbidden, otherwise required
 export type ButtonProps = BaseButtonProps &
   (
     | {
-        variant: "icon";
-        children?: never;
-        fullyRounded?: boolean;
-        size?: "sm" | "md";
+        variant: 'icon'
+        children?: never
+        fullyRounded?: boolean
+        size?: 'sm' | 'md'
       }
     | {
-        variant?: Exclude<ButtonVariant, "icon">;
-        children: ReactNode;
-        fullyRounded?: never;
-        size?: never;
+        variant?: Exclude<ButtonVariant, 'icon'>
+        children: ReactNode
+        fullyRounded?: never
+        size?: never
       }
-  );
+  )
 
 export const Button: FC<ButtonProps> = ({
   children,
-  variant = "primary",
+  variant = 'primary',
   loading = false,
   icon,
-  size = "sm",
-  iconPosition = "right",
+  size = 'sm',
+  iconPosition = 'right',
   fullWidth = false,
   fullyRounded = false,
   disabled = false,
-  className = "",
+  className = '',
   ...props
 }) => {
   const buttonStyles = getButtonStyles({
@@ -56,22 +50,15 @@ export const Button: FC<ButtonProps> = ({
     disabled: disabled || loading,
     fullyRounded,
     size,
-  });
-  const combinedClassName = `${buttonStyles} ${className}`.trim();
+  })
+  const combinedClassName = `${buttonStyles} ${className}`.trim()
 
   const renderIcon = () => {
     if (loading) {
       return (
         <div className="animate-spin">
           <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24">
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path
               className="opacity-75"
               fill="currentColor"
@@ -79,44 +66,32 @@ export const Button: FC<ButtonProps> = ({
             ></path>
           </svg>
         </div>
-      );
+      )
     }
 
     if (icon) {
-      return icon;
+      return icon
+      fullyRounded
     }
 
-    // Default arrow icon for primary and secondary buttons
-    if (variant === "primary" || variant === "secondary") {
-      return <ArrowRight />;
-    }
+    return null
+  }
 
-    return null;
-  };
-
-  const iconElement = renderIcon();
+  const iconElement = renderIcon()
 
   return (
-    <button
-      className={combinedClassName}
-      disabled={disabled || loading}
-      {...props}
-    >
-      {variant === "icon" ? (
+    <button className={combinedClassName} disabled={disabled || loading} {...props}>
+      {variant === 'icon' ? (
         <div className="flex justify-center items-center">{iconElement}</div>
       ) : (
         <div className="flex justify-between items-center gap-2">
-          {iconPosition === "left" && iconElement && (
-            <span className="flex-shrink-0">{iconElement}</span>
-          )}
+          {iconPosition === 'left' && iconElement && <span className="flex-shrink-0">{iconElement}</span>}
 
           <span className="flex-1 text-left">{children}</span>
 
-          {iconPosition === "right" && iconElement && (
-            <span className="flex-shrink-0">{iconElement}</span>
-          )}
+          {iconPosition === 'right' && iconElement && <span className="flex-shrink-0">{iconElement}</span>}
         </div>
       )}
     </button>
-  );
-};
+  )
+}

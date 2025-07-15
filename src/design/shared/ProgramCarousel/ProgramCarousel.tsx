@@ -170,14 +170,14 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
           <Button
             type="button"
             variant="icon"
-            className={`program-carousel-prev bg-transparent !border-dark-gray text-light-gray absolute left-8 top-8 z-10`}
+            className={`program-carousel-prev bg-transparent !border-dark-gray text-light-gray absolute left-8 top-11 z-20`}
             icon={<ChevronRight width={11} height={20} className="mr-1 rotate-180" />}
             aria-label="Previous"
           />
           <Button
             type="button"
             variant="icon"
-            className={`program-carousel-next bg-transparent !border-dark-gray text-light-gray absolute right-8 top-8 z-10`}
+            className={`program-carousel-next bg-transparent !border-dark-gray text-light-gray absolute right-8 top-11 z-20`}
             icon={<ChevronRight width={11} height={20} className="ml-1" />}
             aria-label="Next"
           />
@@ -187,14 +187,14 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
         <Typography
           variant="bottoms"
           as="span"
-          className="inline-block !text-[0.875rem] lg:text-[1.25rem] lg:leading-[100%] uppercase text-[#545454]"
+          className="inline-block text-[1.25rem] xs:text-[0.875rem] lg:text-[1.25rem] lg:leading-[100%] uppercase text-[#545454]"
         >
           Программа
         </Typography>
         <Typography
           variant="bottoms"
           as="span"
-          className="inline-block py-2 px-4 lg:py-4 lg:px-4 !text-[0.875rem] lg:text-[1.25rem] lg:leading-[100%] rounded-3xl uppercase bg-dark-gray/70 text-[#545454] lg:text-white"
+          className="inline-block py-2 px-4 lg:py-4 lg:px-4 xs:text-[0.875rem] lg:text-[1.25rem] lg:leading-[100%] rounded-3xl uppercase bg-dark-gray/70 text-[#545454] lg:text-white"
         >
           {programs[activeIndex].title}
         </Typography>
