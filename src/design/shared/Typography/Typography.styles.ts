@@ -15,7 +15,7 @@ export const getTypographyStyles = ({ variant }: { variant: TypographyVariant })
       return `${baseStyles} font-jura font-bold text-[1.75rem] leading-[120%]`
 
     case 'menu':
-      return `${baseStyles} font-jura font-medium text-[1rem] leading-[100%]`
+      return `${baseStyles} font-jura font-bold text-[1.5rem] leading-[125%]`
 
     case 'bottoms':
       return `${baseStyles} font-jura font-bold text-[1.25rem] leading-[100%]`
