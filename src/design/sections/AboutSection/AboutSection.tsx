@@ -3,7 +3,6 @@ import { Button, HighlightedText } from '#/design/ui'
 import { LANDING_PAGE_QUERYResult } from '#/sanity/types'
 import { Container, Typography } from '#/design/shared'
 import Link from 'next/link'
-import { Url } from 'next/dist/shared/lib/router/router'
 
 type AboutSectionData = LANDING_PAGE_QUERYResult['about']
 interface AboutSectionProps {
