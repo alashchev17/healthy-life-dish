@@ -7,9 +7,10 @@ interface HighlightedTextProps {
   className?: string
   variant?: TypographyVariant
   as?: keyof HTMLElementTagNameMap
+  shouldBeBold?: boolean
 }
 
-export function HighlightedText({ value, className = '', variant = 'body', as }: HighlightedTextProps) {
+export function HighlightedText({ value, as, className = '', variant = 'body', shouldBeBold = false }: HighlightedTextProps) {
   return (
     <PortableText
       value={value}
@@ -23,7 +24,7 @@ export function HighlightedText({ value, className = '', variant = 'body', as }:
         },
         marks: {
           highlight: ({ children }) => (
-            <Typography variant={variant} as="span" className={`text-green-acid ${className}`}>
+            <Typography variant={variant} as="span" className={`text-green-acid ${className} ${shouldBeBold ? 'font-bold' : ''}`}>
               {children}
             </Typography>
           ),
