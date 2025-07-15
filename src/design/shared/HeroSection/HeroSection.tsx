@@ -1,8 +1,7 @@
 import { FC } from 'react'
-import { Button, HighlightedText } from '#/design/ui'
+import { HighlightedText } from '#/design/ui'
 import { ProgramCarousel } from '../ProgramCarousel'
 import type { ProgramBuilder, HighlightText } from '#/sanity/types'
-import { ArrowRight } from '#/design/icons'
 
 interface HeroSectionProps {
   heroSlogan?: HighlightText | null
@@ -21,10 +20,6 @@ export const HeroSection: FC<HeroSectionProps> = ({ heroSlogan, dietPrograms, tr
         )}
 
         {dietPrograms.length > 0 && <ProgramCarousel programs={dietPrograms} type="diet" />}
-        {/* TODO: this button should be inside of ProgramCarousel */}
-        <Button variant="special-light" icon={<ArrowRight />} className="block mx-auto">
-          Обрати дієту
-        </Button>
       </div>
 
       <div className="max-w-2/3 w-full h-full">
