@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Jura, Manrope } from 'next/font/google'
-import { Header } from '#/design/shared'
 import './globals.css'
 
 const juraSans = Jura({
@@ -25,10 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${juraSans.variable} ${manropeSans.variable} antialiased`}>
-        <Header />
-        {children}
-      </body>
+      <body className={`${juraSans.variable} ${manropeSans.variable} antialiased`}>{children}</body>
     </html>
   )
 }
