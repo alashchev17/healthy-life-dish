@@ -1,0 +1,82 @@
+.switcherContainer {
+    position: relative;
+}
+
+.switcher {
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: 2px solid var(--color-dark-gray);
+    color: var(--color-green-acid);
+}
+
+.switcherChevron {
+    transform: rotate(90deg);
+    transition: transform 0.3s ease-in-out;
+    height: 1rem;
+}
+.switcherChevronActive {
+    transform: rotate(270deg);
+}
+
+.switcherInner {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 10;
+    border-radius: 1rem;
+    border: 2px solid var(--color-dark-gray);
+    padding: 8px;
+    transition:
+        opacity 0.15s ease-in-out,
+        visibility 0.15s ease-in-out;
+    background-color: var(--color-black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.switcherInnerOpen {
+    opacity: 1;
+    z-index: 10;
+    visibility: visible;
+}
+
+.switcherOption {
+    padding: 6px 8px;
+    text-transform: uppercase;
+    color: var(--color-green-acid);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.15s ease-in-out;
+    &:hover:not(.mobile):not(.switcherOptionActive) {
+        --color-dark-gray-40: color-mix(in srgb, var(--color-dark-gray) 40%, transparent);
+        background-color: var(--color-dark-gray-40);
+    }
+}
+
+.switcherOptionActive {
+    background-color: var(--color-dark-gray);
+}
+
+@media screen and (max-width: 768px) {
+    .switcherInner {
+        top: 44px;
+        left: 0;
+        transform: unset;
+        z-index: 1000;
+    }
+}
