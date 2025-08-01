@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef } from "react";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
@@ -20,6 +20,7 @@ interface ReviewsSectionProps {
 }
 
 export function ReviewsSection({ data }: ReviewsSectionProps) {
+  // eslint-disable-next-line
   const [swiper, setSwiper] = useState<SwiperType | null>(null);
   const swiperRef = useRef<SwiperRef>(null);
 
