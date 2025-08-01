@@ -14,7 +14,6 @@ interface AboutSectionProps {
 
 export const AboutSection: FC<AboutSectionProps> = ({ data }) => {
   if (!data) return
-  console.log(`[DEBUG]: data: `, data)
   return (
     <Container className="overflow-hidden">
       <section className="flex items-start flex-col lg:flex-row justify-start lg:justify-between gap-11 lg:gap-4 pb-0 lg:pb-5">

@@ -1,11 +1,12 @@
 import { HeroSection, AboutSection } from '#/design/sections'
+import { ReviewsSection } from '#/design/sections/ReviewsSection'
 import { Header } from '#/design/shared'
 import { fetchLandingPageData, fetchProgramsByType } from '#/sanity/lib/api'
 
 export default async function Home() {
   // Fetch landing page data
   const landingPageData = await fetchLandingPageData()
-  const { hero, about } = landingPageData
+  const { hero, about, reviews } = landingPageData
 
   // Fetch programs by type
   const dietPrograms = await fetchProgramsByType('diet')
@@ -17,6 +18,7 @@ export default async function Home() {
       <main className="landing-page">
         <HeroSection heroSlogan={hero?.slogan} dietPrograms={dietPrograms} trainingPrograms={trainingPrograms} />
         <AboutSection data={about} />
+        <ReviewsSection data={reviews} />
       </main>
     </>
   )
