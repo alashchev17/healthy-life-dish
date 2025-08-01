@@ -1,45 +1,51 @@
-'use client'
+"use client";
 
-import { FC } from 'react'
-import Link from 'next/link'
-import { Typography } from '#/design/shared/Typography'
+import { FC, useEffect, useRef } from "react";
+import Link from "next/link";
+import { Typography } from "#/design/shared/Typography";
+import { LogoFull } from "#/design/icons/LogoFull";
+import { Container } from "#/design/shared";
+import { useHeaderContext } from "#/design/shared/Header/HeaderContext";
+import { LanguageSwitcher } from "#/design/shared/LanguageSwitcher/LanguageSwitcher";
 
 export const Header: FC = () => {
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-greenAcid rounded-full flex items-center justify-center">
-              <span className="text-black font-bold text-sm">HLD</span>
-            </div>
-          </Link>
+  const headerRef = useRef<HTMLDivElement>(null);
+  const { setHeaderHeight } = useHeaderContext();
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            <Link href="/services" className="text-white hover:text-greenAcid transition-colors">
-              <Typography variant="menu">ПОСЛУГИ</Typography>
+  useEffect(() => {
+    if (headerRef.current) {
+      setHeaderHeight(headerRef.current.offsetHeight);
+    }
+  }, [headerRef, setHeaderHeight]);
+
+  return (
+    <header
+      ref={headerRef}
+      className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-sm"
+    >
+      <Container className="py-6">
+        <div className="flex items-center justify-between h-16">
+          <Link href="/" className="flex items-center gap-2">
+            <LogoFull className="text-green-acid" />
+          </Link>
+          <nav className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-10">
+            <Link
+              href="/services"
+              className="text-green-acid transition-colors"
+            >
+              <Typography variant="menu" className="uppercase">
+                Послуги
+              </Typography>
             </Link>
-            <Link href="/diets" className="text-white hover:text-greenAcid transition-colors">
-              <Typography variant="menu">ДІЄТИ</Typography>
-            </Link>
-            <Link href="/programs" className="text-white hover:text-greenAcid transition-colors">
-              <Typography variant="menu">ПРОГРАМИ</Typography>
-            </Link>
-            <Link href="/about" className="text-white hover:text-greenAcid transition-colors">
-              <Typography variant="menu">ПРО НАС</Typography>
+            <Link href="/diets" className="text-green-acid transition-colors">
+              <Typography variant="menu" className="uppercase">
+                Дієти
+              </Typography>
             </Link>
           </nav>
-
-          {/* Language Switcher */}
-          <div className="flex items-center gap-4">
-            <button className="text-greenAcid text-sm font-medium">УКР</button>
-            <span className="text-white/30">|</span>
-            <button className="text-white/60 hover:text-white text-sm font-medium transition-colors">ENG</button>
-          </div>
+          <LanguageSwitcher />
         </div>
-      </div>
+      </Container>
     </header>
-  )
-}
+  );
+};
