@@ -1,32 +1,36 @@
-'use client'
+"use client";
 
-import { useState, useRef } from 'react'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
-import type { Swiper as SwiperType } from 'swiper'
-import { Container, Typography, ReviewCard } from '#/design/shared'
-import { HighlightedText, Button } from '#/design/ui'
-import { ChevronRight } from '#/design/icons'
-import { LANDING_PAGE_QUERYResult } from '#/sanity/types'
+import { useState, useRef, useMemo } from "react";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+import { Container, Typography, ReviewCard } from "#/design/shared";
+import { HighlightedText, Button } from "#/design/ui";
+import { ChevronRight } from "#/design/icons";
+import { LANDING_PAGE_QUERYResult } from "#/sanity/types";
 
-import 'swiper/css'
-import 'swiper/css/navigation'
+import "swiper/css";
+import "swiper/css/navigation";
 
-export type ReviewsSectionData = LANDING_PAGE_QUERYResult['reviews']
+import "#/design/shared/ReviewCard/styles.css";
+
+export type ReviewsSectionData = LANDING_PAGE_QUERYResult["reviews"];
 interface ReviewsSectionProps {
-  data?: ReviewsSectionData
+  data?: ReviewsSectionData;
 }
 
 export function ReviewsSection({ data }: ReviewsSectionProps) {
-  const [swiper, setSwiper] = useState<SwiperType | null>(null)
-  const swiperRef = useRef<any>(null)
+  const [swiper, setSwiper] = useState<SwiperType | null>(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
-  if (!data || !data.reviews || data.reviews.length === 0) return null
+  const [activeSlide, setActiveSlide] = useState(0);
 
-  const reviews = data.reviews
+  if (!data || !data.reviews || data.reviews.length === 0) return null;
+
+  const reviews = data.reviews;
 
   return (
-    <section className="pb-16 lg:pb-20">
+    <section className="pb-16 lg:pb-20 overflow-clip">
       <Container>
         <div className="flex items-start flex-col lg:flex-row justify-start lg:justify-between gap-11 lg:gap-4 mb-12">
           <div className="flex items-center justify-start max-w-full lg:max-w-1/3 w-full">
@@ -38,7 +42,11 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
           <div className="max-w-full lg:max-w-[calc(66.7%-1rem)]">
             {data.description && (
               <div className="text-white">
-                <HighlightedText value={data.description} variant="title1" className="font-normal !text-[2.5rem] leading-none max-w-full" />
+                <HighlightedText
+                  value={data.description}
+                  variant="title1"
+                  className="font-normal !text-[2.5rem] leading-none max-w-full"
+                />
               </div>
             )}
           </div>
@@ -49,6 +57,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
           <Swiper
             ref={swiperRef}
             modules={[Navigation]}
+            centeredSlides={true}
             spaceBetween={24}
             slidesPerView={1}
             breakpoints={{
@@ -70,17 +79,20 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
               },
             }}
             navigation={{
-              prevEl: '.reviews-slider-prev',
-              nextEl: '.reviews-slider-next',
+              prevEl: ".reviews-slider-prev",
+              nextEl: ".reviews-slider-next",
             }}
             onSwiper={setSwiper}
+            onSlideChange={() =>
+              setActiveSlide(swiperRef.current?.swiper.activeIndex ?? 0)
+            }
             className="!overflow-visible"
           >
             {reviews.map((review, index) => (
               <SwiperSlide key={review._id}>
-                <ReviewCard 
-                  review={review} 
-                  isHighlighted={index === 1} // Highlight the middle card as shown in the image
+                <ReviewCard
+                  review={review}
+                  isHighlighted={activeSlide === index} // Highlight the middle card as shown in the image
                 />
               </SwiperSlide>
             ))}
@@ -93,7 +105,9 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
                 type="button"
                 variant="icon"
                 className="reviews-slider-prev bg-green-acid border-green-acid text-black hover:bg-black hover:text-white absolute left-4 top-1/2 -translate-y-1/2 z-10"
-                icon={<ChevronRight className="rotate-180" width={16} height={16} />}
+                icon={
+                  <ChevronRight className="rotate-180" width={16} height={16} />
+                }
                 aria-label="Previous review"
                 fullyRounded
               />
@@ -110,26 +124,12 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
         </div>
 
         {/* Add Review Button - Below the slider */}
-        <div className="flex justify-center mt-8">
-          <Button
-            variant="secondary"
-            className="rounded-full px-8"
-          >
-            ДОДАТИ ВІДГУК
+        <div className="flex justify-end mt-16">
+          <Button variant="secondary" className="rounded-full px-8">
+            Додати відгук
           </Button>
         </div>
       </Container>
-
-      <style jsx global>{`
-        .reviews-slider .swiper-button-disabled {
-          opacity: 0.3;
-          cursor: not-allowed;
-        }
-        
-        .reviews-slider .swiper-slide {
-          height: auto;
-        }
-      `}</style>
     </section>
-  )
+  );
 }
