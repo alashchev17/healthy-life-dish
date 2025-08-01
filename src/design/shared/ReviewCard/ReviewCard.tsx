@@ -21,8 +21,8 @@ export const ReviewCard: FC<ReviewCardProps> = ({
   className = "",
 }) => {
   const cardClasses = isHighlighted
-    ? "bg-green-acid text-black scale-120"
-    : "bg-dark-gray text-white scale-100";
+    ? "bg-green-acid text-black"
+    : "bg-dark-gray text-white";
 
   const avatarUrl = review.person?.avatar?.asset?.url
     ? urlFor(review.person.avatar).width(80).height(80).url()
