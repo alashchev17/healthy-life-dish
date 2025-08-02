@@ -1,24 +1,20 @@
-"use client";
+'use client'
 
-import { FC } from "react";
-import { HighlightedText } from "#/design/ui";
-import { ProgramCarousel } from "../../shared/ProgramCarousel";
-import type { ProgramBuilder, HighlightText } from "#/sanity/types";
-import { Container } from "#/design/shared";
-import { useHeaderContext } from "#/design/shared/Header/HeaderContext";
+import { FC } from 'react'
+import { HighlightedText } from '#/design/ui'
+import { ProgramCarousel } from '../../shared/ProgramCarousel'
+import type { ProgramBuilder, HighlightText } from '#/sanity/types'
+import { Container } from '#/design/shared'
+import { useHeaderContext } from '#/design/shared/Header/HeaderContext'
 
 interface HeroSectionProps {
-  heroSlogan?: HighlightText | null;
-  dietPrograms: ProgramBuilder[];
-  trainingPrograms: ProgramBuilder[];
+  heroSlogan?: HighlightText | null
+  dietPrograms: ProgramBuilder[]
+  trainingPrograms: ProgramBuilder[]
 }
 
-export const HeroSection: FC<HeroSectionProps> = ({
-  heroSlogan,
-  dietPrograms,
-  trainingPrograms,
-}) => {
-  const { headerHeight } = useHeaderContext();
+export const HeroSection: FC<HeroSectionProps> = ({ heroSlogan, dietPrograms, trainingPrograms }) => {
+  const { headerHeight } = useHeaderContext()
   return (
     <Container>
       <section
@@ -38,17 +34,13 @@ export const HeroSection: FC<HeroSectionProps> = ({
             </div>
           )}
 
-          {dietPrograms.length > 0 && (
-            <ProgramCarousel programs={dietPrograms} type="diet" />
-          )}
+          {dietPrograms.length > 0 && <ProgramCarousel programs={dietPrograms} type="diet" />}
         </div>
 
         <div className="max-w-full xl:max-w-[calc(66.7%-1rem)] w-full min-h-[565px]">
-          {trainingPrograms.length > 0 && (
-            <ProgramCarousel programs={trainingPrograms} type="training" />
-          )}
+          {trainingPrograms.length > 0 && <ProgramCarousel programs={trainingPrograms} type="training" />}
         </div>
       </section>
     </Container>
-  );
-};
+  )
+}

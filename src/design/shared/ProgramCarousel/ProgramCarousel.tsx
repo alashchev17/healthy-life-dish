@@ -69,13 +69,13 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
           >
             {programs.map((program) => (
               <SwiperSlide key={program._id}>
-                <div className="relative h-full min-h-[200px] md:min-h-[300px] lg:min-h-[350px] flex flex-col justify-between rounded-lg overflow-hidden">
+                <div className="relative min-h-full min-h-[200px] md:min-h-[300px] lg:min-h-[350px] flex flex-col justify-between rounded-lg overflow-hidden">
                   {program.imagery?.splash && (
                     <div className="absolute inset-0">
                       <Image src={urlFor(program.imagery.splash).url()} alt={program.title || 'Program'} fill className="object-contain" />
                     </div>
                   )}
-                  <div className="relative h-full flex flex-col items-center justify-center p-8 z-10">
+                  <div className="inset-0 absolute flex flex-col items-center justify-center p-8 z-10">
                     <Typography
                       variant="bottoms"
                       as="span"
@@ -209,13 +209,6 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
         .program-carousel .swiper-button-disabled {
           opacity: 0.5;
           cursor: not-allowed;
-        }
-
-        .program-carousel .swiper-slide {
-          height: auto;
-        }
-
-        .program-carousel .swiper-slider {
         }
 
         .program-carousel {
