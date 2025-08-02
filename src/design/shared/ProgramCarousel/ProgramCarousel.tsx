@@ -69,13 +69,13 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
           >
             {programs.map((program) => (
               <SwiperSlide key={program._id}>
-                <div className="relative min-h-full min-h-[200px] md:min-h-[300px] lg:min-h-[350px] flex flex-col justify-between rounded-lg overflow-hidden">
+                <div className="relative h-full min-h-[200px] md:min-h-[250px] lg:min-h-[350px] xl:min-h-[425px] flex flex-col justify-between rounded-lg overflow-hidden">
                   {program.imagery?.splash && (
                     <div className="absolute inset-0">
                       <Image src={urlFor(program.imagery.splash).url()} alt={program.title || 'Program'} fill className="object-contain" />
                     </div>
                   )}
-                  <div className="inset-0 absolute flex flex-col items-center justify-center p-8 z-10">
+                  <div className="h-full inset-0 top-0 left-0 right-0 bottom-0 absolute flex flex-col items-center justify-center p-8 z-10">
                     <Typography
                       variant="bottoms"
                       as="span"
