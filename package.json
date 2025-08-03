@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start --port=6235",
     "lint": "next lint",
+    "type-check": "tsc --noEmit",
     "typegen": "sanity schema extract --path=src/sanity/extract.json && sanity typegen generate"
   },
   "dependencies": {

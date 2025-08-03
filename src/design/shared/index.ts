@@ -4,3 +4,4 @@ export * from "./Header";
 export * from "../sections/HeroSection";
 export * from "./ProgramCarousel";
 export * from "./ReviewCard/ReviewCard";
+export * from "./Modal";

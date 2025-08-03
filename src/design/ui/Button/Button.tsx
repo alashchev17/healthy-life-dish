@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react'
-import { getButtonStyles } from '#/design/ui/Button.styles'
+import { getButtonStyles } from '#/design/ui/Button/Button.styles'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'special-light' | 'special-dark' | 'icon'
 export type IconPosition = 'left' | 'right'

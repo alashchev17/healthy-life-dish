@@ -1,4 +1,4 @@
-export * from "./Button";
-export type { ButtonProps, ButtonVariant, IconPosition } from "./Button";
-export * from "./HighlightedText";
-export * from "./StarRating";
+export * from './Button/Button'
+export type { ButtonProps, ButtonVariant, IconPosition } from './Button/Button'
+export * from './HighlightedText'
+export * from './StarRating'
