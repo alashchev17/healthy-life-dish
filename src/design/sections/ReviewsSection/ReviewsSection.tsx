@@ -20,6 +20,8 @@ interface ReviewsSectionProps {
   data?: ReviewsSectionData
 }
 
+const CONTAINER_PADDING = 40
+
 export function ReviewsSection({ data }: ReviewsSectionProps) {
   // eslint-disable-next-line
   const [swiper, setSwiper] = useState<SwiperType | null>(null)
@@ -29,7 +31,6 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
 
   const [maxCardWidth, setMaxCardWidth] = useState(0)
-  const CONTAINER_PADDING = 40
 
   const buttonDisplacement = useMemo(() => {
     if (typeof window !== 'undefined' && window) {

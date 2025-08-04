@@ -5,11 +5,13 @@ import { ModalCore } from './ModalCore'
 import { Button } from '#/design/ui'
 import { Typography } from '#/design/shared'
 import { InputField } from '#/design/ui/InputField/InputField'
+import { ArrowRight } from '#/design/icons'
+import { StarIcon } from '@sanity/icons'
 
 export interface ReviewsModalProps {
   isOpen: boolean
   onClose: () => void
-  onSubmit?: (reviewData: ReviewFormData) => void
+  onSubmit?: (reviewData: ReviewFormData) => Promise<void>
 }
 
 export interface ReviewFormData {
@@ -51,7 +53,6 @@ export const ReviewsModal: FC<ReviewsModalProps> = ({ isOpen, onClose, onSubmit 
         await onSubmit(formData)
       }
 
-      // Reset form after successful submission
       setFormData({
         rating: 0,
         name: '',
@@ -84,24 +85,14 @@ export const ReviewsModal: FC<ReviewsModalProps> = ({ isOpen, onClose, onSubmit 
       closeOnEscape={!isSubmitting}
     >
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Header */}
-        <div className="text-center mb-6">
-          <Typography variant="title3" className="text-white mb-2">
-            Залишити відгук
-          </Typography>
-        </div>
-
-        {/* Rating */}
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex items-center justify-center gap-5">
           <InteractiveStarRating rating={formData.rating} onRatingChange={handleRatingChange} maxRating={5} size="lg" className="mb-2" />
           <Typography variant="body" className="text-light-gray">
             {formData.rating.toFixed(1)}
           </Typography>
         </div>
 
-        {/* Form Fields */}
         <div className="space-y-4">
-          {/* Name Field */}
           <div>
             <InputField
               type="text"
@@ -113,8 +104,6 @@ export const ReviewsModal: FC<ReviewsModalProps> = ({ isOpen, onClose, onSubmit 
               disabled={isSubmitting}
             />
           </div>
-
-          {/* Email Field */}
           <div>
             <InputField
               type="email"
@@ -126,8 +115,6 @@ export const ReviewsModal: FC<ReviewsModalProps> = ({ isOpen, onClose, onSubmit 
               disabled={isSubmitting}
             />
           </div>
-
-          {/* Review Text Field */}
           <div>
             <div className="relative">
               <InputField
@@ -148,8 +135,6 @@ export const ReviewsModal: FC<ReviewsModalProps> = ({ isOpen, onClose, onSubmit 
             </div>
           </div>
         </div>
-
-        {/* Submit Button */}
         <div className="pt-8">
           <Button
             type="submit"
@@ -157,9 +142,9 @@ export const ReviewsModal: FC<ReviewsModalProps> = ({ isOpen, onClose, onSubmit 
             fullWidth
             loading={isSubmitting}
             disabled={!isFormValid || isSubmitting}
-            className="rounded-full"
+            icon={<ArrowRight />}
           >
-            ЗАЛИШИТИ ВІДГУК
+            Залишити відгук
           </Button>
         </div>
       </form>
@@ -167,7 +152,6 @@ export const ReviewsModal: FC<ReviewsModalProps> = ({ isOpen, onClose, onSubmit 
   )
 }
 
-// Interactive Star Rating Component
 interface InteractiveStarRatingProps {
   rating: number
   onRatingChange: (rating: number) => void
@@ -211,15 +195,10 @@ const InteractiveStarRating: FC<InteractiveStarRatingProps> = ({ rating, onRatin
               onClick={() => handleStarClick(index)}
               onMouseEnter={() => handleStarHover(index)}
               className={`${starSize} transition-colors cursor-pointer ${
-                isFilled ? 'text-green-acid' : 'text-light-gray'
+                isFilled ? 'text-green-acid' : 'text-transparent'
               } hover:text-green-acid`}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="19" viewBox="0 0 22 19" fill="none" className="w-full h-full">
-                <path
-                  d="M9.97339 0.615946C10.3171 -0.205315 11.6296 -0.205316 11.9734 0.615946L13.9734 4.61595C14.1184 4.96217 14.5973 5.58598 14.9734 5.61595H19.9734C20.8656 5.68703 21.6532 7.0373 20.9734 7.61595L16.9734 11.6159C16.6868 11.8599 15.8858 12.2513 15.9734 12.6159L17.9734 17.6159C18.1811 18.4811 16.7373 19.0795 15.9734 18.6159L11.9734 15.6159C11.6514 15.4205 10.2954 15.4205 9.97339 15.6159L5.97339 18.6159C5.20951 19.0795 3.76571 18.4811 3.97339 17.6159L5.97339 12.6159C6.06095 12.2513 5.25996 11.8599 4.97339 11.6159L0.973393 7.61595C0.293611 7.0373 1.08117 5.68703 1.97339 5.61595H6.97339C7.34954 5.58598 7.82848 4.96217 7.97339 4.61595L9.97339 0.615946Z"
-                  fill="currentColor"
-                />
-              </svg>
+              <StarIcon className="w-full h-full stroke-[1.5px] stroke-green-acid" />
             </button>
           )
         })}
