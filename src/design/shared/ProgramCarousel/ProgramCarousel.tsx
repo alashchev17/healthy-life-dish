@@ -183,24 +183,24 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
           />
         </div>
       )}
-      <div className="absolute flex w-full px-9 lg:px-unset justify-between lg:justify-center items-center top-11 left-0 z-10 gap-4">
+      <div className="absolute flex w-full px-4 lg:px-9 lg:px-unset justify-between lg:justify-center items-center top-6 lg:top-11 left-0 z-10 gap-4">
         <Typography
           variant="bottoms"
           as="span"
-          className="inline-block text-[1.25rem] xs:text-[0.875rem] lg:text-[1.25rem] lg:leading-[100%] uppercase text-[#545454]"
+          className="inline-block !text-sm lg:!text-[1.25rem] lg:leading-[100%] uppercase text-[#545454]"
         >
           Программа
         </Typography>
         <Typography
           variant="bottoms"
           as="span"
-          className="inline-block py-2 px-4 lg:py-4 lg:px-4 xs:text-[0.875rem] lg:text-[1.25rem] lg:leading-[100%] rounded-3xl uppercase bg-dark-gray/70 text-[#545454] lg:text-white"
+          className="inline-block py-2 px-4 lg:py-4 lg:px-4 !text-sm lg:!text-[1.25rem] lg:leading-[100%] rounded-3xl uppercase bg-dark-gray/70 text-[#545454] lg:text-white"
         >
           {programs[activeIndex].title}
         </Typography>
       </div>
-      <Link href={programHref}>
-        <Button variant="special-dark" className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+      <Link href={programHref} className="block w-full">
+        <Button variant="special-dark" className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-nowrap">
           Обрати програму 💪
         </Button>
       </Link>

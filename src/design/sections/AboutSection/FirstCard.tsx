@@ -21,16 +21,21 @@ export const FirstCard: FC<FirstCardProps> = ({ card }) => {
   const handleMouseLeave = () => setIsHovered(false)
 
   return (
-    <Link href="/programs" className="relative max-w-[50%] h-[580px]" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <Link
+      href="/programs"
+      className="relative max-w-full lg:max-w-[50%] h-[360px] lg:h-[580px]"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div
-        className={`relative w-full h-full bg-dark-gray p-12 border-[3px] rounded-3xl flex flex-col justify-between ${isHovered ? 'border-black' : 'border-green-acid'} transition-colors duration-750 overflow-clip`}
+        className={`relative w-full h-full bg-dark-gray pl-6 pr-8 py-5 lg:py-12 lg:pl-12 lg:pr-12 border-[3px] rounded-3xl flex flex-col justify-between ${isHovered ? 'border-black' : 'border-green-acid'} transition-colors duration-750 overflow-clip`}
       >
         <div
           className={`absolute inset-0 w-full h-full bg-gradient-to-r from-black via-green-acid/30 to-green-acid transition-opacity duration-750 ${isHovered ? 'opacity-100' : 'opacity-0'} z-0`}
         />
-        <LogoSimple className="text-green-acid relative z-10" />
-        <div className="flex flex-col gap-4 relative z-10 max-w-[80%]">
-          <Typography variant="h1" className="uppercase">
+        <LogoSimple className="text-green-acid relative z-10 w-9 h-9 lg:w-auto lg:h-auto" />
+        <div className="flex flex-col gap-4 relative z-10 max-w-full lg:max-w-[80%]">
+          <Typography variant="title1" className="uppercase">
             {title}
           </Typography>
           <Typography variant="menu">{description}</Typography>

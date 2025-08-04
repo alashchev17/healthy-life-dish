@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect, useMemo, useRef } from 'react'
 import Image from 'next/image'
 import { Typography } from '../Typography'
 import { StarRating } from '#/design/ui/StarRating'
@@ -18,7 +18,12 @@ export interface ReviewCardProps {
 
 export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false, className = '', onCardWidthChange }) => {
   const cardRef = useRef<HTMLDivElement>(null)
-  const cardClasses = isHighlighted ? 'bg-green-acid text-black' : 'bg-dark-gray text-white'
+  const shouldHighlight = useMemo(() => {
+    if (typeof window === 'undefined') return false
+    return window.innerWidth > 768 && isHighlighted
+  }, [isHighlighted])
+
+  const cardClasses = shouldHighlight ? 'bg-green-acid text-black' : 'bg-dark-gray text-white'
 
   const avatarUrl = review.person?.avatar?.asset?.url ? urlFor(review.person.avatar).width(80).height(80).url() : null
 
@@ -38,11 +43,11 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
         )}
 
         <div className="flex flex-col gap-1 items-center">
-          <Typography variant="bottoms" className={`uppercase ${isHighlighted ? 'text-black' : 'text-white'} truncate`}>
+          <Typography variant="bottoms" className={`uppercase ${shouldHighlight ? 'text-black' : 'text-white'} truncate`}>
             {review.person?.name} {review.person?.surname}
           </Typography>
           {review.person?.occupation && (
-            <Typography variant="small" className={`${isHighlighted ? 'text-black/70' : 'text-white/70'} truncate`}>
+            <Typography variant="small" className={`${shouldHighlight ? 'text-black/70' : 'text-white/70'} truncate`}>
               {review.person.occupation}
             </Typography>
           )}
@@ -56,7 +61,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
             rating={review.rating}
             size="md"
             className="justify-center"
-            starColorClassName={isHighlighted ? 'text-black' : 'text-green-acid'}
+            starColorClassName={shouldHighlight ? 'text-black' : 'text-green-acid'}
           />
         </div>
       )}
@@ -66,7 +71,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
         <div className="flex-1">
           <Typography
             variant="bottoms"
-            className={`${isHighlighted ? 'text-black' : 'text-white'} leading-tight font-normal text-md text-center`}
+            className={`${shouldHighlight ? 'text-black' : 'text-white'} leading-tight font-normal text-md text-center`}
           >
             &quot;{review.text}&quot;
           </Typography>

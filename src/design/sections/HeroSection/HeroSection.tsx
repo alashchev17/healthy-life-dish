@@ -18,7 +18,7 @@ export const HeroSection: FC<HeroSectionProps> = ({ heroSlogan, dietPrograms, tr
   return (
     <Container>
       <section
-        className="xl:max-h-screen h-[1250px] lg:h-screen pb-12 xl:pb-20 gap-4 flex flex-col xl:flex-row"
+        className="xl:max-h-screen h-[1050px] lg:h-[1250px]lg:h-screen pb-12 xl:pb-20 gap-4 flex flex-col xl:flex-row"
         style={{
           marginTop: `calc(${headerHeight}px + 10px)`,
         }}
@@ -29,7 +29,7 @@ export const HeroSection: FC<HeroSectionProps> = ({ heroSlogan, dietPrograms, tr
               <HighlightedText
                 value={heroSlogan}
                 variant="title1"
-                className="text-black !text-[2.5rem] leading-none uppercase max-w-full"
+                className="text-black !text-[1.5rem] xl:!text-[2.5rem] leading-none uppercase max-w-full"
               />
             </div>
           )}

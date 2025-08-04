@@ -33,10 +33,15 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
   const [maxCardWidth, setMaxCardWidth] = useState(0)
 
   const buttonDisplacement = useMemo(() => {
-    if (typeof window !== 'undefined' && window) {
-      return window.innerWidth / 2 - maxCardWidth / 2 - CONTAINER_PADDING * 1.25
+    if (typeof window === 'undefined' && window) {
+      return 0
     }
-    return 0
+
+    if (window.innerWidth < 768) {
+      return 0
+    }
+
+    return window.innerWidth / 2 - maxCardWidth / 2 - CONTAINER_PADDING * 1.25
   }, [maxCardWidth])
 
   if (!data || !data.reviews || data.reviews.length === 0) return null
@@ -73,7 +78,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
   return (
     <section className="pb-16 lg:pb-20 overflow-clip">
       <Container>
-        <div className="flex items-start flex-col lg:flex-row justify-start lg:justify-between gap-11 lg:gap-4 mb-12">
+        <div className="flex items-start flex-col lg:flex-row justify-start lg:justify-between gap-11 lg:gap-4 mb-6 lg:mb-12">
           <div className="flex items-center justify-start max-w-full lg:max-w-1/3 w-full">
             {/* TODO: translate in english/spanish/ukrainian */}
             <Typography variant="menu" className="uppercase text-green-acid">
@@ -83,7 +88,11 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
           <div className="max-w-full lg:max-w-[calc(66.7%-1rem)]">
             {data.description && (
               <div className="text-white">
-                <HighlightedText value={data.description} variant="title1" className="font-normal !text-[2.5rem] leading-none max-w-full" />
+                <HighlightedText
+                  value={data.description}
+                  variant="title1"
+                  className="font-normal !text-2xl lg:!text-[2.5rem] leading-none max-w-full"
+                />
               </div>
             )}
           </div>
@@ -129,7 +138,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
             ))}
           </Swiper>
           <div
-            className="flex items-center gap-4 mt-14"
+            className="flex items-center gap-2 lg:gap-4 mt-6 lg:mt-14"
             style={{
               marginLeft: `${buttonDisplacement}px`,
             }}
@@ -137,7 +146,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
             <Button
               type="button"
               variant="icon"
-              className="reviews-slider-prev !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
+              className="reviews-slider-prev w-10 h-10 lg:w-auto lg:h-auto !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
               icon={<ChevronRight className="rotate-180" width={24} height={24} />}
               aria-label="Previous review"
               fullyRounded
@@ -145,7 +154,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
             <Button
               type="button"
               variant="icon"
-              className="reviews-slider-next !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
+              className="reviews-slider-next w-10 h-10 lg:w-auto lg:h-auto !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
               icon={<ChevronRight width={24} height={24} />}
               aria-label="Next review"
               fullyRounded

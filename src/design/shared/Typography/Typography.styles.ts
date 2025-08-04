@@ -6,7 +6,7 @@ export const getTypographyStyles = ({ variant }: { variant: TypographyVariant })
   switch (variant) {
     // Desktop Typography Variants
     case 'title1':
-      return `${baseStyles} font-jura font-bold text-[4rem] leading-[120%]`
+      return `${baseStyles} font-jura font-bold text-[1.5rem] leading-[115%] lg:text-[4rem] lg:leading-[120%]`
 
     case 'title2':
       return `${baseStyles} font-jura font-bold text-[2.5rem] leading-[120%]`
@@ -15,7 +15,7 @@ export const getTypographyStyles = ({ variant }: { variant: TypographyVariant })
       return `${baseStyles} font-jura font-bold text-[1.75rem] leading-[120%]`
 
     case 'menu':
-      return `${baseStyles} font-jura font-medium text-[1.5rem] leading-[125%]`
+      return `${baseStyles} font-jura font-medium text-[1rem] leading-[100%] lg:text-[1.5rem] lg:leading-[125%]`
 
     case 'bottoms':
       return `${baseStyles} font-jura font-bold text-[1.25rem] leading-[100%]`
@@ -36,17 +36,11 @@ export const getTypographyStyles = ({ variant }: { variant: TypographyVariant })
       return `${baseStyles} font-manrope font-medium text-[0.75rem] leading-[125%] underline`
 
     // Mobile Typography Variants
-    case 'mobileTitle1':
-      return `${baseStyles} font-jura font-bold text-[2.5rem] leading-[120%] md:text-[4rem]`
-
     case 'mobileTitle2':
       return `${baseStyles} font-jura font-bold text-[2rem] leading-[120%] md:text-[2.5rem]`
 
     case 'mobileTitle3':
       return `${baseStyles} font-jura font-bold text-[1.5rem] leading-[120%] md:text-[1.75rem]`
-
-    case 'mobileMenu':
-      return `${baseStyles} font-jura font-medium text-[1rem] leading-[100%]`
 
     case 'mobileBottoms':
       return `${baseStyles} font-jura font-bold text-[1rem] leading-[100%]`

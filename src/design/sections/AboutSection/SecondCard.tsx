@@ -22,13 +22,15 @@ export const SecondCard: FC<SecondCardProps> = ({ card }) => {
   return (
     <Link
       href="/diets"
-      className="relative max-w-[50%] h-[580px] overflow-clip"
+      className="relative max-w-full lg:max-w-[50%] h-[360px] lg:h-[580px] overflow-clip"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className={`relative w-full h-full bg-green-acid p-12 rounded-3xl flex flex-col justify-between overflow-clip`}>
-        <div className="text-dark-gray flex flex-col gap-4 relative z-10 max-w-[80%]">
-          <Typography variant="h1" className="uppercase">
+      <div
+        className={`relative w-full h-full bg-green-acid pl-6 pr-8 py-5 lg:py-12 lg:pl-12 lg:pr-12 rounded-3xl flex flex-col justify-between overflow-clip`}
+      >
+        <div className="text-dark-gray flex flex-col gap-4 relative z-10 max-w-full lg:max-w-[80%]">
+          <Typography variant="title1" className="uppercase">
             {title}
           </Typography>
           <Typography variant="menu">{description}</Typography>
