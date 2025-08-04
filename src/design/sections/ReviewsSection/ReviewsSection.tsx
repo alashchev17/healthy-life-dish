@@ -33,7 +33,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
   const [maxCardWidth, setMaxCardWidth] = useState(0)
 
   const buttonDisplacement = useMemo(() => {
-    if (typeof window === 'undefined' && window) {
+    if (typeof window === 'undefined' || !window) {
       return 0
     }
 

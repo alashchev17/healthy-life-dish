@@ -19,7 +19,7 @@ export interface ReviewCardProps {
 export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false, className = '', onCardWidthChange }) => {
   const cardRef = useRef<HTMLDivElement>(null)
   const shouldHighlight = useMemo(() => {
-    if (typeof window === 'undefined') return false
+    if (typeof window === 'undefined' || !window) return false
     return window.innerWidth > 768 && isHighlighted
   }, [isHighlighted])
 
