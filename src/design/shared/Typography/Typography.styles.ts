@@ -9,7 +9,7 @@ export const getTypographyStyles = ({ variant }: { variant: TypographyVariant })
       return `${baseStyles} font-jura font-bold text-[1.5rem] leading-[115%] sm:text-4xl sm:leading-[100%] lg:text-[4rem] lg:leading-[120%]`
 
     case 'title2':
-      return `${baseStyles} font-jura font-bold text-[2.5rem] leading-[120%]`
+      return `${baseStyles} font-jura font-bold text-[2rem] leading-[120%]`
 
     case 'title3':
       return `${baseStyles} font-jura font-bold text-[1.75rem] leading-[120%]`
