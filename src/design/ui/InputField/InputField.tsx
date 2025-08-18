@@ -32,12 +32,13 @@ function InputField(props: InputFieldProps): ReactNode {
 
   if (props.textarea) {
     // TypeScript now knows this is TextareaFieldProps
-    const { children, placeholder, error, variant = 'default', ...restProps } = props
+    const { children, placeholder, error, variant = 'default', className, ...restProps } = props
 
     const baseClassName = classNames(
       styles.baseInputField,
       { [styles.errorInputField]: !!error },
-      { [styles.flatInputField]: variant === 'flat' }
+      { [styles.flatInputField]: variant === 'flat' },
+      className
     )
 
     return (
@@ -61,12 +62,13 @@ function InputField(props: InputFieldProps): ReactNode {
     )
   } else {
     // TypeScript now knows this is TextInputFieldProps
-    const { placeholder, error, variant = 'default', ...restProps } = props
+    const { placeholder, error, variant = 'default', className, ...restProps } = props
 
     const baseClassName = classNames(
       styles.baseInputField,
       { [styles.errorInputField]: !!error },
-      { [styles.flatInputField]: variant === 'flat' }
+      { [styles.flatInputField]: variant === 'flat' },
+      className
     )
 
     return (

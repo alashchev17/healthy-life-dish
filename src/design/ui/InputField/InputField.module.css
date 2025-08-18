@@ -1,6 +1,6 @@
 .baseInputField {
   padding: 0.75rem;
-  border-radius: 0.8rem;
+  border-radius: 1.5rem;
   border: 3px solid var(--color-light-gray);
   outline: none;
   width: 100%;

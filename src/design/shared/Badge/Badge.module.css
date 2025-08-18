@@ -1,0 +1,10 @@
+.badgeBase {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background-color: var(--color-dark-gray);
+  color: var(--color-white);
+  font-size: 1.25rem;
+  line-height: 125%;
+  font-weight: 700;
+}

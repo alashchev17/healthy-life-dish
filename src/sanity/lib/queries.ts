@@ -1,6 +1,6 @@
 import groq from 'groq'
 import { sanityFetch } from './client'
-import type { LANDING_PAGE_QUERYResult, PROGRAM_BY_SLUG_QUERYResult, ProgramBuilder } from '../types'
+import type { FOOTER_QUERYResult, LANDING_PAGE_QUERYResult, PROGRAM_BY_SLUG_QUERYResult, ProgramBuilder } from '../types'
 
 // Query to fetch all landing page data
 const LANDING_PAGE_QUERY = groq`{
@@ -295,10 +295,20 @@ const ALL_PROGRAMS_QUERY = groq`*[_type == "programBuilder" && language == $lang
   }
 }`
 
+const FOOTER_QUERY = groq`*[_type == "footer" && language == $language] | order(_createdAt desc)[0] {
+  _id,
+  _type,
+  _createdAt,
+  _updatedAt,
+  language,
+  emailSubscription,
+  copyrightText
+}`
+
 // Type definitions for the fetched data
 export type LandingPageData = LANDING_PAGE_QUERYResult
-
 export type ProgramData = PROGRAM_BY_SLUG_QUERYResult
+export type FooterData = FOOTER_QUERYResult
 
 // Fetch functions
 export async function fetchLandingPageData(language: string = 'ua'): Promise<LandingPageData> {
@@ -306,6 +316,16 @@ export async function fetchLandingPageData(language: string = 'ua'): Promise<Lan
     query: LANDING_PAGE_QUERY,
     params: { language },
     tags: ['landing', `landing-${language}`],
+  })
+
+  return data
+}
+
+export async function fetchFooterData(language: string = 'ua'): Promise<FooterData> {
+  const data = await sanityFetch<FooterData>({
+    query: FOOTER_QUERY,
+    params: { language },
+    tags: ['footer', `footer-${language}`],
   })
 
   return data

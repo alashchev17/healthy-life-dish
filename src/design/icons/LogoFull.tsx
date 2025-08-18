@@ -1,24 +1,14 @@
-import { FC, SVGProps } from "react";
+import { FC, SVGProps } from 'react'
 
 export const LogoFull: FC<SVGProps<SVGSVGElement>> = (props) => {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="182"
-      height="45"
-      viewBox="0 0 182 45"
-      fill="none"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="182" height="45" viewBox="0 0 182 45" fill="none" {...props}>
       <g clipPath="url(#clip0_903_6494)">
         <path
           d="M90.0078 24.4452H58.3358V40.023H53.811V4.97291H58.3358V20.5507H90.0078V4.97291H94.5326V40.0272H90.0078V24.4452Z"
           fill="currentColor"
         />
-        <path
-          d="M97.5454 4.9729H102.07V36.1313H138.267V40.0271H97.5454V4.9729Z"
-          fill="currentColor"
-        />
+        <path d="M97.5454 4.9729H102.07V36.1313H138.267V40.0271H97.5454V4.9729Z" fill="currentColor" />
         <path
           d="M141.274 4.9729H161.638C172.861 4.9729 182.001 12.8415 182.001 22.5007C182.001 32.16 172.861 40.0285 161.638 40.0285H141.274V4.9729ZM161.638 8.86736H145.8V36.1313H161.638C170.414 36.1313 177.475 30.0548 177.475 22.4993C177.475 14.9439 170.418 8.86736 161.638 8.86736Z"
           fill="currentColor"
@@ -50,14 +40,9 @@ export const LogoFull: FC<SVGProps<SVGSVGElement>> = (props) => {
       </g>
       <defs>
         <clipPath id="clip0_903_6494">
-          <rect
-            width="182"
-            height="44.5432"
-            fill="white"
-            transform="translate(0 0.228394)"
-          />
+          <rect width="182" height="44.5432" fill="white" transform="translate(0 0.228394)" />
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}

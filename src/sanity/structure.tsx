@@ -102,4 +102,11 @@ export const structure: StructureResolver = (S) =>
           return <CogIcon />
         })
         .child(S.document().schemaType('settings').documentId('settings').title('Общие настройки')),
+      S.listItem()
+        .title('Подвал сайта')
+        .id('footer')
+        .icon(() => {
+          return <CogIcon />
+        })
+        .child(S.document().schemaType('footer').documentId('footer').title('Подвал сайта')),
     ])
