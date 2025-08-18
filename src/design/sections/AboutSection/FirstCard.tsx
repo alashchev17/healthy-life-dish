@@ -33,7 +33,7 @@ export const FirstCard: FC<FirstCardProps> = ({ card }) => {
         <div
           className={`absolute inset-0 w-full h-full bg-gradient-to-r from-black via-green-acid/30 to-green-acid transition-opacity duration-750 ${isHovered ? 'opacity-100' : 'opacity-0'} z-0`}
         />
-        <LogoSimple className="text-green-acid relative z-10 w-9 h-9 lg:w-auto lg:h-auto" />
+        <LogoSimple className="text-green-acid relative z-10 w-9 h-9 sm:w-16 sm:h-16" />
         <div className="flex flex-col gap-4 relative z-10 max-w-full lg:max-w-[80%]">
           <Typography variant="title1" className="uppercase">
             {title}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useMemo } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -32,17 +32,35 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
 
   const [maxCardWidth, setMaxCardWidth] = useState(0)
 
-  const buttonDisplacement = useMemo(() => {
+  const calculateDisplacement = useCallback(() => {
     if (typeof window === 'undefined' || !window) {
-      return 0
+      setButtonDisplacement(0)
+      return
     }
 
     if (window.innerWidth < 768) {
-      return 0
+      setButtonDisplacement(0)
+      return
     }
-
-    return window.innerWidth / 2 - maxCardWidth / 2 - CONTAINER_PADDING * 1.25
+    const result = window.innerWidth / 2 - maxCardWidth / 2 - CONTAINER_PADDING * 1.25
+    setButtonDisplacement(result)
   }, [maxCardWidth])
+
+  const [buttonDisplacement, setButtonDisplacement] = useState(0)
+
+  useEffect(() => {
+    window.addEventListener('resize', calculateDisplacement)
+
+    return () => {
+      window.removeEventListener('resize', calculateDisplacement)
+    }
+  }, [calculateDisplacement])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' || window) {
+      calculateDisplacement()
+    }
+  }, [calculateDisplacement])
 
   if (!data || !data.reviews || data.reviews.length === 0) return null
 
@@ -146,7 +164,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
             <Button
               type="button"
               variant="icon"
-              className="reviews-slider-prev w-10 h-10 lg:w-auto lg:h-auto !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
+              className="reviews-slider-prev w-10 h-10 lg:w-14 lg:h-14 !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
               icon={<ChevronRight className="rotate-180" width={24} height={24} />}
               aria-label="Previous review"
               fullyRounded
@@ -154,7 +172,7 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
             <Button
               type="button"
               variant="icon"
-              className="reviews-slider-next w-10 h-10 lg:w-auto lg:h-auto !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
+              className="reviews-slider-next w-10 h-10 lg:w-14 lg:h-14 !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
               icon={<ChevronRight width={24} height={24} />}
               aria-label="Next review"
               fullyRounded
