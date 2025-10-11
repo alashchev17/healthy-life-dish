@@ -1,3 +1,5 @@
+'use client'
+
 import { FC } from 'react'
 import { Typography } from '#/design/shared'
 import { StarIcon } from '#/design/icons'
@@ -24,7 +26,9 @@ export const StarRating: FC<StarRatingProps> = ({ rating, maxRating = 5, size = 
       <div className="flex items-center gap-1">
         {Array.from({ length: maxRating }, (_, index) => {
           const isFilled = index < Math.floor(rating)
-          return <StarIcon key={index} className={`${starSize} ${isFilled ? starColorClassName : 'text-light-gray'}`} />
+          return (
+            <StarIcon suppressHydrationWarning key={index} className={`${starSize} ${isFilled ? starColorClassName : 'text-light-gray'}`} />
+          )
         })}
       </div>
       <Typography variant="small">{parseFloat(rating.toString()).toFixed(1)}</Typography>
