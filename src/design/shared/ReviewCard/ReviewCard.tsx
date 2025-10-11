@@ -34,7 +34,11 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
   }, [onCardWidthChange])
 
   return (
-    <div ref={cardRef} className={`relative rounded-2xl p-8 min-h-[300px] flex flex-col ${cardClasses} ${className} transition-all`}>
+    <div
+      ref={cardRef}
+      suppressHydrationWarning
+      className={`relative rounded-2xl p-8 min-h-[300px] flex flex-col ${cardClasses} ${className} transition-all`}
+    >
       <div className="flex flex-col items-center gap-4 mb-8">
         {avatarUrl && (
           <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
@@ -43,11 +47,19 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
         )}
 
         <div className="flex flex-col gap-1 items-center">
-          <Typography variant="bottoms" className={`uppercase ${shouldHighlight ? 'text-black' : 'text-white'} truncate`}>
+          <Typography
+            suppressHydrationWarning
+            variant="bottoms"
+            className={`uppercase ${shouldHighlight ? 'text-black' : 'text-white'} truncate`}
+          >
             {review.person?.name} {review.person?.surname}
           </Typography>
           {review.person?.occupation && (
-            <Typography variant="small" className={`${shouldHighlight ? 'text-black/70' : 'text-white/70'} truncate`}>
+            <Typography
+              suppressHydrationWarning
+              variant="small"
+              className={`${shouldHighlight ? 'text-black/70' : 'text-white/70'} truncate`}
+            >
               {review.person.occupation}
             </Typography>
           )}
@@ -70,6 +82,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
       {review.text && (
         <div className="flex-1">
           <Typography
+            suppressHydrationWarning
             variant="bottoms"
             className={`${shouldHighlight ? 'text-black' : 'text-white'} leading-tight font-normal text-md text-center`}
           >

@@ -1,3 +1,5 @@
+'use client'
+
 import { FC, SVGProps } from 'react'
 
 export const StarIcon: FC<SVGProps<SVGSVGElement>> = (props) => {

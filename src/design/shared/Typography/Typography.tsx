@@ -1,3 +1,5 @@
+'use client'
+
 import React, { FC, useMemo } from 'react'
 import { getTypographyStyles } from './Typography.styles'
 import cssStyles from './Typography.module.css'
