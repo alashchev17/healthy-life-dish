@@ -5,8 +5,7 @@ import { ModalCore } from './ModalCore'
 import { Button } from '#/design/ui'
 import { Typography } from '#/design/shared'
 import { InputField } from '#/design/ui/InputField/InputField'
-import { ArrowRight } from '#/design/icons'
-import { StarIcon } from '@sanity/icons'
+import { ArrowRight, StarIcon } from '#/design/icons'
 
 export interface ReviewsModalProps {
   isOpen: boolean
@@ -144,6 +143,7 @@ export const ReviewsModal: FC<ReviewsModalProps> = ({ isOpen, onClose, onSubmit 
             disabled={!isFormValid || isSubmitting}
             icon={<ArrowRight />}
           >
+            {/* TODO: needs to be translated */}
             Залишити відгук
           </Button>
         </div>
@@ -194,11 +194,11 @@ const InteractiveStarRating: FC<InteractiveStarRatingProps> = ({ rating, onRatin
               type="button"
               onClick={() => handleStarClick(index)}
               onMouseEnter={() => handleStarHover(index)}
-              className={`${starSize} transition-colors cursor-pointer ${
-                isFilled ? 'text-green-acid' : 'text-transparent'
+              className={`${starSize} w-[30px] h-[30px] transition-colors cursor-pointer ${
+                isFilled ? 'text-green-acid fill-green-acid stroke-green-acid' : 'text-dark-gray fill-transparent stroke-green-acid'
               } hover:text-green-acid`}
             >
-              <StarIcon className="w-full h-full stroke-[1.5px] stroke-green-acid" />
+              <StarIcon className="w-full h-full stroke-[1.5px]" />
             </button>
           )
         })}
