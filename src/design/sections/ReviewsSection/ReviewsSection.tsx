@@ -1,82 +1,88 @@
-'use client'
+"use client";
 
-import { useState, useRef, useEffect, useCallback } from 'react'
-import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
-import { Navigation } from 'swiper/modules'
-import type { Swiper as SwiperType } from 'swiper'
-import { Container, Typography, ReviewCard, ReviewsModal } from '#/design/shared'
-import { HighlightedText, Button } from '#/design/ui'
-import { ChevronRight } from '#/design/icons'
-import { LANDING_PAGE_QUERYResult } from '#/sanity/types'
-import type { ReviewFormData } from '#/design/shared'
+import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+import type { ReviewFormData } from "#/design/shared";
+import {
+  Container,
+  ReviewCard,
+  ReviewsModal,
+  Typography,
+} from "#/design/shared";
+import { Button, HighlightedText } from "#/design/ui";
+import { ChevronRight } from "#/design/icons";
+import { LANDING_PAGE_QUERYResult } from "#/sanity/types";
 
-import 'swiper/css'
-import 'swiper/css/navigation'
+import "swiper/css";
+import "swiper/css/navigation";
 
-import '#/design/shared/ReviewCard/styles.css'
+import "#/design/shared/ReviewCard/styles.css";
 
-export type ReviewsSectionData = LANDING_PAGE_QUERYResult['reviews']
-interface ReviewsSectionProps {
-  data?: ReviewsSectionData
-}
+export type ReviewsSectionData = LANDING_PAGE_QUERYResult["reviews"];
+type ReviewsSectionProps = {
+  data?: ReviewsSectionData;
+};
 
-const CONTAINER_PADDING = 40
+const CONTAINER_PADDING = 40;
 
-export function ReviewsSection({ data }: ReviewsSectionProps) {
+export const ReviewsSection: FC<ReviewsSectionProps> = ({ data }) => {
   // eslint-disable-next-line
-  const [swiper, setSwiper] = useState<SwiperType | null>(null)
-  const swiperRef = useRef<SwiperRef>(null)
+  const [swiper, setSwiper] = useState<SwiperType | null>(null);
+  const swiperRef = useRef<SwiperRef>(null);
 
-  const [activeSlide, setActiveSlide] = useState(0)
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
-  const [maxCardWidth, setMaxCardWidth] = useState(0)
+  const [maxCardWidth, setMaxCardWidth] = useState(0);
 
   const calculateDisplacement = useCallback(() => {
-    if (typeof window === 'undefined' || !window) {
-      setButtonDisplacement(0)
-      return
+    if (typeof window === "undefined" || !window) {
+      setButtonDisplacement(0);
+      return;
     }
 
     if (window.innerWidth < 768) {
-      setButtonDisplacement(0)
-      return
+      setButtonDisplacement(0);
+      return;
     }
-    const result = window.innerWidth / 2 - maxCardWidth / 2 - CONTAINER_PADDING * 1.25
-    setButtonDisplacement(result)
-  }, [maxCardWidth])
+    const result =
+      window.innerWidth / 2 - maxCardWidth / 2 - CONTAINER_PADDING * 1.25;
+    setButtonDisplacement(result);
+  }, [maxCardWidth]);
 
-  const [buttonDisplacement, setButtonDisplacement] = useState(0)
+  const [buttonDisplacement, setButtonDisplacement] = useState(0);
 
   useEffect(() => {
-    window.addEventListener('resize', calculateDisplacement)
+    window.addEventListener("resize", calculateDisplacement);
 
     return () => {
-      window.removeEventListener('resize', calculateDisplacement)
-    }
-  }, [calculateDisplacement])
+      window.removeEventListener("resize", calculateDisplacement);
+    };
+  }, [calculateDisplacement]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' || window) {
-      calculateDisplacement()
+    if (typeof window !== "undefined" || window) {
+      calculateDisplacement();
     }
-  }, [calculateDisplacement])
+  }, [calculateDisplacement]);
 
-  if (!data || !data.reviews || data.reviews.length === 0) return null
+  if (!data || !data.reviews || data.reviews.length === 0) return null;
 
-  const reviews = data.reviews
+  const reviews = data.reviews;
 
   const handleOpenReviewModal = () => {
-    setIsReviewModalOpen(true)
-  }
+    setIsReviewModalOpen(true);
+  };
 
   const handleCloseReviewModal = () => {
-    setIsReviewModalOpen(false)
-  }
+    setIsReviewModalOpen(false);
+  };
 
   const handleSubmitReview = async (reviewData: ReviewFormData) => {
     // Here you would typically send the review data to your backend
-    console.log('Review submitted:', reviewData)
+    console.log("Review submitted:", reviewData);
 
     // For now, just close the modal
     // In a real implementation, you might want to:
@@ -88,10 +94,10 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
       // await submitReview(reviewData);
       // You could also trigger a refetch of reviews here
     } catch (error) {
-      console.error('Failed to submit review:', error)
-      throw error // Re-throw so the modal can handle the error
+      console.error("Failed to submit review:", error);
+      throw error; // Re-throw so the modal can handle the error
     }
-  }
+  };
 
   return (
     <section className="pb-16 lg:pb-20 overflow-clip">
@@ -142,16 +148,22 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
               },
             }}
             navigation={{
-              prevEl: '.reviews-slider-prev',
-              nextEl: '.reviews-slider-next',
+              prevEl: ".reviews-slider-prev",
+              nextEl: ".reviews-slider-next",
             }}
             onSwiper={setSwiper}
-            onSlideChange={() => setActiveSlide(swiperRef.current?.swiper.activeIndex ?? 0)}
+            onSlideChange={() =>
+              setActiveSlide(swiperRef.current?.swiper.activeIndex ?? 0)
+            }
             className="!overflow-visible"
           >
             {reviews.map((review, index) => (
               <SwiperSlide key={review._id}>
-                <ReviewCard review={review} isHighlighted={activeSlide === index} onCardWidthChange={setMaxCardWidth} />
+                <ReviewCard
+                  review={review}
+                  isHighlighted={activeSlide === index}
+                  onCardWidthChange={setMaxCardWidth}
+                />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -165,7 +177,9 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
               type="button"
               variant="icon"
               className="reviews-slider-prev w-10 h-10 lg:w-14 lg:h-14 !bg-transparent !border-dark-gray !text-light-gray hover:!bg-green-acid hover:!text-black hover:!border-green-acid"
-              icon={<ChevronRight className="rotate-180" width={24} height={24} />}
+              icon={
+                <ChevronRight className="rotate-180" width={24} height={24} />
+              }
               aria-label="Previous review"
               fullyRounded
             />
@@ -177,14 +191,22 @@ export function ReviewsSection({ data }: ReviewsSectionProps) {
               aria-label="Next review"
               fullyRounded
             />
-            <Button variant="secondary" className="ml-auto rounded-full px-8" onClick={handleOpenReviewModal}>
+            <Button
+              variant="secondary"
+              className="ml-auto rounded-full px-8"
+              onClick={handleOpenReviewModal}
+            >
               Додати відгук
             </Button>
           </div>
         </div>
       </Container>
 
-      <ReviewsModal isOpen={isReviewModalOpen} onClose={handleCloseReviewModal} onSubmit={handleSubmitReview} />
+      <ReviewsModal
+        isOpen={isReviewModalOpen}
+        onClose={handleCloseReviewModal}
+        onSubmit={handleSubmitReview}
+      />
     </section>
-  )
-}
+  );
+};
