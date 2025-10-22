@@ -1,6 +1,11 @@
-import groq from 'groq'
-import { sanityFetch } from './client'
-import type { FOOTER_QUERYResult, LANDING_PAGE_QUERYResult, PROGRAM_BY_SLUG_QUERYResult, ProgramBuilder } from '../types'
+import groq from "groq";
+import { sanityFetch } from "./client";
+import type {
+  FOOTER_QUERYResult,
+  LANDING_PAGE_QUERYResult,
+  PROGRAM_BY_SLUG_QUERYResult,
+  ProgramBuilder,
+} from "../types";
 
 // Query to fetch all landing page data
 const LANDING_PAGE_QUERY = groq`{
@@ -82,7 +87,7 @@ const LANDING_PAGE_QUERY = groq`{
       text
     }
   }
-}`
+}`;
 
 // Query to fetch a program by slug
 const PROGRAM_BY_SLUG_QUERY = groq`*[_type == "programBuilder" && slug.current == $slug && language == $language][0] {
@@ -264,7 +269,7 @@ const PROGRAM_BY_SLUG_QUERY = groq`*[_type == "programBuilder" && slug.current =
       }
     }
   }
-}`
+}`;
 
 // Query to fetch all programs (for listing pages)
 const ALL_PROGRAMS_QUERY = groq`*[_type == "programBuilder" && language == $language] | order(_createdAt desc) {
@@ -293,7 +298,7 @@ const ALL_PROGRAMS_QUERY = groq`*[_type == "programBuilder" && language == $lang
       crop
     }
   }
-}`
+}`;
 
 const FOOTER_QUERY = groq`*[_type == "footer" && language == $language] | order(_createdAt desc)[0] {
   _id,
@@ -302,57 +307,70 @@ const FOOTER_QUERY = groq`*[_type == "footer" && language == $language] | order(
   _updatedAt,
   language,
   emailSubscription,
-  copyrightText
-}`
+  copyrightText,
+  generalLinks
+}`;
 
 // Type definitions for the fetched data
-export type LandingPageData = LANDING_PAGE_QUERYResult
-export type ProgramData = PROGRAM_BY_SLUG_QUERYResult
-export type FooterData = FOOTER_QUERYResult
+export type LandingPageData = LANDING_PAGE_QUERYResult;
+export type ProgramData = PROGRAM_BY_SLUG_QUERYResult;
+export type FooterData = FOOTER_QUERYResult;
 
 // Fetch functions
-export async function fetchLandingPageData(language: string = 'ua'): Promise<LandingPageData> {
+export async function fetchLandingPageData(
+  language: string = "ua",
+): Promise<LandingPageData> {
   const data = await sanityFetch<LandingPageData>({
     query: LANDING_PAGE_QUERY,
     params: { language },
-    tags: ['landing', `landing-${language}`],
-  })
+    tags: ["landing", `landing-${language}`],
+  });
 
-  return data
+  return data;
 }
 
-export async function fetchFooterData(language: string = 'ua'): Promise<FooterData> {
+export async function fetchFooterData(
+  language: string = "ua",
+): Promise<FooterData> {
   const data = await sanityFetch<FooterData>({
     query: FOOTER_QUERY,
     params: { language },
-    tags: ['footer', `footer-${language}`],
-  })
+    tags: ["footer", `footer-${language}`],
+  });
 
-  return data
+  return data;
 }
 
-export async function fetchProgramBySlug(slug: string, language: string = 'ua'): Promise<ProgramData> {
+export async function fetchProgramBySlug(
+  slug: string,
+  language: string = "ua",
+): Promise<ProgramData> {
   const data = await sanityFetch<ProgramData>({
     query: PROGRAM_BY_SLUG_QUERY,
     params: { slug, language },
-    tags: ['program', `program-${slug}`, `program-${language}`],
-  })
+    tags: ["program", `program-${slug}`, `program-${language}`],
+  });
 
-  return data
+  return data;
 }
 
-export async function fetchAllPrograms(language: string = 'ua'): Promise<ProgramBuilder[]> {
+export async function fetchAllPrograms(
+  language: string = "ua",
+): Promise<ProgramBuilder[]> {
   const data = await sanityFetch<ProgramBuilder[]>({
     query: ALL_PROGRAMS_QUERY,
     params: { language },
-    tags: ['programs', `programs-${language}`],
-  })
+    tags: ["programs", `programs-${language}`],
+  });
 
-  return data || []
+  return data || [];
 }
 
 // Helper function to fetch programs by type
-export async function fetchProgramsByType(type: 'diet' | 'training', language: string = 'ua'): Promise<ProgramBuilder[]> {
+export async function fetchProgramsByType(
+  type: "diet" | "training",
+  language: string = "ua",
+): Promise<ProgramBuilder[]> {
   const query = groq`*[_type == "programBuilder" && type == $type && language == $language] | order(_createdAt desc) {
     _id,
     _type,
@@ -380,13 +398,13 @@ export async function fetchProgramsByType(type: 'diet' | 'training', language: s
         crop
       }
     }
-  }`
+  }`;
 
   const data = await sanityFetch<ProgramBuilder[]>({
     query,
     params: { type, language },
-    tags: ['programs', `programs-${type}`, `programs-${language}`],
-  })
+    tags: ["programs", `programs-${type}`, `programs-${language}`],
+  });
 
-  return data || []
+  return data || [];
 }
