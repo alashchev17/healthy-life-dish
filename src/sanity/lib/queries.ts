@@ -308,7 +308,8 @@ const FOOTER_QUERY = groq`*[_type == "footer" && language == $language] | order(
   language,
   emailSubscription,
   copyrightText,
-  generalLinks
+  generalLinks,
+  socialLinks
 }`;
 
 // Type definitions for the fetched data

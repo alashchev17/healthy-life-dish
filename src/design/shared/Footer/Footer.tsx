@@ -5,13 +5,18 @@ import { usePathname } from "next/navigation";
 
 import type { FooterData, ProgramBuilder } from "#/sanity/lib";
 
-import { Container } from "../Container";
-
-import { Typography } from "../Typography";
 import { Button, InputField } from "#/design/ui";
+import {
+  Container,
+  NavigationGrid,
+  prepareNavigationData,
+  Typography,
+} from "#/design/shared";
+
 import { ArrowRight, LogoFull, LogoFullExtended } from "#/design/icons";
+
 import { useFooterData } from "./useFooterData";
-import { NavigationGrid, prepareNavigationData } from "../NavigationGrid";
+import { FooterLinks } from "./FooterLinks";
 
 export type FooterProps = {
   className?: string;
@@ -34,7 +39,7 @@ export const Footer: FC<FooterProps> = ({ className, data, programsData }) => {
   if (pathname.includes("dashboard")) return null;
   if (!data) return null;
 
-  const { emailSubscription, generalLinks } = data;
+  const { emailSubscription, generalLinks, socialLinks } = data;
 
   // Prepare navigation sections
   const navigationSections = prepareNavigationData({
@@ -89,8 +94,9 @@ export const Footer: FC<FooterProps> = ({ className, data, programsData }) => {
                 </Typography>
               </div>
             )}
-            <div className="flex flex-col items-start border-[3px] rounded-3xl border-dark-gray w-full p-4">
+            <div className="flex flex-col items-start justify-between border-[3px] rounded-3xl border-dark-gray w-full p-4">
               <NavigationGrid sections={navigationSections} variant="footer" />
+              {socialLinks && <FooterLinks links={socialLinks} />}
             </div>
           </div>
         </div>
