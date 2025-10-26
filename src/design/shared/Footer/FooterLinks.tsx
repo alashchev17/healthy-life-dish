@@ -1,7 +1,9 @@
 import { type FC, ReactNode } from "react";
-import type { FooterData } from "#/sanity/lib";
-import { FacebookIcon, InstagramIcon, LinkedInIcon, XIcon } from "#/design/icons/social";
 import Link from "next/link";
+
+import type { FooterData } from "#/sanity/lib";
+
+import { FacebookIcon, InstagramIcon, LinkedInIcon, XIcon } from "#/design/icons/social";
 
 export type FooterSocialLink = NonNullable<
   NonNullable<FooterData>["socialLinks"]
