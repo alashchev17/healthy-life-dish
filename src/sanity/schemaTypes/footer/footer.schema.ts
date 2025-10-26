@@ -98,5 +98,18 @@ export const footerSchema = defineType({
         }),
       ],
     }),
+    defineField({
+      name: "socialLinks",
+      title: "Ссылки на социальные сети",
+      description: "Добавьте ссылки, которые будут вести на социальные сети",
+      type: "array",
+      of: [
+        defineField({
+          name: "link",
+          title: "Ссылка",
+          type: "socialLink",
+        }),
+      ],
+    }),
   ],
 });
