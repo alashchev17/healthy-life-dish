@@ -30,16 +30,20 @@ export const NavigationGrid: FC<NavigationGridProps> = ({
     <div
       className={`navigation-grid ${isFooter ? "navigation-grid--footer" : "navigation-grid--header"} ${className ?? ""}`}
     >
-      <div className="flex items-start w-full gap-16">
+      <div className="flex flex-wrap items-start w-full gap-10 md:gap-16">
         {sections.map((section) => (
           <div
             key={`${section.label}-section`}
-            className="flex flex-col items-start"
+            className="flex flex-col items-start w-full md:w-auto"
           >
             <Badge>{section.label}</Badge>
-            <div className="flex flex-col pl-4 pt-4 gap-4">
+            <div className="flex flex-col pl-4 pt-4 gap-2 md:gap-4">
               {section.links.map((link) => (
-                <Link key={link._key} href={link.url ?? "#"}>
+                <Link
+                  key={link._key}
+                  href={link.url ?? "#"}
+                  className="text-white font-jura text-[1rem] leading-[1.25] hover:text-green-acid transition-colors"
+                >
                   {link.label}
                 </Link>
               ))}

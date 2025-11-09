@@ -23,15 +23,15 @@ export const PromoGradientCircle: FC<SVGProps<SVGSVGElement>> = (props) => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(275.5 276) scale(312.049 312.615)"
         >
-          <stop stop-color="currentColor" />
-          <stop offset="0.07" stop-color="currentColor" stop-opacity="0.85" />
-          <stop offset="0.19" stop-color="currentColor" stop-opacity="0.63" />
-          <stop offset="0.31" stop-color="currentColor" stop-opacity="0.43" />
-          <stop offset="0.43" stop-color="currentColor" stop-opacity="0.28" />
-          <stop offset="0.55" stop-color="currentColor" stop-opacity="0.16" />
-          <stop offset="0.66" stop-color="currentColor" stop-opacity="0.07" />
-          <stop offset="0.78" stop-color="currentColor" stop-opacity="0.02" />
-          <stop offset="0.89" stop-color="currentColor" stop-opacity="0" />
+          <stop stopColor="currentColor" />
+          <stop offset="0.07" stopColor="currentColor" stopOpacity="0.85" />
+          <stop offset="0.19" stopColor="currentColor" stopOpacity="0.63" />
+          <stop offset="0.31" stopColor="currentColor" stopOpacity="0.43" />
+          <stop offset="0.43" stopColor="currentColor" stopOpacity="0.28" />
+          <stop offset="0.55" stopColor="currentColor" stopOpacity="0.16" />
+          <stop offset="0.66" stopColor="currentColor" stopOpacity="0.07" />
+          <stop offset="0.78" stopColor="currentColor" stopOpacity="0.02" />
+          <stop offset="0.89" stopColor="currentColor" stopOpacity="0" />
         </radialGradient>
       </defs>
     </svg>

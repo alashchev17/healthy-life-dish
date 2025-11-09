@@ -27,11 +27,15 @@ const SOCIAL_ICONS: Record<NonNullable<FooterSocialLink["icon"]>, ReactNode> = {
 
 export const FooterLinks: FC<FooterLinksProps> = ({ links }) => {
   return (
-    <div className="flex gap-8 items-center mb-4">
+    <div className="flex gap-4 md:gap-8 items-center justify-between md:justify-start mt-6 md:mt-10 lg:mt-0 lg:mb-4 w-full md:w-auto">
       {links.map((l) => {
         if (!l.url || !l.icon) return;
         return (
-          <Link key={l._key} href={l.url} className="text-light-gray">
+          <Link
+            key={l._key}
+            href={l.url}
+            className="text-light-gray hover:text-green-acid transition-colors"
+          >
             {SOCIAL_ICONS[l.icon]}
           </Link>
         );
