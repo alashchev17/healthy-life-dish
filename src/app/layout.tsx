@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Jura, Manrope } from "next/font/google";
+
 import "./globals.css";
 
 import { Providers } from "./providers";

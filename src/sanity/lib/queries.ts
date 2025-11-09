@@ -52,6 +52,15 @@ const LANDING_PAGE_QUERY = groq`{
     _createdAt,
     _updatedAt,
     language,
+    slogan,
+    isActive
+  },
+  "slogan": *[_type == "slogan" && language == $language][0] {
+    _id,
+    _type,
+    _createdAt,
+    _updatedAt,
+    language,
     slogan
   },
   "reviews": *[_type == "reviews" && language == $language][0] {

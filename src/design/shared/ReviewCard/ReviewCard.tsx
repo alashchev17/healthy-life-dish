@@ -1,37 +1,54 @@
-'use client'
+"use client";
 
-import { FC, useEffect, useMemo, useRef } from 'react'
-import Image from 'next/image'
-import { Typography } from '../Typography'
-import { StarRating } from '#/design/ui/StarRating'
-import { urlFor } from '#/sanity/utils/sanityImageUrl'
-import type { LANDING_PAGE_QUERYResult } from '#/sanity/types'
+import { FC, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
+import { Typography } from "../Typography";
+import { StarRating } from "#/design/ui/StarRating";
+import { urlFor } from "#/sanity/utils/sanityImageUrl";
+import type { LANDING_PAGE_QUERYResult } from "#/sanity/types";
 
-type ReviewData = NonNullable<NonNullable<LANDING_PAGE_QUERYResult['reviews']>['reviews']>[0]
+type ReviewData = NonNullable<
+  NonNullable<LANDING_PAGE_QUERYResult["reviews"]>["reviews"]
+>[0];
 
-export interface ReviewCardProps {
-  review: ReviewData
-  isHighlighted?: boolean
-  className?: string
-  onCardWidthChange: (width: number) => void
-}
+export type ReviewCardProps = {
+  review: ReviewData;
+  isHighlighted?: boolean;
+  className?: string;
+  onCardWidthChange: (width: number) => void;
+};
 
-export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false, className = '', onCardWidthChange }) => {
-  const cardRef = useRef<HTMLDivElement>(null)
+export const ReviewCard: FC<ReviewCardProps> = ({
+  review,
+  isHighlighted = false,
+  className = "",
+  onCardWidthChange,
+}) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const shouldHighlight = useMemo(() => {
-    if (typeof window === 'undefined' || !window) return false
-    return window.innerWidth > 768 && isHighlighted
-  }, [isHighlighted])
+    if (!isMounted) return false;
+    return window.innerWidth > 768 && isHighlighted;
+  }, [isHighlighted, isMounted]);
 
-  const cardClasses = shouldHighlight ? 'bg-green-acid text-black' : 'bg-dark-gray text-white'
+  const cardClasses = shouldHighlight
+    ? "bg-green-acid text-black"
+    : "bg-dark-gray text-white";
 
-  const avatarUrl = review.person?.avatar?.asset?.url ? urlFor(review.person.avatar).width(80).height(80).url() : null
+  const avatarUrl = review.person?.avatar?.asset?.url
+    ? urlFor(review.person.avatar).width(80).height(80).url()
+    : null;
 
   useEffect(() => {
     if (cardRef.current) {
-      onCardWidthChange(cardRef.current?.clientWidth || 0)
+      onCardWidthChange(cardRef.current?.clientWidth || 0);
     }
-  }, [onCardWidthChange])
+  }, [onCardWidthChange]);
 
   return (
     <div
@@ -42,7 +59,12 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
       <div className="flex flex-col items-center gap-4 mb-8">
         {avatarUrl && (
           <div className="relative w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-            <Image src={avatarUrl} alt={`${review.person?.name || 'User'} avatar`} fill className="object-cover" />
+            <Image
+              src={avatarUrl}
+              alt={`${review.person?.name || "User"} avatar`}
+              fill
+              className="object-cover"
+            />
           </div>
         )}
 
@@ -50,7 +72,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
           <Typography
             suppressHydrationWarning
             variant="bottoms"
-            className={`uppercase ${shouldHighlight ? 'text-black' : 'text-white'} truncate`}
+            className={`uppercase ${shouldHighlight ? "text-black" : "text-white"} truncate`}
           >
             {review.person?.name} {review.person?.surname}
           </Typography>
@@ -58,7 +80,7 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
             <Typography
               suppressHydrationWarning
               variant="small"
-              className={`${shouldHighlight ? 'text-black/70' : 'text-white/70'} truncate`}
+              className={`${shouldHighlight ? "text-black/70" : "text-white/70"} truncate`}
             >
               {review.person.occupation}
             </Typography>
@@ -73,7 +95,9 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
             rating={review.rating}
             size="md"
             className="justify-center"
-            starColorClassName={shouldHighlight ? 'text-black' : 'text-green-acid'}
+            starColorClassName={
+              shouldHighlight ? "text-black" : "text-green-acid"
+            }
           />
         </div>
       )}
@@ -84,12 +108,12 @@ export const ReviewCard: FC<ReviewCardProps> = ({ review, isHighlighted = false,
           <Typography
             suppressHydrationWarning
             variant="bottoms"
-            className={`${shouldHighlight ? 'text-black' : 'text-white'} leading-tight font-normal text-md text-center`}
+            className={`${shouldHighlight ? "text-black" : "text-white"} leading-tight font-normal text-md text-center`}
           >
             &quot;{review.text}&quot;
           </Typography>
         </div>
       )}
     </div>
-  )
-}
+  );
+};

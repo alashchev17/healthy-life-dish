@@ -12,6 +12,7 @@
     "typegen": "sanity schema extract --path=src/sanity/extract.json && sanity typegen generate"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@portabletext/react": "^3.2.1",
     "@sanity/client": "^7.6.0",
     "@sanity/document-internationalization": "^3.3.1",
@@ -21,6 +22,8 @@
     "@sanity/vision": "^3.92.0",
     "classnames": "^2.5.1",
     "groq": "^3.99.0",
+    "gsap": "^3.13.0",
+    "lenis": "^1.3.14",
     "nanoid": "^5.1.5",
     "next": "15.3.3",
     "next-sanity": "^9.12.0",

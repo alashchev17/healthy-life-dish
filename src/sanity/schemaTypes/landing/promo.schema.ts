@@ -1,4 +1,4 @@
-import { defineType, defineField } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export const promoSchema = defineType({
   name: "promo",
@@ -14,10 +14,18 @@ export const promoSchema = defineType({
     }),
     defineField({
       name: "slogan",
-      title: "Слоган",
+      title: "Promotion-слоган",
       type: "highlightText",
-      description: "Слоган с возможностью выделения текста. Выберите текст и нажмите кнопку подсветки для выделения.",
+      description:
+        "Слоган с возможностью выделения текста. Выберите текст и нажмите кнопку подсветки для выделения.",
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "isActive",
+      title: "Активна ли промоакция?",
+      type: "boolean",
+      validation: (Rule) => Rule.required(),
+      initialValue: true,
     }),
   ],
 });

@@ -1,10 +1,10 @@
-import { AboutSection, HeroSection, ReviewsSection } from "#/design/sections";
+import { AboutSection, HeroSection, PromoSection, ReviewsSection } from "#/design/sections";
 import { fetchLandingPageData, fetchProgramsByType } from "#/sanity/lib/api";
 
 export default async function Home() {
   // Fetch landing page data
   const landingPageData = await fetchLandingPageData();
-  const { hero, about, reviews } = landingPageData;
+  const { hero, about, promo, reviews } = landingPageData;
 
   // Fetch programs by type
   const dietPrograms = await fetchProgramsByType("diet");
@@ -19,6 +19,7 @@ export default async function Home() {
       />
       <AboutSection data={about} />
       <ReviewsSection data={reviews} />
+      <PromoSection data={promo} />
     </main>
   );
 }
