@@ -3,6 +3,7 @@ import type { SchemaTypeDefinition } from "sanity";
 import { landingSchemas } from "#/sanity/schemaTypes/landing";
 import { programSchemas } from "#/sanity/schemaTypes/program";
 import { footerSchemas } from "#/sanity/schemaTypes/footer";
+import { settingsSchema } from "#/sanity/schemaTypes/settings.schema";
 
 import {
   highlightTextSchema,
@@ -18,6 +19,7 @@ export const schema: RootSchema = {
     ...landingSchemas,
     ...programSchemas,
     ...footerSchemas,
+    settingsSchema,
     highlightTextSchema,
     socialLinkSchema,
   ],
@@ -31,5 +33,5 @@ export const CUSTOM_STRUCTURED_SCHEMAS = [
   "reviewCard",
   "programBuilder",
   "footer",
-  // "settings",
+  "settings",
 ];

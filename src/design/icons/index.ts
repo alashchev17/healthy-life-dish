@@ -1,6 +1,7 @@
 export { ArrowRight } from './ArrowRight'
 export { ChevronRight } from './ChevronRight'
 export { ErrorIcon } from './ErrorIcon'
+export { GradientCircle } from './GradientCircle'
 export { StarIcon } from './StarIcon'
 
 // Logos

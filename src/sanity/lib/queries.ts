@@ -5,6 +5,7 @@ import type {
   LANDING_PAGE_QUERYResult,
   PROGRAM_BY_SLUG_QUERYResult,
   ProgramBuilder,
+  SETTINGS_QUERYResult
 } from "../types";
 
 // Query to fetch all landing page data
@@ -321,10 +322,23 @@ const FOOTER_QUERY = groq`*[_type == "footer" && language == $language] | order(
   socialLinks
 }`;
 
+const SETTINGS_QUERY = groq`*[_type == "settings" && language == $language][0] {
+  _id,
+  _type,
+  _createdAt,
+  _updatedAt,
+  language,
+  globalCtas,
+  seo,
+  contact,
+  analytics
+}`;
+
 // Type definitions for the fetched data
 export type LandingPageData = LANDING_PAGE_QUERYResult;
 export type ProgramData = PROGRAM_BY_SLUG_QUERYResult;
 export type FooterData = FOOTER_QUERYResult;
+export type SettingsData = SETTINGS_QUERYResult;
 
 // Fetch functions
 export async function fetchLandingPageData(
@@ -417,4 +431,14 @@ export async function fetchProgramsByType(
   });
 
   return data || [];
+}
+
+export async function fetchSettings(
+  language: string = "ua",
+): Promise<SettingsData> {
+  return await sanityFetch<SettingsData>({
+    query: SETTINGS_QUERY,
+    params: { language },
+    tags: ["settings", `settings-${language}`],
+  });
 }
