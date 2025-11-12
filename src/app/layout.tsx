@@ -28,7 +28,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const footerData = await fetchFooterData();
-  console.log("Footer Data", footerData);
   const programsData = await fetchAllPrograms();
   return (
     <html lang="en">

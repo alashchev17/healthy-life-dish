@@ -1,5 +1,11 @@
-import { AboutSection, HeroSection, PromoSection, ReviewsSection } from "#/design/sections";
+import {
+  AboutSection,
+  HeroSection,
+  PromoSection,
+  ReviewsSection,
+} from "#/design/sections";
 import { fetchLandingPageData, fetchProgramsByType } from "#/sanity/lib/api";
+import { PageContainer } from "#/design/shared/PageContainer";
 
 export default async function Home() {
   // Fetch landing page data
@@ -12,14 +18,16 @@ export default async function Home() {
 
   return (
     <main className="landing-page">
-      <HeroSection
-        heroSlogan={hero?.slogan}
-        dietPrograms={dietPrograms}
-        trainingPrograms={trainingPrograms}
-      />
-      <AboutSection data={about} />
-      <ReviewsSection data={reviews} />
-      <PromoSection data={promo} />
+      <PageContainer>
+        <HeroSection
+          heroSlogan={hero?.slogan}
+          dietPrograms={dietPrograms}
+          trainingPrograms={trainingPrograms}
+        />
+        <AboutSection data={about} />
+        <ReviewsSection data={reviews} />
+        <PromoSection data={promo} />
+      </PageContainer>
     </main>
   );
 }

@@ -4,8 +4,8 @@ import { FC } from "react";
 import Image from "next/image";
 import { Container } from "#/design/shared";
 import { Button, HighlightedText } from "#/design/ui";
+import { GradientCircle } from "#/design/icons";
 import { LANDING_PAGE_QUERYResult } from "#/sanity/types";
-import { PromoGradientCircle } from "./PromoGradientCircle";
 
 export type PromoSectionData = LANDING_PAGE_QUERYResult["promo"];
 
@@ -21,8 +21,8 @@ export const PromoSection: FC<PromoSectionProps> = ({ data }) => {
 
   return (
     <section className="relative bg-black py-32 lg:py-20 overflow-hidden">
-      <PromoGradientCircle className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 text-green-acid h-[350px] aspect-square lg:h-auto" />
-      <PromoGradientCircle className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 text-green-acid h-[350px] aspect-square lg:h-auto" />
+      <GradientCircle className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 text-green-acid h-[350px] aspect-square lg:h-auto" />
+      <GradientCircle className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 text-green-acid h-[350px] aspect-square lg:h-auto" />
       <Container>
         <div className="relative z-10 flex flex-col items-center gap-8 lg:gap-14 max-w-[700px] mx-auto">
           <div className="flex justify-center">
