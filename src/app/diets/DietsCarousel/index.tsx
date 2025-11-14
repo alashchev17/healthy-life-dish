@@ -1,16 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Typography } from "#/design/shared/Typography";
 import { Button } from "#/design/ui";
-import { ChevronRight, GradientCircle } from "#/design/icons";
+import { ArrowRight, ChevronRight, GradientCircle } from "#/design/icons";
 import { urlFor } from "#/sanity/utils/sanityImageUrl";
 import type { ProgramBuilder } from "#/sanity/types";
-import { useHeaderContext } from "#/design/shared/Header/HeaderContext";
+import { useHeaderContext } from "#/design/shared/Header";
+
+import { useLanguage } from "#/design/shared/language";
+
+import { wordWrap } from "#/app/globalUtils";
 
 gsap.registerPlugin(useGSAP);
 
@@ -20,24 +24,42 @@ interface DietsCarouselProps {
 }
 
 export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
+  const { currentLanguage } = useLanguage();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
   const { headerHeight } = useHeaderContext();
-  const heroImageRef = useRef<HTMLDivElement>(null);
+  const heroImageRefs = useRef<(HTMLDivElement | null)[]>([]);
   const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLDivElement>(null);
   const gradientRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const prevIndexRef = useRef(activeIndex);
+  const isInitialMount = useRef(true);
 
   const activeProgram = programs[activeIndex];
 
-  // Handle navigation
+  // Initialize opacity states before first paint to prevent flash
+  useLayoutEffect(() => {
+    if (isInitialMount.current) {
+      heroImageRefs.current.forEach((img, index) => {
+        if (img) {
+          gsap.set(img, { opacity: index === 0 ? 1 : 0 });
+        }
+      });
+      isInitialMount.current = false;
+    }
+  }, []);
+
   const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? programs.length - 1 : prev - 1));
+    if (!isAnimating) {
+      setActiveIndex((prev) => (prev === 0 ? programs.length - 1 : prev - 1));
+    }
   };
 
   const handleNext = () => {
-    setActiveIndex((prev) => (prev === programs.length - 1 ? 0 : prev + 1));
+    if (!isAnimating) {
+      setActiveIndex((prev) => (prev === programs.length - 1 ? 0 : prev + 1));
+    }
   };
 
   // Gradient position animation
@@ -54,53 +76,70 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
   }, [activeIndex]);
 
   // Hero image animation on activeIndex change
-  useGSAP(
-    () => {
-      if (heroImageRef.current && prevIndexRef.current !== activeIndex) {
-        gsap.fromTo(
-          heroImageRef.current,
-          {
+  useEffect(() => {
+    if (!isInitialMount.current && prevIndexRef.current !== activeIndex) {
+      const prevImage = heroImageRefs.current[prevIndexRef.current];
+      const nextImage = heroImageRefs.current[activeIndex];
+
+      if (prevImage && nextImage) {
+        setIsAnimating(true);
+
+        const tl = gsap.timeline({
+          onComplete: () => {
+            // Reset transforms on previous image
+            gsap.set(prevImage, {
+              y: 0,
+              rotation: 0,
+              scale: 1,
+            });
+            prevIndexRef.current = activeIndex;
+            setIsAnimating(false);
+          },
+        });
+
+        // Fade out previous image with reverse rotation
+        tl.to(prevImage, {
+          opacity: 0,
+          y: -100,
+          rotation: 15,
+          scale: 0.85,
+          duration: 0.4,
+          ease: "power2.in",
+        })
+          // Reset next image position and then fade in with rotation
+          .set(nextImage, {
             y: 100,
             rotation: -15,
-            opacity: 0,
             scale: 0.85,
-          },
-          {
+          })
+          .to(nextImage, {
+            opacity: 1,
             y: 0,
             rotation: 0,
-            opacity: 1,
             scale: 1,
             duration: 0.8,
             ease: "power3.out",
-          },
-        );
+          });
       }
-    },
-    { dependencies: [activeIndex], scope: heroImageRef },
-  );
+    }
+  }, [activeIndex]);
 
   // Details text fade animation
   useEffect(() => {
     if (prevIndexRef.current !== activeIndex) {
-      const tl = gsap.timeline();
-
-      // Fade out current content
+      // Immediately hide the new content to prevent flash
       if (titleRef.current && descriptionRef.current) {
-        tl.to([titleRef.current, descriptionRef.current], {
-          opacity: 0,
-          duration: 0.25,
-          ease: "power2.in",
-        })
-          // Fade in new content
-          .to([titleRef.current, descriptionRef.current], {
-            opacity: 1,
-            duration: 0.25,
-            ease: "power2.out",
-          });
+        gsap.set([titleRef.current, descriptionRef.current], { opacity: 0 });
+
+        // Then animate in after a short delay
+        gsap.to([titleRef.current, descriptionRef.current], {
+          opacity: 1,
+          duration: 0.4,
+          ease: "power2.out",
+          delay: 0.1,
+        });
       }
     }
-
-    prevIndexRef.current = activeIndex;
   }, [activeIndex]);
 
   if (!programs || programs.length === 0) {
@@ -113,16 +152,16 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
       style={{ height: `calc(100dvh - ${headerHeight}px)` }}
     >
       {/* Main content */}
-      <div className="relative z-10 h-full flex items-center px-10 xl:px-16">
-        <div className="w-full grid grid-cols-[320px_1fr_480px] gap-16 items-center">
+      <div className="relative h-full flex items-center px-10 xl:px-16 xl:pt-4 xl:pb-16">
+        <div className="w-full h-full grid grid-cols-[300px_1fr_430px] gap-16 items-center">
           {/* Left Panel - Diet List */}
           <div className="relative flex flex-col gap-4">
             {/* Single gradient that transitions between cards */}
             <div
               ref={gradientRef}
-              className="absolute left-0 top-0 pointer-events-none -translate-x-[80%] -translate-y-1/2"
+              className="absolute z-0 left-0 top-0 pointer-events-none -translate-x-[95%] -translate-y-1/2"
             >
-              <GradientCircle className="text-green-acid blur-3xl w-[300px] h-[300px] opacity-40" />
+              <GradientCircle className="text-green-acid blur-sm w-[250px] h-[250px]" />
             </div>
 
             {programs.map((program, index) => {
@@ -130,31 +169,39 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
               return (
                 <button
                   key={program._id}
-                  ref={(el) => (cardRefs.current[index] = el)}
-                  onClick={() => setActiveIndex(index)}
-                  className={`relative flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all duration-300 group ${
-                    isActive
-                      ? "bg-dark-gray/60 border-2 border-green-acid/40"
-                      : "bg-dark-gray/20 border-2 border-transparent hover:border-[3px] hover:border-dark-gray"
-                  }`}
+                  ref={(el) => {
+                    cardRefs.current[index] = el;
+                  }}
+                  onClick={() => !isAnimating && setActiveIndex(index)}
+                  disabled={isAnimating}
+                  className={`relative z-10 flex border-transparent hover:border-dark-gray items-center border-[3px] gap-4 p-4 rounded-3xl cursor-pointer select-none transition-all duration-300 group ${
+                    isActive ? "!border-dark-gray" : ""
+                  } ${isAnimating ? "cursor-not-allowed" : ""}`}
                 >
                   {/* Title */}
                   <Typography
                     variant="menu"
-                    className="uppercase text-green-acid text-left text-sm leading-tight flex-1 relative z-10"
+                    className="uppercase text-green-acid text-left !text-lg flex-1 relative z-10 whitespace-pre-wrap"
                   >
-                    {program.title}
+                    {wordWrap({
+                      text: program.title ?? "",
+                      limit: 12,
+                      language: currentLanguage.code,
+                    })}
                   </Typography>
 
                   {/* Thumbnail */}
                   {program.imagery?.thumb && (
-                    <div className="relative w-14 h-14 rounded-full overflow-hidden flex-shrink-0 z-10">
+                    <div className="relative w-full h-full max-w-[104px] max-h-[104px] rounded-full flex-shrink-0 overflow-hidden z-10">
                       <Image
-                        src={urlFor(program.imagery.thumb).width(80).height(80).url()}
+                        src={urlFor(program.imagery.thumb)
+                          .width(104)
+                          .height(104)
+                          .url()}
                         alt={program.title || ""}
-                        width={56}
-                        height={56}
-                        className={`object-cover w-full h-full transition-all duration-500 ${
+                        width={104}
+                        height={104}
+                        className={`object-cover inline-block w-full h-full transition-all duration-500 ${
                           isActive ? "grayscale-0" : "grayscale"
                         }`}
                       />
@@ -167,43 +214,52 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
 
           {/* Center Panel - Hero Image */}
           <div className="flex items-center justify-center h-full">
-            <div
-              ref={heroImageRef}
-              className="relative w-full max-w-[600px] aspect-square"
-            >
-              {activeProgram?.imagery?.splash && (
-                <div className="relative w-full h-full">
-                  <Image
-                    src={urlFor(activeProgram.imagery.splash)
-                      .width(600)
-                      .height(600)
-                      .url()}
-                    alt={activeProgram.title || ""}
-                    fill
-                    className="object-contain"
-                    priority
-                  />
-                </div>
+            <div className="relative w-full max-w-[540px] aspect-square">
+              {/* Render all images, GSAP controls visibility */}
+              {programs.map((program, index) =>
+                program?.imagery?.splash ? (
+                  <div
+                    key={program._id}
+                    ref={(el) => {
+                      heroImageRefs.current[index] = el;
+                    }}
+                    className="absolute inset-0 w-full h-full"
+                  >
+                    <Image
+                      src={urlFor(program.imagery.splash)
+                        .width(600)
+                        .height(600)
+                        .url()}
+                      alt={program.title || ""}
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                ) : null,
               )}
             </div>
           </div>
 
           {/* Right Panel - Details */}
-          <div className="h-full flex flex-col justify-center py-16 bg-[#1A1A1A] rounded-3xl px-8">
+          <div className="h-full flex flex-col justify-center bg-dark-gray rounded-3xl">
             {/* Navigation Arrows */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between p-4 border-b-black border-b-[3px]">
               <button
                 onClick={handlePrev}
-                className="w-12 h-12 rounded-full bg-[#272727] flex items-center justify-center hover:bg-[#333] transition-all duration-300 border border-white/10"
+                disabled={isAnimating}
+                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 border border-light-gray ${
+                  isAnimating ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 aria-label="Previous diet"
               >
-                <ChevronRight className="rotate-180 text-white/60 w-5 h-5" />
+                <ChevronRight className="rotate-180 text-light-gray w-5 h-5" />
               </button>
 
               <div ref={titleRef}>
                 <Typography
                   variant="menu"
-                  className="uppercase text-green-acid text-center text-base"
+                  className="uppercase text-green-acid text-center !text-[1.25rem] !font-bold !leading-tight"
                 >
                   {activeProgram?.title}
                 </Typography>
@@ -211,33 +267,45 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
 
               <button
                 onClick={handleNext}
-                className="w-12 h-12 rounded-full bg-[#272727] flex items-center justify-center hover:bg-[#333] transition-all duration-300 border border-white/10"
+                disabled={isAnimating}
+                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 border border-light-gray ${
+                  isAnimating ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 aria-label="Next diet"
               >
-                <ChevronRight className="text-white/60 w-5 h-5" />
+                <ChevronRight className="text-light-gray w-5 h-5" />
               </button>
             </div>
 
             {/* Description */}
-            <div ref={descriptionRef} className="flex-1 flex items-start mb-8">
+            <div
+              ref={descriptionRef}
+              className="flex-1 flex items-start py-10 px-8 overflow-y-auto"
+              style={{
+                maxHeight: descriptionRef.current
+                  ? `${descriptionRef.current.offsetHeight}px`
+                  : "auto",
+              }}
+            >
               <Typography
                 variant="body"
-                className="text-white/90 leading-relaxed text-sm"
+                className="text-white !font-medium !leading-tight"
               >
-                {activeProgram?.seo?.metaDescription || ""}
+                {activeProgram?.seo?.metaDescription ?? ""}
               </Typography>
             </div>
 
             {/* CTA Button */}
-            <div>
+            <div className="flex items-center justify-center p-6">
               <Link
-                href={`/diets/${activeProgram?.slug?.current || ""}`}
-                className="block"
+                href={`/diets/${activeProgram?.slug?.current ?? ""}`}
+                className="block w-full"
               >
                 <Button
                   variant="primary"
                   fullWidth
-                  className="!rounded-full !py-4 !text-base font-bold uppercase"
+                  className="font-bold uppercase"
+                  icon={<ArrowRight />}
                 >
                   {ctaLabel}
                 </Button>

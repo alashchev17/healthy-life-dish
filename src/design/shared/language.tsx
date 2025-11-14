@@ -2,15 +2,17 @@
 
 import React, {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   ReactNode,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
+
+export type LanguageCode = "ukr" | "eng" | "esp";
 
 export type Language = {
   name: string;
-  code: string;
+  code: LanguageCode;
 };
 
 export const LANGUAGES: Language[] = [

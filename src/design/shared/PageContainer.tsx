@@ -18,7 +18,7 @@ export const PageContainer: FC<PageContainerProps> = ({
     <div
       className={className ?? undefined}
       style={{
-        paddingTop: `calc(${headerHeight}px + 10px)`,
+        paddingTop: `calc(${headerHeight}px)`,
       }}
     >
       {children}
