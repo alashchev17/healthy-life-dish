@@ -37,11 +37,11 @@ export function wordWrap({
     offset = 0,
     prev = 0,
     pass = false;
-  let matches = text.matchAll(regex);
+  const matches = text.matchAll(regex);
 
   for (const m of matches) {
     if (m.index - offset > limit) {
-      let hyphen = text[prev - 1] == " " ? "" : "-";
+      const hyphen = text[prev - 1] == " " ? "" : "-";
       out += text.substring(offset, prev) + hyphen + "\n";
       offset = prev;
     }
