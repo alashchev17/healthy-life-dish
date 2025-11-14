@@ -5,7 +5,6 @@ import { HighlightedText } from "#/design/ui";
 import { ProgramCarousel } from "../../shared/ProgramCarousel";
 import type { HighlightText, ProgramBuilder } from "#/sanity/types";
 import { Container } from "#/design/shared";
-import { useHeaderContext } from "#/design/shared/Header/HeaderContext";
 
 interface HeroSectionProps {
   heroSlogan?: HighlightText | null;
@@ -18,7 +17,6 @@ export const HeroSection: FC<HeroSectionProps> = ({
   dietPrograms,
   trainingPrograms,
 }) => {
-  const { headerHeight } = useHeaderContext();
   return (
     <Container>
       <section className="xl:max-h-screen h-[1050px] lg:h-[1250px]lg:h-screen pb-12 xl:pb-20 gap-4 flex flex-col xl:flex-row">
