@@ -2,7 +2,7 @@
 
 import { FC } from "react";
 import { HighlightedText } from "#/design/ui";
-import { ProgramCarousel } from "../../shared/ProgramCarousel";
+import { ProgramSlider } from "../../shared/ProgramSlider";
 import type { HighlightText, ProgramBuilder } from "#/sanity/types";
 import { Container } from "#/design/shared";
 
@@ -32,13 +32,13 @@ export const HeroSection: FC<HeroSectionProps> = ({
           )}
 
           {dietPrograms.length > 0 && (
-            <ProgramCarousel programs={dietPrograms} type="diet" />
+            <ProgramSlider programs={dietPrograms} type="diet" />
           )}
         </div>
 
         <div className="max-w-full xl:max-w-[calc(66.7%-1rem)] w-full min-h-[565px]">
           {trainingPrograms.length > 0 && (
-            <ProgramCarousel programs={trainingPrograms} type="training" />
+            <ProgramSlider programs={trainingPrograms} type="training" />
           )}
         </div>
       </section>

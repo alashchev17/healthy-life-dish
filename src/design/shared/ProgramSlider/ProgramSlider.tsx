@@ -1,49 +1,53 @@
-'use client'
+"use client";
 
-import { FC, useMemo, useRef, useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react'
-import { Navigation, Autoplay } from 'swiper/modules'
-import type { Swiper as SwiperType } from 'swiper'
-import { Button } from '#/design/ui'
-import { Typography } from '../Typography'
-import type { ProgramBuilder } from '#/sanity/types'
-import { urlFor } from '#/sanity/utils/sanityImageUrl'
-import { ArrowRight, ChevronRight } from '#/design/icons'
+import { FC, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+import { Button } from "#/design/ui";
+import { Typography } from "../Typography";
+import type { ProgramBuilder } from "#/sanity/types";
+import { urlFor } from "#/sanity/utils/sanityImageUrl";
+import { ArrowRight, ChevronRight } from "#/design/icons";
 
-import 'swiper/css'
-import 'swiper/css/navigation'
+import "swiper/css";
+import "swiper/css/navigation";
 
-interface ProgramCarouselProps {
-  programs: ProgramBuilder[]
-  type: 'diet' | 'training'
+interface ProgramSliderProps {
+  programs: ProgramBuilder[];
+  type: "diet" | "training";
 }
 
-const SLIDER_AUTOPLAY_SPEED = 3_000
-const INITIAL_SLIDE_DELAY = 1_500
+const SLIDER_AUTOPLAY_SPEED = 3_000;
+const INITIAL_SLIDE_DELAY = 1_500;
 
-export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) => {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [_swiper, setSwiper] = useState<SwiperType | null>(null)
+export const ProgramSlider: FC<ProgramSliderProps> = ({ programs, type }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [_swiper, setSwiper] = useState<SwiperType | null>(null);
 
-  const hasStarted = useRef(false)
-  const autoplayIters = useRef(0)
-  const programCarouselRef = useRef<SwiperRef>(null)
+  const hasStarted = useRef(false);
+  const autoplayIters = useRef(0);
+  const programSliderRef = useRef<SwiperRef>(null);
 
   const programHref = useMemo(() => {
-    return programs[activeIndex].slug?.current ? `/program/${programs[activeIndex].slug.current}` : '#'
-  }, [programs, activeIndex])
+    return programs[activeIndex].slug?.current
+      ? `/program/${programs[activeIndex].slug.current}`
+      : "#";
+  }, [programs, activeIndex]);
 
   if (programs.length === 0) {
     return (
       <div className="text-center text-white/60 py-12">
-        <Typography variant="body">Немає доступних {type === 'diet' ? 'дієт' : 'програм'}</Typography>
+        <Typography variant="body">
+          Немає доступних {type === "diet" ? "дієт" : "програм"}
+        </Typography>
       </div>
-    )
+    );
   }
 
-  if (type === 'diet') {
+  if (type === "diet") {
     return (
       <>
         <div className="relative program-carousel">
@@ -52,8 +56,8 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
             spaceBetween={24}
             slidesPerView={1}
             navigation={{
-              prevEl: '.diet-carousel-prev',
-              nextEl: '.diet-carousel-next',
+              prevEl: ".diet-carousel-prev",
+              nextEl: ".diet-carousel-next",
             }}
             loop={programs.length > 1}
             onSwiper={setSwiper}
@@ -72,7 +76,12 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
                 <div className="relative h-full min-h-[200px] md:min-h-[250px] lg:min-h-[350px] xl:min-h-[425px] flex flex-col justify-between rounded-lg overflow-hidden">
                   {program.imagery?.splash && (
                     <div className="absolute inset-0">
-                      <Image src={urlFor(program.imagery.splash).url()} alt={program.title || 'Program'} fill className="object-contain" />
+                      <Image
+                        src={urlFor(program.imagery.splash).url()}
+                        alt={program.title || "Program"}
+                        fill
+                        className="object-contain"
+                      />
                     </div>
                   )}
                   <div className="h-full inset-0 top-0 left-0 right-0 bottom-0 absolute flex flex-col items-center justify-center p-8 z-10">
@@ -108,23 +117,27 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
           )}
         </div>
         <Link href={programHref}>
-          <Button variant="special-light" icon={<ArrowRight />} className="mx-auto block">
+          <Button
+            variant="special-light"
+            icon={<ArrowRight />}
+            className="mx-auto block"
+          >
             Обрати дієту
           </Button>
         </Link>
       </>
-    )
+    );
   }
 
   return (
     <div className="relative program-carousel h-full">
       <Swiper
-        ref={programCarouselRef}
+        ref={programSliderRef}
         modules={[Navigation, Autoplay]}
         slidesPerView={1}
         navigation={{
-          prevEl: '.program-carousel-prev',
-          nextEl: '.program-carousel-next',
+          prevEl: ".program-carousel-prev",
+          nextEl: ".program-carousel-next",
         }}
         loop={programs.length > 1}
         onSwiper={setSwiper}
@@ -132,12 +145,15 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         className="rounded-lg h-full"
         autoplay={{
-          delay: !hasStarted.current || autoplayIters.current === 0 ? SLIDER_AUTOPLAY_SPEED + INITIAL_SLIDE_DELAY : SLIDER_AUTOPLAY_SPEED,
+          delay:
+            !hasStarted.current || autoplayIters.current === 0
+              ? SLIDER_AUTOPLAY_SPEED + INITIAL_SLIDE_DELAY
+              : SLIDER_AUTOPLAY_SPEED,
           disableOnInteraction: false,
           pauseOnMouseEnter: false,
         }}
         onAutoplay={() => {
-          autoplayIters.current++
+          autoplayIters.current++;
         }}
         speed={1000}
       >
@@ -148,14 +164,15 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
                 <>
                   <Image
                     src={urlFor(program.imagery.splash).url()}
-                    alt={program.title || 'Program'}
+                    alt={program.title || "Program"}
                     fill
                     className="object-cover w-full h-full"
                   />
                   <div
                     className="h-full w-full absolute top-0 left-0 z-10"
                     style={{
-                      background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.50) 100%)',
+                      background:
+                        "linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.50) 100%)",
                     }}
                   />
                 </>
@@ -171,7 +188,13 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
             type="button"
             variant="icon"
             className={`program-carousel-prev bg-transparent !border-dark-gray text-light-gray absolute left-8 top-11 z-20`}
-            icon={<ChevronRight width={11} height={20} className="mr-1 rotate-180" />}
+            icon={
+              <ChevronRight
+                width={11}
+                height={20}
+                className="mr-1 rotate-180"
+              />
+            }
             aria-label="Previous"
           />
           <Button
@@ -200,7 +223,10 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
         </Typography>
       </div>
       <Link href={programHref} className="block w-full">
-        <Button variant="special-dark" className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-nowrap">
+        <Button
+          variant="special-dark"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 text-nowrap"
+        >
           Обрати програму 💪
         </Button>
       </Link>
@@ -216,5 +242,5 @@ export const ProgramCarousel: FC<ProgramCarouselProps> = ({ programs, type }) =>
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
