@@ -5,7 +5,7 @@ import type {
   LANDING_PAGE_QUERYResult,
   PROGRAM_BY_SLUG_QUERYResult,
   ProgramBuilder,
-  SETTINGS_QUERYResult
+  SETTINGS_QUERYResult,
 } from "../types";
 
 // Query to fetch all landing page data
