@@ -340,6 +340,7 @@ export type ProgramBuilder = {
   _rev: string;
   language?: string;
   title?: string;
+  slogan?: string;
   type?: "diet" | "training";
   imagery?: {
     splash?: {
@@ -903,7 +904,7 @@ export type PROGRAM_BY_SLUG_QUERYResult = {
   }> | null;
 } | null;
 // Variable: ALL_PROGRAMS_QUERY
-// Query: *[_type == "programBuilder" && language == $language] | order(_createdAt desc) {  _id,  _type,  _createdAt,  _updatedAt,  language,  title,  type,  slug,  seo {    metaTitle,    metaDescription,    ogImage {      asset-> {        _id,        url,        metadata {          dimensions,          lqip,          palette        }      },      hotspot,      crop    }  }}
+// Query: *[_type == "programBuilder" && language == $language] | order(_createdAt desc) {  _id,  _type,  _createdAt,  _updatedAt,  language,  title,  slogan,  type,  slug,  seo {    metaTitle,    metaDescription,    ogImage {      asset-> {        _id,        url,        metadata {          dimensions,          lqip,          palette        }      },      hotspot,      crop    }  }}
 export type ALL_PROGRAMS_QUERYResult = Array<{
   _id: string;
   _type: "programBuilder";
@@ -911,6 +912,7 @@ export type ALL_PROGRAMS_QUERYResult = Array<{
   _updatedAt: string;
   language: string | null;
   title: string | null;
+  slogan: string | null;
   type: "diet" | "training" | null;
   slug: Slug | null;
   seo: {
@@ -1014,7 +1016,7 @@ export type SETTINGS_QUERYResult = {
   } | null;
 } | null;
 // Variable: query
-// Query: *[_type == "programBuilder" && type == $type && language == $language] | order(_createdAt desc) {    _id,    _type,    _createdAt,    _updatedAt,    language,    title,    type,    slug,    imagery,    seo {      metaTitle,      metaDescription,      ogImage {        asset-> {          _id,          url,          metadata {            dimensions,            lqip,            palette          }        },        hotspot,        crop      }    }  }
+// Query: *[_type == "programBuilder" && type == $type && language == $language] | order(_createdAt desc) {    _id,    _type,    _createdAt,    _updatedAt,    language,    title,    slogan,    type,    slug,    imagery,    seo {      metaTitle,      metaDescription,      ogImage {        asset-> {          _id,          url,          metadata {            dimensions,            lqip,            palette          }        },        hotspot,        crop      }    }  }
 export type QueryResult = Array<{
   _id: string;
   _type: "programBuilder";
@@ -1022,6 +1024,7 @@ export type QueryResult = Array<{
   _updatedAt: string;
   language: string | null;
   title: string | null;
+  slogan: string | null;
   type: "diet" | "training" | null;
   slug: Slug | null;
   imagery: {
@@ -1075,9 +1078,9 @@ declare module "@sanity/client" {
   interface SanityQueries {
     "{\n  \"hero\": *[_type == \"hero\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    slogan\n  },\n  \"about\": *[_type == \"about\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    description,\n    callToAction,\n    cards[] {\n      _key,\n      _type,\n      title,\n      description,\n      image {\n        asset-> {\n          _id,\n          url,\n          metadata {\n            dimensions,\n            lqip,\n            palette\n          }\n        },\n        hotspot,\n        crop\n      }\n    },\n    slogan\n  },\n  \"promo\": *[_type == \"promo\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    slogan,\n    isActive\n  },\n  \"slogan\": *[_type == \"slogan\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    slogan\n  },\n  \"reviews\": *[_type == \"reviews\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    description,\n    reviews[]-> {\n      _id,\n      _type,\n      language,\n      person {\n        name,\n        surname,\n        occupation,\n        avatar {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      },\n      rating,\n      text\n    }\n  }\n}": LANDING_PAGE_QUERYResult;
     "*[_type == \"programBuilder\" && slug.current == $slug && language == $language][0] {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  title,\n  type,\n  slug,\n  seo {\n    metaTitle,\n    metaDescription,\n    ogImage {\n      asset-> {\n        _id,\n        url,\n        metadata {\n          dimensions,\n          lqip,\n          palette\n        }\n      },\n      hotspot,\n      crop\n    }\n  },\n  content[] {\n    _key,\n    _type,\n    preview,\n    title,\n    \n    // AudienceBlock fields\n    _type == \"audienceBlock\" => {\n      audiences[] {\n        _key,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // FreeProgram fields\n    _type == \"freeProgram\" => {\n      description,\n      button {\n        text,\n        link\n      }\n    },\n    \n    // PricingPlans fields\n    _type == \"pricingPlans\" => {\n      durations[] {\n        _key,\n        title,\n        months,\n        isDefault\n      },\n      currency,\n      planTypes[] {\n        _key,\n        id,\n        title,\n        isPopular,\n        basePrice,\n        features[] {\n          _key,\n          text,\n          included\n        }\n      },\n      groupPlans[] {\n        _key,\n        people,\n        basePrice,\n        isDiscounted,\n        discountedPrice\n      }\n    },\n    \n    // SloganBlock fields\n    _type == \"sloganBlock\" => {\n      slogan\n    },\n    \n    // NumberedListWithImage fields\n    _type == \"numberedListWithImage\" => {\n      style,\n      items[] {\n        _key,\n        title,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // NumberedList fields\n    _type == \"numberedList\" => {\n      items[] {\n        _key,\n        title,\n        description\n      }\n    },\n    \n    // DetailedDescription fields\n    _type == \"detailedDescription\" => {\n      description\n    },\n    \n    // AdvantagesSimple fields\n    _type == \"advantagesSimple\" => {\n      advantages[] {\n        _key,\n        imageOnly,\n        title,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // AdvantagesDetailed fields\n    _type == \"advantagesDetailed\" => {\n      advantages[] {\n        _key,\n        imageOnly,\n        title,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    }\n  }\n}": PROGRAM_BY_SLUG_QUERYResult;
-    "*[_type == \"programBuilder\" && language == $language] | order(_createdAt desc) {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  title,\n  type,\n  slug,\n  seo {\n    metaTitle,\n    metaDescription,\n    ogImage {\n      asset-> {\n        _id,\n        url,\n        metadata {\n          dimensions,\n          lqip,\n          palette\n        }\n      },\n      hotspot,\n      crop\n    }\n  }\n}": ALL_PROGRAMS_QUERYResult;
+    "*[_type == \"programBuilder\" && language == $language] | order(_createdAt desc) {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  title,\n  slogan,\n  type,\n  slug,\n  seo {\n    metaTitle,\n    metaDescription,\n    ogImage {\n      asset-> {\n        _id,\n        url,\n        metadata {\n          dimensions,\n          lqip,\n          palette\n        }\n      },\n      hotspot,\n      crop\n    }\n  }\n}": ALL_PROGRAMS_QUERYResult;
     "*[_type == \"footer\" && language == $language] | order(_createdAt desc)[0] {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  emailSubscription,\n  copyrightText,\n  generalLinks,\n  socialLinks\n}": FOOTER_QUERYResult;
     "*[_type == \"settings\" && language == $language][0] {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  globalCtas,\n  seo,\n  contact,\n  analytics\n}": SETTINGS_QUERYResult;
-    "*[_type == \"programBuilder\" && type == $type && language == $language] | order(_createdAt desc) {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    title,\n    type,\n    slug,\n    imagery,\n    seo {\n      metaTitle,\n      metaDescription,\n      ogImage {\n        asset-> {\n          _id,\n          url,\n          metadata {\n            dimensions,\n            lqip,\n            palette\n          }\n        },\n        hotspot,\n        crop\n      }\n    }\n  }": QueryResult;
+    "*[_type == \"programBuilder\" && type == $type && language == $language] | order(_createdAt desc) {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    title,\n    slogan,\n    type,\n    slug,\n    imagery,\n    seo {\n      metaTitle,\n      metaDescription,\n      ogImage {\n        asset-> {\n          _id,\n          url,\n          metadata {\n            dimensions,\n            lqip,\n            palette\n          }\n        },\n        hotspot,\n        crop\n      }\n    }\n  }": QueryResult;
   }
 }
