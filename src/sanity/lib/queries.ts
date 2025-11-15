@@ -3,7 +3,6 @@ import { sanityFetch } from "./client";
 import type {
   FOOTER_QUERYResult,
   LANDING_PAGE_QUERYResult,
-  PROGRAM_BY_SLUG_QUERYResult,
   ProgramBuilder,
   SETTINGS_QUERYResult,
 } from "../types";
@@ -107,25 +106,11 @@ const PROGRAM_BY_SLUG_QUERY = groq`*[_type == "programBuilder" && slug.current =
   _updatedAt,
   language,
   title,
+  description,
+  shortDescription,
   type,
   slug,
-  seo {
-    metaTitle,
-    metaDescription,
-    ogImage {
-      asset-> {
-        _id,
-        url,
-        metadata {
-          dimensions,
-          lqip,
-          palette
-        }
-      },
-      hotspot,
-      crop
-    }
-  },
+  imagery,
   content[] {
     _key,
     _type,
@@ -170,13 +155,32 @@ const PROGRAM_BY_SLUG_QUERY = groq`*[_type == "programBuilder" && slug.current =
         months,
         isDefault
       },
-      currency,
+      supportedCurrencies,
+      defaultCurrency,
       planTypes[] {
         _key,
         id,
+        stripeProductId,
         title,
         isPopular,
-        basePrice,
+        pricing {
+          EUR {
+            price,
+            stripePriceId
+          },
+          USD {
+            price,
+            stripePriceId
+          },
+          GBP {
+            price,
+            stripePriceId
+          },
+          UAH {
+            price,
+            stripePriceId
+          }
+        },
         features[] {
           _key,
           text,
@@ -186,9 +190,24 @@ const PROGRAM_BY_SLUG_QUERY = groq`*[_type == "programBuilder" && slug.current =
       groupPlans[] {
         _key,
         people,
-        basePrice,
-        isDiscounted,
-        discountedPrice
+        pricing {
+          EUR {
+            basePrice,
+            discountedPrice
+          },
+          USD {
+            basePrice,
+            discountedPrice
+          },
+          GBP {
+            basePrice,
+            discountedPrice
+          },
+          UAH {
+            basePrice,
+            discountedPrice
+          }
+        }
       }
     },
     
@@ -289,26 +308,12 @@ const ALL_PROGRAMS_QUERY = groq`*[_type == "programBuilder" && language == $lang
   _updatedAt,
   language,
   title,
+  description,
+  shortDescription,
+  imagery,
   slogan,
   type,
   slug,
-  seo {
-    metaTitle,
-    metaDescription,
-    ogImage {
-      asset-> {
-        _id,
-        url,
-        metadata {
-          dimensions,
-          lqip,
-          palette
-        }
-      },
-      hotspot,
-      crop
-    }
-  }
 }`;
 
 const FOOTER_QUERY = groq`*[_type == "footer" && language == $language] | order(_createdAt desc)[0] {
@@ -337,7 +342,6 @@ const SETTINGS_QUERY = groq`*[_type == "settings" && language == $language][0] {
 
 // Type definitions for the fetched data
 export type LandingPageData = LANDING_PAGE_QUERYResult;
-export type ProgramData = PROGRAM_BY_SLUG_QUERYResult;
 export type FooterData = FOOTER_QUERYResult;
 export type SettingsData = SETTINGS_QUERYResult;
 
@@ -345,38 +349,32 @@ export type SettingsData = SETTINGS_QUERYResult;
 export async function fetchLandingPageData(
   language: string = "ua",
 ): Promise<LandingPageData> {
-  const data = await sanityFetch<LandingPageData>({
+  return await sanityFetch<LandingPageData>({
     query: LANDING_PAGE_QUERY,
     params: { language },
     tags: ["landing", `landing-${language}`],
   });
-
-  return data;
 }
 
 export async function fetchFooterData(
   language: string = "ua",
 ): Promise<FooterData> {
-  const data = await sanityFetch<FooterData>({
+  return await sanityFetch<FooterData>({
     query: FOOTER_QUERY,
     params: { language },
     tags: ["footer", `footer-${language}`],
   });
-
-  return data;
 }
 
 export async function fetchProgramBySlug(
   slug: string,
   language: string = "ua",
-): Promise<ProgramData> {
-  const data = await sanityFetch<ProgramData>({
+): Promise<ProgramBuilder> {
+  return await sanityFetch<ProgramBuilder>({
     query: PROGRAM_BY_SLUG_QUERY,
     params: { slug, language },
     tags: ["program", `program-${slug}`, `program-${language}`],
   });
-
-  return data;
 }
 
 export async function fetchAllPrograms(
@@ -403,27 +401,12 @@ export async function fetchProgramsByType(
     _updatedAt,
     language,
     title,
+    description,
+    shortDescription,
     slogan,
     type,
     slug,
     imagery,
-    seo {
-      metaTitle,
-      metaDescription,
-      ogImage {
-        asset-> {
-          _id,
-          url,
-          metadata {
-            dimensions,
-            lqip,
-            palette
-          }
-        },
-        hotspot,
-        crop
-      }
-    }
   }`;
 
   const data = await sanityFetch<ProgramBuilder[]>({

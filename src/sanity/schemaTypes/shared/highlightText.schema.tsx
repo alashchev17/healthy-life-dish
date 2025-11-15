@@ -9,7 +9,10 @@ export const highlightTextSchema = defineType({
     {
       type: "block",
       styles: [],
-      lists: [],
+      lists: [
+        { title: "Точечный список", value: "bullet" },
+        { title: "Нумированный список", value: "number" },
+      ],
       marks: {
         decorators: [
           {

@@ -27,7 +27,7 @@ export type HighlightText = Array<{
     _key: string;
   }>;
   style?: "normal";
-  listItem?: never;
+  listItem?: "bullet" | "number";
   markDefs?: null;
   level?: number;
   _type: "block";
@@ -76,12 +76,31 @@ export type PricingPlans = {
     isDefault?: boolean;
     _key: string;
   }>;
-  currency?: "\u20AC" | "$" | "\xA3" | "\u20B4";
+  supportedCurrencies?: Array<"EUR" | "USD" | "GBP" | "UAH">;
+  defaultCurrency?: "EUR" | "USD" | "GBP" | "UAH";
   planTypes?: Array<{
     id?: string;
+    stripeProductId?: string;
     title?: string;
     isPopular?: boolean;
-    basePrice?: number;
+    pricing?: {
+      EUR?: {
+        price?: number;
+        stripePriceId?: string;
+      };
+      USD?: {
+        price?: number;
+        stripePriceId?: string;
+      };
+      GBP?: {
+        price?: number;
+        stripePriceId?: string;
+      };
+      UAH?: {
+        price?: number;
+        stripePriceId?: string;
+      };
+    };
     features?: Array<{
       text?: string;
       included?: boolean;
@@ -91,9 +110,24 @@ export type PricingPlans = {
   }>;
   groupPlans?: Array<{
     people?: number;
-    basePrice?: number;
-    isDiscounted?: boolean;
-    discountedPrice?: number;
+    pricing?: {
+      EUR?: {
+        basePrice?: number;
+        discountedPrice?: number;
+      };
+      USD?: {
+        basePrice?: number;
+        discountedPrice?: number;
+      };
+      GBP?: {
+        basePrice?: number;
+        discountedPrice?: number;
+      };
+      UAH?: {
+        basePrice?: number;
+        discountedPrice?: number;
+      };
+    };
     _key: string;
   }>;
 };
@@ -340,6 +374,8 @@ export type ProgramBuilder = {
   _rev: string;
   language?: string;
   title?: string;
+  shortDescription?: string;
+  description?: string;
   slogan?: string;
   type?: "diet" | "training";
   imagery?: {
@@ -387,22 +423,6 @@ export type ProgramBuilder = {
   } & FreeProgram | {
     _key: string;
   } & AudienceBlock>;
-  seo?: {
-    metaTitle?: string;
-    metaDescription?: string;
-    ogImage?: {
-      asset?: {
-        _ref: string;
-        _type: "reference";
-        _weak?: boolean;
-        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-      };
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-  };
   slug?: Slug;
 };
 
@@ -718,7 +738,7 @@ export type LANDING_PAGE_QUERYResult = {
   } | null;
 };
 // Variable: PROGRAM_BY_SLUG_QUERY
-// Query: *[_type == "programBuilder" && slug.current == $slug && language == $language][0] {  _id,  _type,  _createdAt,  _updatedAt,  language,  title,  type,  slug,  seo {    metaTitle,    metaDescription,    ogImage {      asset-> {        _id,        url,        metadata {          dimensions,          lqip,          palette        }      },      hotspot,      crop    }  },  content[] {    _key,    _type,    preview,    title,        // AudienceBlock fields    _type == "audienceBlock" => {      audiences[] {        _key,        description,        image {          asset-> {            _id,            url,            metadata {              dimensions,              lqip,              palette            }          },          hotspot,          crop        }      }    },        // FreeProgram fields    _type == "freeProgram" => {      description,      button {        text,        link      }    },        // PricingPlans fields    _type == "pricingPlans" => {      durations[] {        _key,        title,        months,        isDefault      },      currency,      planTypes[] {        _key,        id,        title,        isPopular,        basePrice,        features[] {          _key,          text,          included        }      },      groupPlans[] {        _key,        people,        basePrice,        isDiscounted,        discountedPrice      }    },        // SloganBlock fields    _type == "sloganBlock" => {      slogan    },        // NumberedListWithImage fields    _type == "numberedListWithImage" => {      style,      items[] {        _key,        title,        description,        image {          asset-> {            _id,            url,            metadata {              dimensions,              lqip,              palette            }          },          hotspot,          crop        }      }    },        // NumberedList fields    _type == "numberedList" => {      items[] {        _key,        title,        description      }    },        // DetailedDescription fields    _type == "detailedDescription" => {      description    },        // AdvantagesSimple fields    _type == "advantagesSimple" => {      advantages[] {        _key,        imageOnly,        title,        image {          asset-> {            _id,            url,            metadata {              dimensions,              lqip,              palette            }          },          hotspot,          crop        }      }    },        // AdvantagesDetailed fields    _type == "advantagesDetailed" => {      advantages[] {        _key,        imageOnly,        title,        description,        image {          asset-> {            _id,            url,            metadata {              dimensions,              lqip,              palette            }          },          hotspot,          crop        }      }    }  }}
+// Query: *[_type == "programBuilder" && slug.current == $slug && language == $language][0] {  _id,  _type,  _createdAt,  _updatedAt,  language,  title,  description,  shortDescription,  type,  slug,  imagery,  content[] {    _key,    _type,    preview,    title,        // AudienceBlock fields    _type == "audienceBlock" => {      audiences[] {        _key,        description,        image {          asset-> {            _id,            url,            metadata {              dimensions,              lqip,              palette            }          },          hotspot,          crop        }      }    },        // FreeProgram fields    _type == "freeProgram" => {      description,      button {        text,        link      }    },        // PricingPlans fields    _type == "pricingPlans" => {      durations[] {        _key,        title,        months,        isDefault      },      supportedCurrencies,      defaultCurrency,      planTypes[] {        _key,        id,        stripeProductId,        title,        isPopular,        pricing {          EUR {            price,            stripePriceId          },          USD {            price,            stripePriceId          },          GBP {            price,            stripePriceId          },          UAH {            price,            stripePriceId          }        },        features[] {          _key,          text,          included        }      },      groupPlans[] {        _key,        people,        pricing {          EUR {            basePrice,            discountedPrice          },          USD {            basePrice,            discountedPrice          },          GBP {            basePrice,            discountedPrice          },          UAH {            basePrice,            discountedPrice          }        }      }    },        // SloganBlock fields    _type == "sloganBlock" => {      slogan    },        // NumberedListWithImage fields    _type == "numberedListWithImage" => {      style,      items[] {        _key,        title,        description,        image {          asset-> {            _id,            url,            metadata {              dimensions,              lqip,              palette            }          },          hotspot,          crop        }      }    },        // NumberedList fields    _type == "numberedList" => {      items[] {        _key,        title,        description      }    },        // DetailedDescription fields    _type == "detailedDescription" => {      description    },        // AdvantagesSimple fields    _type == "advantagesSimple" => {      advantages[] {        _key,        imageOnly,        title,        image {          asset-> {            _id,            url,            metadata {              dimensions,              lqip,              palette            }          },          hotspot,          crop        }      }    },        // AdvantagesDetailed fields    _type == "advantagesDetailed" => {      advantages[] {        _key,        imageOnly,        title,        description,        image {          asset-> {            _id,            url,            metadata {              dimensions,              lqip,              palette            }          },          hotspot,          crop        }      }    }  }}
 export type PROGRAM_BY_SLUG_QUERYResult = {
   _id: string;
   _type: "programBuilder";
@@ -726,24 +746,35 @@ export type PROGRAM_BY_SLUG_QUERYResult = {
   _updatedAt: string;
   language: string | null;
   title: string | null;
+  description: string | null;
+  shortDescription: string | null;
   type: "diet" | "training" | null;
   slug: Slug | null;
-  seo: {
-    metaTitle: string | null;
-    metaDescription: string | null;
-    ogImage: {
-      asset: {
-        _id: string;
-        url: string | null;
-        metadata: {
-          dimensions: SanityImageDimensions | null;
-          lqip: string | null;
-          palette: SanityImagePalette | null;
-        } | null;
-      } | null;
-      hotspot: SanityImageHotspot | null;
-      crop: SanityImageCrop | null;
-    } | null;
+  imagery: {
+    splash?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    thumb?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
   } | null;
   content: Array<{
     _key: string;
@@ -875,13 +906,32 @@ export type PROGRAM_BY_SLUG_QUERYResult = {
       months: number | null;
       isDefault: boolean | null;
     }> | null;
-    currency: "$" | "\xA3" | "\u20AC" | "\u20B4" | null;
+    supportedCurrencies: Array<"EUR" | "GBP" | "UAH" | "USD"> | null;
+    defaultCurrency: "EUR" | "GBP" | "UAH" | "USD" | null;
     planTypes: Array<{
       _key: string;
       id: string | null;
+      stripeProductId: string | null;
       title: string | null;
       isPopular: boolean | null;
-      basePrice: number | null;
+      pricing: {
+        EUR: {
+          price: number | null;
+          stripePriceId: string | null;
+        } | null;
+        USD: {
+          price: number | null;
+          stripePriceId: string | null;
+        } | null;
+        GBP: {
+          price: number | null;
+          stripePriceId: string | null;
+        } | null;
+        UAH: {
+          price: number | null;
+          stripePriceId: string | null;
+        } | null;
+      } | null;
       features: Array<{
         _key: string;
         text: string | null;
@@ -891,9 +941,24 @@ export type PROGRAM_BY_SLUG_QUERYResult = {
     groupPlans: Array<{
       _key: string;
       people: number | null;
-      basePrice: number | null;
-      isDiscounted: boolean | null;
-      discountedPrice: number | null;
+      pricing: {
+        EUR: {
+          basePrice: number | null;
+          discountedPrice: number | null;
+        } | null;
+        USD: {
+          basePrice: number | null;
+          discountedPrice: number | null;
+        } | null;
+        GBP: {
+          basePrice: number | null;
+          discountedPrice: number | null;
+        } | null;
+        UAH: {
+          basePrice: number | null;
+          discountedPrice: number | null;
+        } | null;
+      } | null;
     }> | null;
   } | {
     _key: string;
@@ -904,7 +969,7 @@ export type PROGRAM_BY_SLUG_QUERYResult = {
   }> | null;
 } | null;
 // Variable: ALL_PROGRAMS_QUERY
-// Query: *[_type == "programBuilder" && language == $language] | order(_createdAt desc) {  _id,  _type,  _createdAt,  _updatedAt,  language,  title,  slogan,  type,  slug,  seo {    metaTitle,    metaDescription,    ogImage {      asset-> {        _id,        url,        metadata {          dimensions,          lqip,          palette        }      },      hotspot,      crop    }  }}
+// Query: *[_type == "programBuilder" && language == $language] | order(_createdAt desc) {  _id,  _type,  _createdAt,  _updatedAt,  language,  title,  description,  shortDescription,  imagery,  slogan,  type,  slug,}
 export type ALL_PROGRAMS_QUERYResult = Array<{
   _id: string;
   _type: "programBuilder";
@@ -912,26 +977,37 @@ export type ALL_PROGRAMS_QUERYResult = Array<{
   _updatedAt: string;
   language: string | null;
   title: string | null;
+  description: string | null;
+  shortDescription: string | null;
+  imagery: {
+    splash?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    thumb?: {
+      asset?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+      };
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+  } | null;
   slogan: string | null;
   type: "diet" | "training" | null;
   slug: Slug | null;
-  seo: {
-    metaTitle: string | null;
-    metaDescription: string | null;
-    ogImage: {
-      asset: {
-        _id: string;
-        url: string | null;
-        metadata: {
-          dimensions: SanityImageDimensions | null;
-          lqip: string | null;
-          palette: SanityImagePalette | null;
-        } | null;
-      } | null;
-      hotspot: SanityImageHotspot | null;
-      crop: SanityImageCrop | null;
-    } | null;
-  } | null;
 }>;
 // Variable: FOOTER_QUERY
 // Query: *[_type == "footer" && language == $language] | order(_createdAt desc)[0] {  _id,  _type,  _createdAt,  _updatedAt,  language,  emailSubscription,  copyrightText,  generalLinks,  socialLinks}
@@ -1016,7 +1092,7 @@ export type SETTINGS_QUERYResult = {
   } | null;
 } | null;
 // Variable: query
-// Query: *[_type == "programBuilder" && type == $type && language == $language] | order(_createdAt desc) {    _id,    _type,    _createdAt,    _updatedAt,    language,    title,    slogan,    type,    slug,    imagery,    seo {      metaTitle,      metaDescription,      ogImage {        asset-> {          _id,          url,          metadata {            dimensions,            lqip,            palette          }        },        hotspot,        crop      }    }  }
+// Query: *[_type == "programBuilder" && type == $type && language == $language] | order(_createdAt desc) {    _id,    _type,    _createdAt,    _updatedAt,    language,    title,    description,    shortDescription,    slogan,    type,    slug,    imagery,  }
 export type QueryResult = Array<{
   _id: string;
   _type: "programBuilder";
@@ -1024,6 +1100,8 @@ export type QueryResult = Array<{
   _updatedAt: string;
   language: string | null;
   title: string | null;
+  description: string | null;
+  shortDescription: string | null;
   slogan: string | null;
   type: "diet" | "training" | null;
   slug: Slug | null;
@@ -1053,23 +1131,6 @@ export type QueryResult = Array<{
       _type: "image";
     };
   } | null;
-  seo: {
-    metaTitle: string | null;
-    metaDescription: string | null;
-    ogImage: {
-      asset: {
-        _id: string;
-        url: string | null;
-        metadata: {
-          dimensions: SanityImageDimensions | null;
-          lqip: string | null;
-          palette: SanityImagePalette | null;
-        } | null;
-      } | null;
-      hotspot: SanityImageHotspot | null;
-      crop: SanityImageCrop | null;
-    } | null;
-  } | null;
 }>;
 
 // Query TypeMap
@@ -1077,10 +1138,10 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "{\n  \"hero\": *[_type == \"hero\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    slogan\n  },\n  \"about\": *[_type == \"about\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    description,\n    callToAction,\n    cards[] {\n      _key,\n      _type,\n      title,\n      description,\n      image {\n        asset-> {\n          _id,\n          url,\n          metadata {\n            dimensions,\n            lqip,\n            palette\n          }\n        },\n        hotspot,\n        crop\n      }\n    },\n    slogan\n  },\n  \"promo\": *[_type == \"promo\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    slogan,\n    isActive\n  },\n  \"slogan\": *[_type == \"slogan\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    slogan\n  },\n  \"reviews\": *[_type == \"reviews\" && language == $language][0] {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    description,\n    reviews[]-> {\n      _id,\n      _type,\n      language,\n      person {\n        name,\n        surname,\n        occupation,\n        avatar {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      },\n      rating,\n      text\n    }\n  }\n}": LANDING_PAGE_QUERYResult;
-    "*[_type == \"programBuilder\" && slug.current == $slug && language == $language][0] {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  title,\n  type,\n  slug,\n  seo {\n    metaTitle,\n    metaDescription,\n    ogImage {\n      asset-> {\n        _id,\n        url,\n        metadata {\n          dimensions,\n          lqip,\n          palette\n        }\n      },\n      hotspot,\n      crop\n    }\n  },\n  content[] {\n    _key,\n    _type,\n    preview,\n    title,\n    \n    // AudienceBlock fields\n    _type == \"audienceBlock\" => {\n      audiences[] {\n        _key,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // FreeProgram fields\n    _type == \"freeProgram\" => {\n      description,\n      button {\n        text,\n        link\n      }\n    },\n    \n    // PricingPlans fields\n    _type == \"pricingPlans\" => {\n      durations[] {\n        _key,\n        title,\n        months,\n        isDefault\n      },\n      currency,\n      planTypes[] {\n        _key,\n        id,\n        title,\n        isPopular,\n        basePrice,\n        features[] {\n          _key,\n          text,\n          included\n        }\n      },\n      groupPlans[] {\n        _key,\n        people,\n        basePrice,\n        isDiscounted,\n        discountedPrice\n      }\n    },\n    \n    // SloganBlock fields\n    _type == \"sloganBlock\" => {\n      slogan\n    },\n    \n    // NumberedListWithImage fields\n    _type == \"numberedListWithImage\" => {\n      style,\n      items[] {\n        _key,\n        title,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // NumberedList fields\n    _type == \"numberedList\" => {\n      items[] {\n        _key,\n        title,\n        description\n      }\n    },\n    \n    // DetailedDescription fields\n    _type == \"detailedDescription\" => {\n      description\n    },\n    \n    // AdvantagesSimple fields\n    _type == \"advantagesSimple\" => {\n      advantages[] {\n        _key,\n        imageOnly,\n        title,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // AdvantagesDetailed fields\n    _type == \"advantagesDetailed\" => {\n      advantages[] {\n        _key,\n        imageOnly,\n        title,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    }\n  }\n}": PROGRAM_BY_SLUG_QUERYResult;
-    "*[_type == \"programBuilder\" && language == $language] | order(_createdAt desc) {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  title,\n  slogan,\n  type,\n  slug,\n  seo {\n    metaTitle,\n    metaDescription,\n    ogImage {\n      asset-> {\n        _id,\n        url,\n        metadata {\n          dimensions,\n          lqip,\n          palette\n        }\n      },\n      hotspot,\n      crop\n    }\n  }\n}": ALL_PROGRAMS_QUERYResult;
+    "*[_type == \"programBuilder\" && slug.current == $slug && language == $language][0] {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  title,\n  description,\n  shortDescription,\n  type,\n  slug,\n  imagery,\n  content[] {\n    _key,\n    _type,\n    preview,\n    title,\n    \n    // AudienceBlock fields\n    _type == \"audienceBlock\" => {\n      audiences[] {\n        _key,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // FreeProgram fields\n    _type == \"freeProgram\" => {\n      description,\n      button {\n        text,\n        link\n      }\n    },\n    \n    // PricingPlans fields\n    _type == \"pricingPlans\" => {\n      durations[] {\n        _key,\n        title,\n        months,\n        isDefault\n      },\n      supportedCurrencies,\n      defaultCurrency,\n      planTypes[] {\n        _key,\n        id,\n        stripeProductId,\n        title,\n        isPopular,\n        pricing {\n          EUR {\n            price,\n            stripePriceId\n          },\n          USD {\n            price,\n            stripePriceId\n          },\n          GBP {\n            price,\n            stripePriceId\n          },\n          UAH {\n            price,\n            stripePriceId\n          }\n        },\n        features[] {\n          _key,\n          text,\n          included\n        }\n      },\n      groupPlans[] {\n        _key,\n        people,\n        pricing {\n          EUR {\n            basePrice,\n            discountedPrice\n          },\n          USD {\n            basePrice,\n            discountedPrice\n          },\n          GBP {\n            basePrice,\n            discountedPrice\n          },\n          UAH {\n            basePrice,\n            discountedPrice\n          }\n        }\n      }\n    },\n    \n    // SloganBlock fields\n    _type == \"sloganBlock\" => {\n      slogan\n    },\n    \n    // NumberedListWithImage fields\n    _type == \"numberedListWithImage\" => {\n      style,\n      items[] {\n        _key,\n        title,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // NumberedList fields\n    _type == \"numberedList\" => {\n      items[] {\n        _key,\n        title,\n        description\n      }\n    },\n    \n    // DetailedDescription fields\n    _type == \"detailedDescription\" => {\n      description\n    },\n    \n    // AdvantagesSimple fields\n    _type == \"advantagesSimple\" => {\n      advantages[] {\n        _key,\n        imageOnly,\n        title,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    \n    // AdvantagesDetailed fields\n    _type == \"advantagesDetailed\" => {\n      advantages[] {\n        _key,\n        imageOnly,\n        title,\n        description,\n        image {\n          asset-> {\n            _id,\n            url,\n            metadata {\n              dimensions,\n              lqip,\n              palette\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    }\n  }\n}": PROGRAM_BY_SLUG_QUERYResult;
+    "*[_type == \"programBuilder\" && language == $language] | order(_createdAt desc) {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  title,\n  description,\n  shortDescription,\n  imagery,\n  slogan,\n  type,\n  slug,\n}": ALL_PROGRAMS_QUERYResult;
     "*[_type == \"footer\" && language == $language] | order(_createdAt desc)[0] {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  emailSubscription,\n  copyrightText,\n  generalLinks,\n  socialLinks\n}": FOOTER_QUERYResult;
     "*[_type == \"settings\" && language == $language][0] {\n  _id,\n  _type,\n  _createdAt,\n  _updatedAt,\n  language,\n  globalCtas,\n  seo,\n  contact,\n  analytics\n}": SETTINGS_QUERYResult;
-    "*[_type == \"programBuilder\" && type == $type && language == $language] | order(_createdAt desc) {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    title,\n    slogan,\n    type,\n    slug,\n    imagery,\n    seo {\n      metaTitle,\n      metaDescription,\n      ogImage {\n        asset-> {\n          _id,\n          url,\n          metadata {\n            dimensions,\n            lqip,\n            palette\n          }\n        },\n        hotspot,\n        crop\n      }\n    }\n  }": QueryResult;
+    "*[_type == \"programBuilder\" && type == $type && language == $language] | order(_createdAt desc) {\n    _id,\n    _type,\n    _createdAt,\n    _updatedAt,\n    language,\n    title,\n    description,\n    shortDescription,\n    slogan,\n    type,\n    slug,\n    imagery,\n  }": QueryResult;
   }
 }

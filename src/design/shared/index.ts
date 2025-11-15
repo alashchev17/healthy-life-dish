@@ -8,3 +8,6 @@ export * from "./ReviewCard/ReviewCard";
 export * from "./Modal";
 export * from "./Badge";
 export * from "./NavigationGrid";
+export * from "./PageContainer";
+export * from "./Slogan";
+export * from "./Dropdown";

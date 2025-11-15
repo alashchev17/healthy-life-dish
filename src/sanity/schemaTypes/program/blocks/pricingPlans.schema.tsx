@@ -109,25 +109,54 @@ export const pricingPlansSchema = defineType({
       validation: (Rule) => Rule.required().min(1),
     }),
     defineField({
-      name: 'currency',
-      title: 'Валюта',
+      name: 'supportedCurrencies',
+      title: 'Поддерживаемые валюты',
+      type: 'array',
+      description: 'Выберите валюты, в которых можно отображать цены',
+      of: [
+        {
+          type: 'string',
+          options: {
+            list: [
+              { title: 'EUR (€)', value: 'EUR' },
+              { title: 'USD ($)', value: 'USD' },
+              { title: 'GBP (£)', value: 'GBP' },
+              { title: 'UAH (₴)', value: 'UAH' },
+            ],
+          },
+        },
+      ],
+      validation: (Rule) => Rule.required().min(1).unique(),
+      initialValue: ['EUR'],
+    }),
+    defineField({
+      name: 'defaultCurrency',
+      title: 'Валюта по умолчанию',
       type: 'string',
-      initialValue: '€',
       options: {
         list: [
-          { title: '€', value: '€' },
-          { title: '$', value: '$' },
-          { title: '£', value: '£' },
-          { title: '₴', value: '₴' },
+          { title: 'EUR (€)', value: 'EUR' },
+          { title: 'USD ($)', value: 'USD' },
+          { title: 'GBP (£)', value: 'GBP' },
+          { title: 'UAH (₴)', value: 'UAH' },
         ],
       },
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) =>
+        Rule.required().custom((value, ctx) => {
+          const parent = ctx.parent as { supportedCurrencies?: string[] }
+          if (!value) return 'Выберите валюту по умолчанию'
+          if (!parent.supportedCurrencies?.includes(value)) {
+            return 'Валюта по умолчанию должна быть в списке поддерживаемых валют'
+          }
+          return true
+        }),
+      initialValue: 'EUR',
     }),
     defineField({
       name: 'planTypes',
       title: 'Тарифные планы',
       type: 'array',
-      description: 'Цены указываются в выбранной валюте выше',
+      description: 'Укажите цены для каждой валюты (за 1 человека за 1 месяц)',
       of: [
         {
           type: 'object',
@@ -147,6 +176,15 @@ export const pricingPlansSchema = defineType({
               initialValue: () => `plan_${nanoid(16)}`,
             }),
             defineField({
+              name: 'stripeProductId',
+              title: 'Stripe Product ID',
+              type: 'string',
+              description: 'ID продукта в Stripe (заполняется при интеграции с платежной системой)',
+              hidden: ({ currentUser }) => {
+                return !currentUser?.roles.find((role) => role.name === 'administrator')
+              },
+            }),
+            defineField({
               name: 'title',
               title: 'Название тарифа',
               type: 'string',
@@ -159,10 +197,101 @@ export const pricingPlansSchema = defineType({
               initialValue: false,
             }),
             defineField({
-              name: 'basePrice',
-              title: 'Базовая цена (для 1 человека за 1 месяц)',
-              type: 'number',
-              validation: (Rule) => Rule.required().positive(),
+              name: 'pricing',
+              title: 'Цены по валютам',
+              type: 'object',
+              description: 'Укажите цену за 1 человека за 1 месяц для каждой валюты',
+              validation: (Rule) => Rule.required(),
+              fields: [
+                defineField({
+                  name: 'EUR',
+                  title: 'EUR (€)',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'price',
+                      title: 'Цена',
+                      type: 'number',
+                      validation: (Rule) => Rule.positive(),
+                    }),
+                    defineField({
+                      name: 'stripePriceId',
+                      title: 'Stripe Price ID',
+                      type: 'string',
+                      description: 'ID цены в Stripe (опционально)',
+                      hidden: ({ currentUser }) => {
+                        return !currentUser?.roles.find((role) => role.name === 'administrator')
+                      },
+                    }),
+                  ],
+                }),
+                defineField({
+                  name: 'USD',
+                  title: 'USD ($)',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'price',
+                      title: 'Цена',
+                      type: 'number',
+                      validation: (Rule) => Rule.positive(),
+                    }),
+                    defineField({
+                      name: 'stripePriceId',
+                      title: 'Stripe Price ID',
+                      type: 'string',
+                      description: 'ID цены в Stripe (опционально)',
+                      hidden: ({ currentUser }) => {
+                        return !currentUser?.roles.find((role) => role.name === 'administrator')
+                      },
+                    }),
+                  ],
+                }),
+                defineField({
+                  name: 'GBP',
+                  title: 'GBP (£)',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'price',
+                      title: 'Цена',
+                      type: 'number',
+                      validation: (Rule) => Rule.positive(),
+                    }),
+                    defineField({
+                      name: 'stripePriceId',
+                      title: 'Stripe Price ID',
+                      type: 'string',
+                      description: 'ID цены в Stripe (опционально)',
+                      hidden: ({ currentUser }) => {
+                        return !currentUser?.roles.find((role) => role.name === 'administrator')
+                      },
+                    }),
+                  ],
+                }),
+                defineField({
+                  name: 'UAH',
+                  title: 'UAH (₴)',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'price',
+                      title: 'Цена',
+                      type: 'number',
+                      validation: (Rule) => Rule.positive(),
+                    }),
+                    defineField({
+                      name: 'stripePriceId',
+                      title: 'Stripe Price ID',
+                      type: 'string',
+                      description: 'ID цены в Stripe (опционально)',
+                      hidden: ({ currentUser }) => {
+                        return !currentUser?.roles.find((role) => role.name === 'administrator')
+                      },
+                    }),
+                  ],
+                }),
+              ],
             }),
             defineField({
               name: 'features',
@@ -205,14 +334,16 @@ export const pricingPlansSchema = defineType({
           preview: {
             select: {
               title: 'title',
-              basePrice: 'basePrice',
+              pricing: 'pricing',
               isPopular: 'isPopular',
               id: 'id',
             },
-            prepare({ title, basePrice, isPopular, id }) {
+            prepare({ title, pricing, isPopular, id }) {
+              const firstPrice = pricing?.EUR?.price || pricing?.USD?.price || pricing?.GBP?.price || pricing?.UAH?.price
+              const currency = pricing?.EUR?.price ? 'EUR' : pricing?.USD?.price ? 'USD' : pricing?.GBP?.price ? 'GBP' : 'UAH'
               return {
                 title,
-                subtitle: `${basePrice} ${isPopular ? '(Популярный)' : ''} | ID: ${id || 'генерируется...'}`,
+                subtitle: `${firstPrice || '—'} ${currency} ${isPopular ? '(Популярный)' : ''} | ID: ${id || 'генерируется...'}`,
               }
             },
           },
@@ -235,66 +366,152 @@ export const pricingPlansSchema = defineType({
               validation: (Rule) => Rule.required().min(2).integer(),
             }),
             defineField({
-              name: 'basePrice',
-              title: 'Базовая цена (за 1 человека за 1 месяц)',
-              type: 'number',
-              validation: (Rule) => Rule.required().positive(),
-            }),
-            defineField({
-              name: 'isDiscounted',
-              title: 'Добавить цену со скидкой',
-              type: 'boolean',
-              initialValue: false,
-            }),
-            defineField({
-              name: 'discountedPrice',
-              title: 'Цена со скидкой (за 1 человека за 1 месяц)',
-              type: 'number',
-              hidden: ({ parent }) => !parent?.isDiscounted,
-              validation: (Rule) =>
-                Rule.custom((value, ctx) => {
-                  const parent = ctx.parent as NonNullable<PricingPlans['groupPlans']>[number]
-                  if (!parent.isDiscounted) return true
-                  if (!value) {
-                    return {
-                      message: 'Укажите цену со скидкой',
-                    }
-                  }
-                  if (value && value <= 0) {
-                    return {
-                      message: 'Цена должна быть больше 0',
-                    }
-                  }
-                  if (value && parent?.basePrice && value >= parent?.basePrice) {
-                    return {
-                      message: 'Цена со скидкой должна быть меньше базовой цены',
-                    }
-                  }
-                  return true
+              name: 'pricing',
+              title: 'Цены по валютам',
+              type: 'object',
+              description: 'Укажите базовую цену и опциональную цену со скидкой для каждой валюты',
+              validation: (Rule) => Rule.required(),
+              fields: [
+                defineField({
+                  name: 'EUR',
+                  title: 'EUR (€)',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'basePrice',
+                      title: 'Базовая цена',
+                      type: 'number',
+                      validation: (Rule) => Rule.positive(),
+                    }),
+                    defineField({
+                      name: 'discountedPrice',
+                      title: 'Цена со скидкой',
+                      type: 'number',
+                      description: 'Оставьте пустым, если нет скидки',
+                      validation: (Rule) =>
+                        Rule.custom((value, ctx) => {
+                          if (!value) return true
+                          if (value <= 0) return 'Цена должна быть больше 0'
+                          const parent = ctx.parent as { basePrice?: number }
+                          if (parent?.basePrice && value >= parent.basePrice) {
+                            return 'Цена со скидкой должна быть меньше базовой цены'
+                          }
+                          return true
+                        }),
+                    }),
+                  ],
                 }),
+                defineField({
+                  name: 'USD',
+                  title: 'USD ($)',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'basePrice',
+                      title: 'Базовая цена',
+                      type: 'number',
+                      validation: (Rule) => Rule.positive(),
+                    }),
+                    defineField({
+                      name: 'discountedPrice',
+                      title: 'Цена со скидкой',
+                      type: 'number',
+                      description: 'Оставьте пустым, если нет скидки',
+                      validation: (Rule) =>
+                        Rule.custom((value, ctx) => {
+                          if (!value) return true
+                          if (value <= 0) return 'Цена должна быть больше 0'
+                          const parent = ctx.parent as { basePrice?: number }
+                          if (parent?.basePrice && value >= parent.basePrice) {
+                            return 'Цена со скидкой должна быть меньше базовой цены'
+                          }
+                          return true
+                        }),
+                    }),
+                  ],
+                }),
+                defineField({
+                  name: 'GBP',
+                  title: 'GBP (£)',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'basePrice',
+                      title: 'Базовая цена',
+                      type: 'number',
+                      validation: (Rule) => Rule.positive(),
+                    }),
+                    defineField({
+                      name: 'discountedPrice',
+                      title: 'Цена со скидкой',
+                      type: 'number',
+                      description: 'Оставьте пустым, если нет скидки',
+                      validation: (Rule) =>
+                        Rule.custom((value, ctx) => {
+                          if (!value) return true
+                          if (value <= 0) return 'Цена должна быть больше 0'
+                          const parent = ctx.parent as { basePrice?: number }
+                          if (parent?.basePrice && value >= parent.basePrice) {
+                            return 'Цена со скидкой должна быть меньше базовой цены'
+                          }
+                          return true
+                        }),
+                    }),
+                  ],
+                }),
+                defineField({
+                  name: 'UAH',
+                  title: 'UAH (₴)',
+                  type: 'object',
+                  fields: [
+                    defineField({
+                      name: 'basePrice',
+                      title: 'Базовая цена',
+                      type: 'number',
+                      validation: (Rule) => Rule.positive(),
+                    }),
+                    defineField({
+                      name: 'discountedPrice',
+                      title: 'Цена со скидкой',
+                      type: 'number',
+                      description: 'Оставьте пустым, если нет скидки',
+                      validation: (Rule) =>
+                        Rule.custom((value, ctx) => {
+                          if (!value) return true
+                          if (value <= 0) return 'Цена должна быть больше 0'
+                          const parent = ctx.parent as { basePrice?: number }
+                          if (parent?.basePrice && value >= parent.basePrice) {
+                            return 'Цена со скидкой должна быть меньше базовой цены'
+                          }
+                          return true
+                        }),
+                    }),
+                  ],
+                }),
+              ],
             }),
           ],
           preview: {
             select: {
               people: 'people',
-              basePrice: 'basePrice',
-              isDiscounted: 'isDiscounted',
-              discountedPrice: 'discountedPrice',
+              pricing: 'pricing',
             },
-            prepare({ people, basePrice, isDiscounted, discountedPrice }) {
-              const renderSubtitle = () => {
-                if (isDiscounted && discountedPrice) return `Стоимость со скидкой: ${discountedPrice}`
-                return `Базовая цена: ${basePrice}`
-              }
+            prepare({ people, pricing }) {
+              const firstCurrency = pricing?.EUR || pricing?.USD || pricing?.GBP || pricing?.UAH
+              const currencyCode = pricing?.EUR ? 'EUR' : pricing?.USD ? 'USD' : pricing?.GBP ? 'GBP' : 'UAH'
+              const hasDiscount = !!firstCurrency?.discountedPrice
+              const priceText = hasDiscount
+                ? `${firstCurrency.discountedPrice} ${currencyCode} (скидка)`
+                : `${firstCurrency?.basePrice || '—'} ${currencyCode}`
               return {
                 title: `${people} человек`,
-                subtitle: renderSubtitle(),
+                subtitle: priceText,
               }
             },
           },
         },
       ],
-      description: 'Настройте тарифы для групп (2+ человек). Для каждой группы укажите базовую цену и опционально цену со скидкой.',
+      description: 'Настройте тарифы для групп (2+ человек). Для каждой группы укажите цены по валютам.',
     }),
   ],
 })
