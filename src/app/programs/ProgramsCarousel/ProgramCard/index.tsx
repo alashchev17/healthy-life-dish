@@ -180,9 +180,8 @@ export const ProgramCard: FC<ProgramCardProps> = ({
         <Image
           className={`absolute z-1 bottom-0 right-0 translate-x-[30%] sm:translate-x-0 lg:translate-x-[30%] grayscale group-hover:grayscale-0 transition-[filter] object-cover pointer-events-none select-none duration-200 ${isExpanded ? "!grayscale-0" : ""}`}
           src={urlFor(program.imagery.thumb).url()}
-          width={0}
-          height={0}
-          sizes="100vw"
+          width={thumbDimensions.width}
+          height={thumbDimensions.height}
           alt={`${program.title} thumbnail`}
           style={{
             width: `${thumbDimensions.width}px !important`,
