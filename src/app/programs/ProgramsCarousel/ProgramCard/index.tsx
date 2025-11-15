@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useMemo, useRef } from "react";
+import { FC, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "#/design/ui";
@@ -68,6 +68,10 @@ export const ProgramCard: FC<ProgramCardProps> = ({
     onAnimationStateChange: onAnimationStateChange || (() => {}),
   });
 
+  useEffect(() => {
+    console.log(`[DEBUG]: program data: `, program);
+  }, [program]);
+
   return (
     <div
       ref={cardRef}
@@ -76,6 +80,7 @@ export const ProgramCard: FC<ProgramCardProps> = ({
         bg-dark-gray rounded-3xl border-[3px] border-transparent
         transition-[border-color] duration-300 overflow-hidden group
         hover:border-green-acid
+        ${isExpanded ? "!border-green-acid" : ""}
         ${isDesktop && !isExpanded ? "cursor-pointer" : ""}
         ${variant === "mobile" ? "w-full cursor-pointer" : ""}
         ${variant === "tablet" ? "cursor-pointer" : ""}
@@ -91,7 +96,7 @@ export const ProgramCard: FC<ProgramCardProps> = ({
         }
       }}
     >
-      <div className="flex flex-col gap-6 relative z-10">
+      <div className="flex flex-col gap-2 relative z-10">
         <Typography
           variant="bottoms"
           className="uppercase text-light-gray !font-bold !text-[1.25rem]"
@@ -107,9 +112,15 @@ export const ProgramCard: FC<ProgramCardProps> = ({
       </div>
 
       {isDesktop && isExpanded && (
-        <div ref={contentRef} className="mt-6 space-y-4 relative z-10">
+        <div
+          ref={contentRef}
+          className="my-6 flex flex-col gap-4 justify-between h-full relative z-10"
+        >
           {program.seo?.metaDescription && (
-            <Typography variant="body" className="text-white !leading-relaxed">
+            <Typography
+              variant="body"
+              className="text-white !text-lg !leading-tight max-w-3/4"
+            >
               {program.seo.metaDescription}
             </Typography>
           )}
@@ -117,7 +128,7 @@ export const ProgramCard: FC<ProgramCardProps> = ({
           {program.slogan && (
             <Typography
               variant="title3"
-              className="uppercase text-green-acid !font-bold !leading-tight"
+              className="uppercase text-green-acid !font-bold !leading-tight max-w-1/3"
             >
               {program.slogan}
             </Typography>
@@ -136,7 +147,7 @@ export const ProgramCard: FC<ProgramCardProps> = ({
             <Button
               variant="primary"
               fullWidth
-              className="uppercase font-bold"
+              className="uppercase font-bold max-w-2/3"
               icon={<ArrowRight />}
             >
               {ctaLabel}
@@ -167,7 +178,7 @@ export const ProgramCard: FC<ProgramCardProps> = ({
 
       {program.imagery?.thumb && (
         <Image
-          className="absolute z-1 bottom-0 right-0 translate-x-[30%] sm:translate-x-0 lg:translate-x-[30%] grayscale group-hover:grayscale-0 transition-[filter] object-cover pointer-events-none select-none duration-200"
+          className={`absolute z-1 bottom-0 right-0 translate-x-[30%] sm:translate-x-0 lg:translate-x-[30%] grayscale group-hover:grayscale-0 transition-[filter] object-cover pointer-events-none select-none duration-200 ${isExpanded ? "!grayscale-0" : ""}`}
           src={urlFor(program.imagery.thumb).url()}
           width={0}
           height={0}
@@ -182,7 +193,9 @@ export const ProgramCard: FC<ProgramCardProps> = ({
         />
       )}
 
-      <GradientCircle className="w-[1260px] h-[1335px] blur-xl absolute top-0 -left-[175px] text-green-acid z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <GradientCircle
+        className={`w-[1260px] h-[1335px] blur-xl absolute top-0 -left-[175px] text-green-acid z-0 opacity-0 group-hover:opacity-80 transition-opacity duration-300 ${isExpanded ? "!opacity-80" : ""}`}
+      />
     </div>
   );
 };
