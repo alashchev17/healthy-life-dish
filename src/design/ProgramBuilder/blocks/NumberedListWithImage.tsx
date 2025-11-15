@@ -16,7 +16,7 @@ export type NumberedListWithImageProps = {
 export function NumberedListWithImage({
   block,
 }: NumberedListWithImageProps): ReactNode {
-  const { items, title, style, preview } = block;
+  const { items, title, style: _style, preview: _preview } = block;
 
   return (
     <Container>

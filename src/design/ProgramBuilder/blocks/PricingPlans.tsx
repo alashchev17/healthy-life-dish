@@ -47,6 +47,8 @@ export function PricingPlans({ block }: PricingPlansProps): ReactNode {
 
   // Get price for selected currency from pricing object
   const getPriceForCurrency = (
+    // TODO: remove 'any' type
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pricing: any,
     currency: CurrencyCode,
   ): number | undefined => {
@@ -55,6 +57,8 @@ export function PricingPlans({ block }: PricingPlansProps): ReactNode {
 
   // Get group price for selected currency
   const getGroupPriceForCurrency = (
+    // TODO: remove 'any' type
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pricing: any,
     currency: CurrencyCode,
     type: "basePrice" | "discountedPrice",
