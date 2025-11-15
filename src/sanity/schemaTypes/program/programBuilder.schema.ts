@@ -19,6 +19,13 @@ export const programBuilderSchema = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'slogan',
+      title: 'Слоган программы',
+      type: 'string',
+      description: 'Краткий слоган для карточки программы',
+      validation: (Rule) => Rule.max(150),
+    }),
+    defineField({
       name: 'type',
       title: 'Тип программы',
       type: 'string',

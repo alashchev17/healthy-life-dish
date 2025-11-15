@@ -289,6 +289,7 @@ const ALL_PROGRAMS_QUERY = groq`*[_type == "programBuilder" && language == $lang
   _updatedAt,
   language,
   title,
+  slogan,
   type,
   slug,
   seo {
@@ -402,6 +403,7 @@ export async function fetchProgramsByType(
     _updatedAt,
     language,
     title,
+    slogan,
     type,
     slug,
     imagery,
