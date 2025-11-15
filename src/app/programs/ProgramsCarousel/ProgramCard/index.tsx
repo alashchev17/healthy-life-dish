@@ -116,12 +116,12 @@ export const ProgramCard: FC<ProgramCardProps> = ({
           ref={contentRef}
           className="my-6 flex flex-col gap-4 justify-between h-full relative z-10"
         >
-          {program.seo?.metaDescription && (
+          {program.shortDescription && (
             <Typography
               variant="body"
               className="text-white !text-lg !leading-tight max-w-3/4"
             >
-              {program.seo.metaDescription}
+              {program.shortDescription}
             </Typography>
           )}
 

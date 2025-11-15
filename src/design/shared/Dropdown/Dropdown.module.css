@@ -1,0 +1,121 @@
+.container {
+  position: relative;
+}
+
+.trigger {
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  border: 2px solid var(--color-dark-gray);
+  color: var(--color-green-acid);
+}
+
+.chevron {
+  transform: rotate(90deg);
+  transition: transform 0.2s ease-in-out;
+  height: 1rem;
+}
+
+.chevronActive {
+  transform: rotate(270deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 50px;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 10;
+  border-radius: 1rem;
+  border: 2px solid var(--color-dark-gray);
+  padding: 8px;
+  transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+  background-color: var(--color-black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-width: 120px;
+}
+
+/* Alignment options */
+.alignLeft {
+  left: 0;
+  transform: translateY(-20px);
+}
+
+.alignCenter {
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+}
+
+.alignRight {
+  right: 0;
+  transform: translateY(-20px);
+}
+
+.dropdownOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdownOpen.alignLeft {
+  transform: translateY(0);
+}
+
+.dropdownOpen.alignCenter {
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdownOpen.alignRight {
+  transform: translateY(0);
+}
+
+.option {
+  padding: 6px 8px;
+  text-transform: uppercase;
+  color: var(--color-green-acid);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.option:hover:not(.optionActive) {
+  --color-dark-gray-40: color-mix(
+    in srgb,
+    var(--color-dark-gray) 40%,
+    transparent
+  );
+  background-color: var(--color-dark-gray-40);
+}
+
+.optionActive {
+  background-color: var(--color-dark-gray);
+}
+
+@media screen and (max-width: 768px) {
+  .dropdown {
+    top: 44px;
+  }
+
+  .alignCenter {
+    left: 0;
+    transform: translateY(-20px);
+  }
+
+  .dropdownOpen.alignCenter {
+    transform: translateY(0);
+  }
+}

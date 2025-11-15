@@ -291,7 +291,7 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
                 variant="body"
                 className="text-white !font-medium !leading-tight"
               >
-                {activeProgram?.seo?.metaDescription ?? ""}
+                {activeProgram?.shortDescription ?? ""}
               </Typography>
             </div>
 

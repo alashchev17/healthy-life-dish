@@ -64,23 +64,24 @@ export const ProgramSlider: FC<ProgramSliderProps> = ({ programs, type }) => {
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
             onAutoplayStart={() => (hasStarted.current = true)}
             className="rounded-lg h-full"
-            autoplay={{
-              delay: SLIDER_AUTOPLAY_SPEED,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: false,
-            }}
+            // autoplay={{
+            //   delay: SLIDER_AUTOPLAY_SPEED,
+            //   disableOnInteraction: false,
+            //   pauseOnMouseEnter: false,
+            // }}
+            autoplay={false}
             speed={1000}
           >
             {programs.map((program) => (
               <SwiperSlide key={program._id}>
                 <div className="relative h-full min-h-[200px] md:min-h-[250px] lg:min-h-[350px] xl:min-h-[425px] flex flex-col justify-between rounded-lg overflow-hidden">
                   {program.imagery?.splash && (
-                    <div className="absolute inset-0">
+                    <div className="absolute inset-0 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
                       <Image
                         src={urlFor(program.imagery.splash).url()}
                         alt={program.title || "Program"}
                         fill
-                        className="object-contain"
+                        className="object-contain max-w-[256px] w-full"
                       />
                     </div>
                   )}

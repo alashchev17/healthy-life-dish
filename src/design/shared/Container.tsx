@@ -1,5 +1,14 @@
-import { FC, ReactNode } from 'react'
+import { FC, ReactNode } from "react";
 
-export const Container: FC<{ children: ReactNode; className?: string }> = ({ children, className }) => {
-  return <div className={'px-4 md:px-8 lg:px-10 ' + (className ? ` ${className}` : '')}>{children}</div>
-}
+export const Container: FC<{ children: ReactNode; className?: string }> = ({
+  children,
+  className,
+}) => {
+  return (
+    <div
+      className={"px-4 md:px-8 lg:px-10" + (className ? ` ${className}` : "")}
+    >
+      {children}
+    </div>
+  );
+};

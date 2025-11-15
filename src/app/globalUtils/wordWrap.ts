@@ -22,7 +22,7 @@ const REGEX_BY_LANGUAGE: Record<LanguageCode, RegExp> = {
 };
 
 export type wordWrapOptions = {
-  text: string;
+  text?: string;
   limit: number;
   language?: LanguageCode;
 };
@@ -31,6 +31,7 @@ export function wordWrap({
   limit,
   language = "ukr",
 }: wordWrapOptions): string {
+  if (!text || text.trim().length === 0) return "";
   const regex = REGEX_BY_LANGUAGE[language] ?? regex_ukr;
 
   let out = "",

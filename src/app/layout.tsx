@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Jura, Manrope } from "next/font/google";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
@@ -7,14 +7,61 @@ import { Providers } from "./providers";
 import { Footer, Header } from "#/design/shared";
 import { fetchAllPrograms, fetchFooterData } from "#/sanity/lib";
 
-const juraSans = Jura({
+const juraSans = localFont({
   variable: "--font-jura-sans",
-  subsets: ["latin"],
+  src: [
+    {
+      path: "../../public/fonts/jura/Jura-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/jura/Jura-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/jura/Jura-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/jura/Jura-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/jura/Jura-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
 });
 
-const manropeSans = Manrope({
+const manropeSans = localFont({
   variable: "--font-manrope-sans",
-  subsets: ["latin"],
+  src: [
+    {
+      path: "../../public/fonts/manrope/Manrope-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/manrope/Manrope-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/manrope/Manrope-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/manrope/Manrope-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
