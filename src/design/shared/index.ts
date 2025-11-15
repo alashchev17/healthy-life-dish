@@ -11,3 +11,4 @@ export * from "./NavigationGrid";
 export * from "./PageContainer";
 export * from "./Slogan";
 export * from "./Dropdown";
+export * from "./Promo";

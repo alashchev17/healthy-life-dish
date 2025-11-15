@@ -2,12 +2,9 @@
 
 import { type ReactNode, useState } from "react";
 
-import type {
-  HighlightText as HighlightTextType,
-  NumberedList as NumberedListBlock,
-} from "#/sanity/types";
+import type { HighlightText as HighlightTextType, NumberedList as NumberedListBlock } from "#/sanity/types";
 
-import { Typography } from "#/design/shared";
+import { Container, Typography } from "#/design/shared";
 import { HighlightedText } from "#/design/ui";
 
 export type NumberedListProps = {
@@ -79,32 +76,34 @@ export function NumberedList({ block }: NumberedListProps): ReactNode {
   const isExtended = items && items.length > 4;
 
   return (
-    <section className="flex items-start w-full justify-between gap-10">
-      <Typography
-        variant="menu"
-        className="uppercase text-green-acid !font-bold !leading-tight flex-shrink-0 my-6"
-      >
-        {title}
-      </Typography>
-      <div
-        className={`w-full max-w-[950px] grid ${isExtended ? "grid-cols-2 gap-x-8" : "grid-cols-1"}`}
-      >
-        {items?.map((item, idx) => {
-          const number = String(idx + 1).padStart(2, "0");
+    <Container>
+      <section className="flex items-start w-full justify-between gap-10">
+        <Typography
+          variant="menu"
+          className="uppercase text-green-acid !font-bold !leading-tight flex-shrink-0 my-6"
+        >
+          {title}
+        </Typography>
+        <div
+          className={`w-full max-w-[950px] grid ${isExtended ? "grid-cols-2 gap-x-8" : "grid-cols-1"}`}
+        >
+          {items?.map((item, idx) => {
+            const number = String(idx + 1).padStart(2, "0");
 
-          if (!item.description) return null;
+            if (!item.description) return null;
 
-          return (
-            <AccordionItem
-              key={item._key}
-              itemKey={item._key}
-              number={number}
-              title={item.title ?? ""}
-              description={item.description}
-            />
-          );
-        })}
-      </div>
-    </section>
+            return (
+              <AccordionItem
+                key={item._key}
+                itemKey={item._key}
+                number={number}
+                title={item.title ?? ""}
+                description={item.description}
+              />
+            );
+          })}
+        </div>
+      </section>
+    </Container>
   );
 }

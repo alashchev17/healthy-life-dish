@@ -4,9 +4,7 @@ import type { ReactNode } from "react";
 
 import type { FreeProgram as FreeProgramBlock } from "#/sanity/types";
 
-import { HighlightedText } from "#/design/ui";
-import { Button } from "#/design/ui";
-import { GradientCircle } from "#/design/icons/GradientCircle";
+import { Promo } from "#/design/shared";
 
 export type FreeProgramProps = {
   block: FreeProgramBlock;
@@ -15,40 +13,33 @@ export type FreeProgramProps = {
 export function FreeProgram({ block }: FreeProgramProps): ReactNode {
   const { description, button } = block;
 
+  if (!description) return null;
+
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-[500px] py-20 px-8">
-      {/* Background gradient effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-acid/10 to-transparent pointer-events-none" />
-
-      {/* Decorative icon */}
-      <div className="relative z-10 mb-8">
-        <GradientCircle className="w-32 h-32 text-green-acid" />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 max-w-4xl mx-auto text-center mb-10">
-        <HighlightedText
-          value={description!}
-          variant="title2"
-          className="!font-medium !text-3xl !leading-relaxed"
-        />
-      </div>
-
-      {/* CTA Button */}
-      {button && (
-        <div className="relative z-10">
-          <Button
-            variant="special-dark"
-            onClick={() => {
-              if (button.link) {
-                window.location.href = button.link;
-              }
-            }}
-          >
-            {button.text}
-          </Button>
-        </div>
-      )}
-    </section>
+    <Promo
+      text={description}
+      image={{
+        src: "/landing/promo-img.png?url",
+        alt: "Imagery: Promo section",
+        width: 214,
+        height: 171,
+      }}
+      buttons={
+        button
+          ? [
+              {
+                text: button.text || "",
+                href: button.link || undefined,
+                variant: "secondary",
+              },
+            ]
+          : undefined
+      }
+      className="flex flex-col items-center justify-center min-h-[500px] px-8"
+      textClassName="lg:!text-[2.5rem]"
+      containerClassName="!max-w-[750px]"
+      // textClassName="!font-medium !text-3xl !leading-relaxed"
+      showGradientCircles={true}
+    />
   );
 }

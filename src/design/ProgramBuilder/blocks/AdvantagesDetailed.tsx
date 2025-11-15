@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import type { AdvantagesDetailed as AdvantagesDetailedBlock } from "#/sanity/types";
 
-import { Typography } from "#/design/shared";
+import { Container, Typography } from "#/design/shared";
 import { AdvantageGrid, AdvantageImageCard, AdvantageTextCard } from "../shared";
 
 export type AdvantagesDetailedProps = {
@@ -17,35 +17,37 @@ export function AdvantagesDetailed({
   const { title, advantages } = block;
 
   return (
-    <section className="flex flex-col items-start gap-10">
-      <Typography
-        variant="menu"
-        className="uppercase text-green-acid !font-bold !leading-tight"
-      >
-        {title}
-      </Typography>
-      <AdvantageGrid itemCount={advantages?.length ?? 0}>
-        {advantages?.map((advantage, index) => {
-          if (advantage.imageOnly && advantage.image) {
+    <Container>
+      <section className="flex flex-col items-start gap-10">
+        <Typography
+          variant="menu"
+          className="uppercase text-green-acid !font-bold !leading-tight"
+        >
+          {title}
+        </Typography>
+        <AdvantageGrid itemCount={advantages?.length ?? 0}>
+          {advantages?.map((advantage, index) => {
+            if (advantage.imageOnly && advantage.image) {
+              return (
+                <AdvantageImageCard
+                  key={advantage._key}
+                  image={advantage.image}
+                />
+              );
+            }
+
             return (
-              <AdvantageImageCard
+              <AdvantageTextCard
                 key={advantage._key}
-                image={advantage.image}
+                iconIndex={index}
+                title={advantage.title ?? ""}
+                description={advantage.description}
+                variant="detailed"
               />
             );
-          }
-
-          return (
-            <AdvantageTextCard
-              key={advantage._key}
-              iconIndex={index}
-              title={advantage.title ?? ""}
-              description={advantage.description}
-              variant="detailed"
-            />
-          );
-        })}
-      </AdvantageGrid>
-    </section>
+          })}
+        </AdvantageGrid>
+      </section>
+    </Container>
   );
 }
