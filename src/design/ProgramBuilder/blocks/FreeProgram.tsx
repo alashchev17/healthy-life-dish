@@ -37,7 +37,7 @@ export function FreeProgram({ block }: FreeProgramProps): ReactNode {
       }
       className="flex flex-col items-center justify-center min-h-[500px] px-8"
       textClassName="lg:!text-[2.5rem]"
-      containerClassName="!max-w-[750px]"
+      containerClassName="!max-w-full md:!max-w-[750px]"
       // textClassName="!font-medium !text-3xl !leading-relaxed"
       showGradientCircles={true}
     />

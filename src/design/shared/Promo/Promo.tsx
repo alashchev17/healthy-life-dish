@@ -61,8 +61,8 @@ export const Promo: FC<PromoProps> = ({
 
       {showGradientCircles && (
         <>
-          <GradientCircle className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 text-green-acid h-[350px] aspect-square lg:h-auto" />
-          <GradientCircle className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 text-green-acid h-[350px] aspect-square lg:h-auto" />
+          <GradientCircle className="absolute right-0 top-1/2 translate-x-[60%] -translate-y-1/2 text-green-acid h-[350px] aspect-square lg:h-auto" />
+          <GradientCircle className="absolute left-0 top-1/2 -translate-x-[60%] -translate-y-1/2 text-green-acid h-[350px] aspect-square lg:h-auto" />
         </>
       )}
 
