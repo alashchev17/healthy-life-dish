@@ -17,7 +17,7 @@ export function SloganBlock({ block }: SloganBlockProps): ReactNode {
 
   return (
     <Container>
-      <Slogan slogan={slogan} />
+      <Slogan slogan={slogan} variant="programBuilder" />
     </Container>
   );
 }

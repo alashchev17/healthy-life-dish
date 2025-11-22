@@ -32,8 +32,9 @@ export const ProgramSlider: FC<ProgramSliderProps> = ({ programs, type }) => {
   const programSliderRef = useRef<SwiperRef>(null);
 
   const programHref = useMemo(() => {
+    const programType = type === "diet" ? "diets" : "programs";
     return programs[activeIndex].slug?.current
-      ? `/program/${programs[activeIndex].slug.current}`
+      ? `/${programType}/${programs[activeIndex].slug.current}`
       : "#";
   }, [programs, activeIndex]);
 
