@@ -37,7 +37,7 @@ function AccordionItem({
   const renderTitle = useMemo(() => {
     const wrappedTitle = wordWrap({ text: title, limit: 12, language: currentLanguage.code });
     if (isLessThan992) return title;
-    if (!compact) return title;
+    if (compact) return title;
     return wrappedTitle;
   }, [title, currentLanguage, compact, isLessThan992]);
 

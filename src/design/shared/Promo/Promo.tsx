@@ -54,7 +54,7 @@ export const Promo: FC<PromoProps> = ({
   };
 
   return (
-    <section className={`relative py-32 lg:py-20 overflow-hidden ${className}`}>
+    <section className={`relative pt-0 pb-32 lg:pt-20 lg:pb-20 overflow-hidden ${className}`}>
       {gradientBackground && (
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-acid/10 to-transparent pointer-events-none" />
       )}

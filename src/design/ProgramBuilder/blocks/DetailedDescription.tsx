@@ -18,18 +18,18 @@ export function DetailedDescription({
 
   return (
     <Container>
-      <section className="flex flex-col items-start gap-6 md:gap-10">
+      <section className="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-10">
         <Typography
-          variant="menu"
-          className="uppercase text-green-acid !font-bold !leading-tight"
+          variant="title2"
+          className="uppercase shrink-0 text-green-acid !text-base lg:!text-[1.5rem] !font-bold !leading-tight"
         >
           {title}
         </Typography>
-        <div className="w-full">
+        <div className="max-w-[948px]">
           <HighlightedText
             value={description!}
             variant="title2"
-            className="!font-normal !text-2xl !leading-relaxed"
+            className="!font-normal !text-[1.5rem] lg:!text-[2.25rem] !leading-none"
           />
         </div>
       </section>
