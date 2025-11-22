@@ -168,6 +168,7 @@ export const ProgramSlider: FC<ProgramSliderProps> = ({ programs, type }) => {
                     alt={program.title || "Program"}
                     fill
                     className="object-cover w-full h-full"
+                    sizes="100vw"
                   />
                   <div
                     className="h-full w-full absolute top-0 left-0 z-10"
