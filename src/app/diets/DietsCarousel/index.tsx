@@ -8,13 +8,13 @@ import { useGSAP } from "@gsap/react";
 import { Typography } from "#/design/shared/Typography";
 import { Button } from "#/design/ui";
 import { ArrowRight, ChevronRight, GradientCircle } from "#/design/icons";
-import { urlFor } from "#/sanity/utils/sanityImageUrl";
+import { urlFor } from "#/sanity/utils";
 import type { ProgramBuilder } from "#/sanity/types";
 import { useHeaderContext } from "#/design/shared/Header";
 
 import { useLanguage } from "#/design/shared/language";
 
-import { wordWrap } from "#/app/globalUtils";
+import { wordWrap } from "#/globalUtils";
 
 gsap.registerPlugin(useGSAP);
 

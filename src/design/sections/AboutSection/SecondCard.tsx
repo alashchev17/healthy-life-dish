@@ -5,7 +5,7 @@ import { Typography } from '#/design/shared'
 import Image from 'next/image'
 import { FC, useState } from 'react'
 import { AboutSectionData } from './AboutSection'
-import { urlFor } from '#/sanity/utils/sanityImageUrl'
+import { urlFor } from '#/sanity/utils'
 import Link from 'next/link'
 
 type SecondCardProps = {

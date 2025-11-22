@@ -9,7 +9,7 @@ import type { Swiper as SwiperType } from "swiper";
 import { Button } from "#/design/ui";
 import { Typography } from "../Typography";
 import type { ProgramBuilder } from "#/sanity/types";
-import { urlFor } from "#/sanity/utils/sanityImageUrl";
+import { urlFor } from "#/sanity/utils";
 import { ArrowRight, ChevronRight } from "#/design/icons";
 
 import "swiper/css";

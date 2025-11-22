@@ -4,11 +4,13 @@ import { type ReactNode, useCallback, useMemo, useState } from "react";
 
 import type { HighlightText as HighlightTextType, NumberedList as NumberedListBlock } from "#/sanity/types";
 
+import { wordWrap } from "#/globalUtils";
+
 import { Container, Typography } from "#/design/shared";
 import { HighlightedText } from "#/design/ui";
-import { wordWrap } from "#/app/globalUtils";
 import { useLanguage } from "#/design/shared/language";
 import { useMobile } from "#/design/shared/useMobile";
+import { indexToNumberedString } from "#/globalUtils/indexToNumberedString";
 
 export type NumberedListProps = {
   block: NumberedListBlock;
@@ -126,7 +128,7 @@ export function NumberedList({ block }: NumberedListProps): ReactNode {
                 const globalIdx = columnIdx === 0
                   ? idx
                   : Math.ceil((items?.length || 0) / 2) + idx;
-                const number = String(globalIdx + 1).padStart(2, "0");
+                const number = indexToNumberedString(globalIdx);
 
                 if (!item.description) return null;
 

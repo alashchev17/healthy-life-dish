@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "#/design/ui";
 import { ArrowRight, CloseIcon, GradientCircle } from "#/design/icons";
-import { urlFor } from "#/sanity/utils/sanityImageUrl";
+import { urlFor } from "#/sanity/utils";
 import { Typography } from "#/design/shared";
 import { ProgramBuilder } from "#/sanity/types";
 

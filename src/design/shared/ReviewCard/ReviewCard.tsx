@@ -4,7 +4,7 @@ import { FC, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { Typography } from "../Typography";
 import { StarRating } from "#/design/ui/StarRating";
-import { urlFor } from "#/sanity/utils/sanityImageUrl";
+import { urlFor } from "#/sanity/utils";
 import type { LANDING_PAGE_QUERYResult } from "#/sanity/types";
 
 type ReviewData = NonNullable<

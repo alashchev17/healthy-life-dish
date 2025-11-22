@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import Image from "next/image";
-import { urlFor } from "#/sanity/utils/sanityImageUrl";
+import { urlFor } from "#/sanity/utils";
 
 export type AdvantageImageCardProps = {
   image: {

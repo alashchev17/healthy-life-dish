@@ -2,9 +2,9 @@
 
 import { ProgramBuilder } from "#/sanity/types";
 import { Container, Typography, useHeaderContext } from "#/design/shared";
-import { urlFor } from "#/sanity/utils/sanityImageUrl";
+import { urlFor } from "#/sanity/utils";
 import Image from "next/image";
-import { wordWrap } from "#/app/globalUtils";
+import { wordWrap } from "#/globalUtils";
 
 export type DietHeroProps = {
   title: ProgramBuilder["title"];
