@@ -22,7 +22,7 @@ export function NumberedListWithImage({
 
   return (
     <Container>
-      <section className="flex flex-col items-start gap-10">
+      <section className="flex flex-col items-start gap-6 md:gap-10">
         <Typography
           variant="menu"
           className="uppercase text-green-acid !font-bold !leading-tight"
