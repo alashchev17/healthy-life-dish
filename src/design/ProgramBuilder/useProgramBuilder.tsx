@@ -40,9 +40,9 @@ export function useProgramBuilder({
         return <NumberedListWithImage key={block._key} block={block} />;
       case "sloganBlock":
         return <SloganBlock key={block._key} block={block} />;
-      case "pricingPlans":
-        console.log(`[DEBUG]: block data: `, JSON.stringify(block, null, 2));
-        return <PricingPlans key={block._key} block={block} />;
+      // case "pricingPlans":
+      //   console.log(`[DEBUG]: block data: `, JSON.stringify(block, null, 2));
+      //   return <PricingPlans key={block._key} block={block} />;
       case "freeProgram":
         return <FreeProgram key={block._key} block={block} />;
       case "audienceBlock":

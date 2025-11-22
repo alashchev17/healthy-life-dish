@@ -12,5 +12,7 @@ export function ProgramBuilder({ blocks }: ProgramBuilderProps) {
 
   if (!blocks) return null;
 
-  return elements;
+  return <div className="flex flex-col gap-[100px]">
+    {elements}
+  </div>;
 }

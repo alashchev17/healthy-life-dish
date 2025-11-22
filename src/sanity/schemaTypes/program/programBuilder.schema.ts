@@ -95,7 +95,7 @@ export const programBuilderSchema = defineType({
         { type: "numberedList" },
         { type: "numberedListWithImage" },
         { type: "sloganBlock" },
-        { type: "pricingPlans" },
+        // { type: "pricingPlans" },
         { type: "freeProgram" },
         { type: "audienceBlock" },
       ],

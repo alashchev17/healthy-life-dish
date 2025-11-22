@@ -66,72 +66,6 @@ export type FreeProgram = {
   };
 };
 
-export type PricingPlans = {
-  _type: "pricingPlans";
-  preview?: string;
-  title?: string;
-  durations?: Array<{
-    title?: string;
-    months?: number;
-    isDefault?: boolean;
-    _key: string;
-  }>;
-  supportedCurrencies?: Array<"EUR" | "USD" | "GBP" | "UAH">;
-  defaultCurrency?: "EUR" | "USD" | "GBP" | "UAH";
-  planTypes?: Array<{
-    id?: string;
-    stripeProductId?: string;
-    title?: string;
-    isPopular?: boolean;
-    pricing?: {
-      EUR?: {
-        price?: number;
-        stripePriceId?: string;
-      };
-      USD?: {
-        price?: number;
-        stripePriceId?: string;
-      };
-      GBP?: {
-        price?: number;
-        stripePriceId?: string;
-      };
-      UAH?: {
-        price?: number;
-        stripePriceId?: string;
-      };
-    };
-    features?: Array<{
-      text?: string;
-      included?: boolean;
-      _key: string;
-    }>;
-    _key: string;
-  }>;
-  groupPlans?: Array<{
-    people?: number;
-    pricing?: {
-      EUR?: {
-        basePrice?: number;
-        discountedPrice?: number;
-      };
-      USD?: {
-        basePrice?: number;
-        discountedPrice?: number;
-      };
-      GBP?: {
-        basePrice?: number;
-        discountedPrice?: number;
-      };
-      UAH?: {
-        basePrice?: number;
-        discountedPrice?: number;
-      };
-    };
-    _key: string;
-  }>;
-};
-
 export type SloganBlock = {
   _type: "sloganBlock";
   preview?: string;
@@ -418,8 +352,6 @@ export type ProgramBuilder = {
     _key: string;
   } & SloganBlock | {
     _key: string;
-  } & PricingPlans | {
-    _key: string;
   } & FreeProgram | {
     _key: string;
   } & AudienceBlock>;
@@ -647,7 +579,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = SocialLink | HighlightText | AudienceBlock | FreeProgram | PricingPlans | SloganBlock | NumberedListWithImage | NumberedList | DetailedDescription | AdvantagesSimple | AdvantagesDetailed | TranslationMetadata | InternationalizedArrayReferenceValue | Settings | Footer | ProgramBuilder | ReviewCard | Reviews | Promo | About | Hero | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = SocialLink | HighlightText | AudienceBlock | FreeProgram | SloganBlock | NumberedListWithImage | NumberedList | DetailedDescription | AdvantagesSimple | AdvantagesDetailed | TranslationMetadata | InternationalizedArrayReferenceValue | Settings | Footer | ProgramBuilder | ReviewCard | Reviews | Promo | About | Hero | InternationalizedArrayReference | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: LANDING_PAGE_QUERY
@@ -893,71 +825,6 @@ export type PROGRAM_BY_SLUG_QUERYResult = {
         } | null;
         hotspot: SanityImageHotspot | null;
         crop: SanityImageCrop | null;
-      } | null;
-    }> | null;
-  } | {
-    _key: string;
-    _type: "pricingPlans";
-    preview: string | null;
-    title: string | null;
-    durations: Array<{
-      _key: string;
-      title: string | null;
-      months: number | null;
-      isDefault: boolean | null;
-    }> | null;
-    supportedCurrencies: Array<"EUR" | "GBP" | "UAH" | "USD"> | null;
-    defaultCurrency: "EUR" | "GBP" | "UAH" | "USD" | null;
-    planTypes: Array<{
-      _key: string;
-      id: string | null;
-      stripeProductId: string | null;
-      title: string | null;
-      isPopular: boolean | null;
-      pricing: {
-        EUR: {
-          price: number | null;
-          stripePriceId: string | null;
-        } | null;
-        USD: {
-          price: number | null;
-          stripePriceId: string | null;
-        } | null;
-        GBP: {
-          price: number | null;
-          stripePriceId: string | null;
-        } | null;
-        UAH: {
-          price: number | null;
-          stripePriceId: string | null;
-        } | null;
-      } | null;
-      features: Array<{
-        _key: string;
-        text: string | null;
-        included: boolean | null;
-      }> | null;
-    }> | null;
-    groupPlans: Array<{
-      _key: string;
-      people: number | null;
-      pricing: {
-        EUR: {
-          basePrice: number | null;
-          discountedPrice: number | null;
-        } | null;
-        USD: {
-          basePrice: number | null;
-          discountedPrice: number | null;
-        } | null;
-        GBP: {
-          basePrice: number | null;
-          discountedPrice: number | null;
-        } | null;
-        UAH: {
-          basePrice: number | null;
-          discountedPrice: number | null;
-        } | null;
       } | null;
     }> | null;
   } | {
