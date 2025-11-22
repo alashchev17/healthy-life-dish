@@ -5,17 +5,9 @@ export type AdvantageGridProps = {
   itemCount: number;
 };
 
-export const AdvantageGrid: FC<AdvantageGridProps> = ({ children, itemCount }) => {
-  const numRows = Math.ceil(itemCount / 3);
-
+export const AdvantageGrid: FC<AdvantageGridProps> = ({ children }) => {
   return (
-    <div
-      className="w-full grid gap-5"
-      style={{
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gridTemplateRows: `repeat(${numRows}, minmax(0, 420px))`,
-      }}
-    >
+    <div className="w-full flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 md:auto-rows-[minmax(0,420px)]">
       {children}
     </div>
   );
