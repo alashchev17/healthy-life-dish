@@ -65,32 +65,31 @@ export const ProgramSlider: FC<ProgramSliderProps> = ({ programs, type }) => {
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
             onAutoplayStart={() => (hasStarted.current = true)}
             className="rounded-lg h-full"
-            // autoplay={{
-            //   delay: SLIDER_AUTOPLAY_SPEED,
-            //   disableOnInteraction: false,
-            //   pauseOnMouseEnter: false,
-            // }}
-            autoplay={false}
+            autoplay={{
+              delay: SLIDER_AUTOPLAY_SPEED,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: false,
+            }}
             speed={1000}
           >
             {programs.map((program) => (
               <SwiperSlide key={program._id}>
                 <div className="relative h-full min-h-[200px] md:min-h-[250px] lg:min-h-[350px] xl:min-h-[425px] flex flex-col justify-between rounded-lg overflow-hidden">
                   {program.imagery?.splash && (
-                    <div className="absolute inset-0 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+                    <div className="absolute w-full h-full top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 flex items-center justify-center aspect-square">
                       <Image
                         src={urlFor(program.imagery.splash).url()}
                         alt={program.title || "Program"}
                         fill
-                        className="object-contain max-w-[256px] w-full"
+                        className="object-contain max-w-[80%] max-h-[80%] md:max-w-[256px] self-center justify-self-center"
                       />
                     </div>
                   )}
-                  <div className="h-full inset-0 top-0 left-0 right-0 bottom-0 absolute flex flex-col items-center justify-center p-8 z-10">
+                  <div className="h-full inset-0 absolute flex flex-col items-center justify-center p-8 z-10">
                     <Typography
                       variant="bottoms"
                       as="span"
-                      className="inline-block px-3 py-1.5 rounded-3xl uppercase bg-dark-gray/70 text-white"
+                      className="!text-[12px] md:!text-[1.25rem] inline-block px-3 py-1.5 max-w-[180px] md:max-w-[250px] text-center select-none rounded-3xl uppercase bg-dark-gray/70 text-white"
                     >
                       {program.title}
                     </Typography>
