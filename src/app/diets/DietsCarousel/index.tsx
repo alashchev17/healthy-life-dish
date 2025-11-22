@@ -11,10 +11,9 @@ import { ArrowRight, ChevronRight, GradientCircle } from "#/design/icons";
 import { urlFor } from "#/sanity/utils";
 import type { ProgramBuilder } from "#/sanity/types";
 import { useHeaderContext } from "#/design/shared/Header";
-
 import { useLanguage } from "#/design/shared/language";
-
 import { wordWrap } from "#/globalUtils";
+import { useMobile } from "#/design/shared/useMobile";
 
 gsap.registerPlugin(useGSAP);
 
@@ -25,6 +24,7 @@ interface DietsCarouselProps {
 
 export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
   const { currentLanguage } = useLanguage();
+  const { isLessThanX } = useMobile();
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const { headerHeight } = useHeaderContext();
@@ -148,14 +148,14 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
 
   return (
     <div
-      className="hidden lg:block w-full relative overflow-hidden bg-black"
-      style={{ height: `calc(100dvh - ${headerHeight}px)` }}
+      className="w-full relative overflow-hidden bg-black"
+      style={{ height: isLessThanX(1280) ? 'auto' : `calc(100dvh - ${headerHeight}px)` }}
     >
       {/* Main content */}
-      <div className="relative h-full flex items-center px-10 xl:px-16 xl:pt-4 xl:pb-16">
-        <div className="w-full h-full grid grid-cols-[300px_1fr_430px] gap-16 items-center">
+      <div className="relative h-full flex items-center px-4 md:px-6 lg:px-10 xl:px-16 py-4 md:py-6 lg:pt-4 xl:pb-16">
+        <div className="w-full h-full grid grid-cols-2 gap-14 xl:grid-cols-[300px_1fr_430px] lg:gap-16 items-center">
           {/* Left Panel - Diet List */}
-          <div className="relative flex flex-col gap-4">
+          <div className="md:col-span-1 lg:col-span-1 relative flex flex-col gap-4">
             {/* Single gradient that transitions between cards */}
             <div
               ref={gradientRef}
@@ -174,7 +174,7 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
                   }}
                   onClick={() => !isAnimating && setActiveIndex(index)}
                   disabled={isAnimating}
-                  className={`relative z-10 flex border-transparent hover:border-dark-gray items-center border-[3px] gap-4 p-4 rounded-3xl cursor-pointer select-none transition-all duration-300 group ${
+                  className={`relative z-10 flex border-transparent hover:border-dark-gray items-center border-[3px] gap-3 md:gap-4 p-3 md:p-4 rounded-2xl md:rounded-3xl cursor-pointer select-none transition-all duration-300 group ${
                     isActive ? "!border-dark-gray" : ""
                   } ${isAnimating ? "cursor-not-allowed" : ""}`}
                 >
@@ -213,8 +213,8 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
           </div>
 
           {/* Center Panel - Hero Image */}
-          <div className="flex items-center justify-center h-full">
-            <div className="relative w-full max-w-[540px] aspect-square">
+          <div className="md:col-span-1 lg:col-span-1 flex items-center justify-center h-full">
+            <div className="relative w-full max-w-[400px] md:max-w-[450px] lg:max-w-[540px] aspect-square">
               {/* Render all images, GSAP controls visibility */}
               {programs.map((program, index) =>
                 program?.imagery?.splash ? (
@@ -242,7 +242,7 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
           </div>
 
           {/* Right Panel - Details */}
-          <div className="h-full flex flex-col justify-center bg-dark-gray rounded-3xl">
+          <div className="col-span-2 xl:col-span-1 h-auto lg:h-full flex flex-col justify-center bg-dark-gray rounded-3xl">
             {/* Navigation Arrows */}
             <div className="flex items-center justify-between p-4 border-b-black border-b-[3px]">
               <button
@@ -280,16 +280,16 @@ export function DietsCarousel({ programs, ctaLabel }: DietsCarouselProps) {
             {/* Description */}
             <div
               ref={descriptionRef}
-              className="flex-1 flex items-start py-10 px-8 overflow-y-auto"
+              className="flex-1 flex items-start p-6 lg:py-10 lg:px-8 overflow-y-auto"
               style={{
-                maxHeight: descriptionRef.current
+                maxHeight: isLessThanX(1290) ? "100%" : descriptionRef.current
                   ? `${descriptionRef.current.offsetHeight}px`
                   : "auto",
               }}
             >
               <Typography
                 variant="body"
-                className="text-white !font-medium !leading-tight"
+                className="text-white !font-medium !leading-tight text-center lg:text-left"
               >
                 {activeProgram?.shortDescription ?? ""}
               </Typography>

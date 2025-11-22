@@ -1,6 +1,6 @@
 import { PageContainer } from "#/design/shared/PageContainer";
 import { fetchProgramsByType, fetchSettings } from "#/sanity/lib/queries";
-import { DietsCarousel } from "./DietsCarousel";
+import { DietsResponsiveWrapper } from "./DietsResponsiveWrapper";
 
 export default async function DietsPage() {
   // TODO: Get language from context/params
@@ -15,7 +15,7 @@ export default async function DietsPage() {
 
   return (
     <PageContainer className="bg-black">
-      <DietsCarousel programs={programs} ctaLabel={ctaLabel} />
+      <DietsResponsiveWrapper programs={programs} ctaLabel={ctaLabel} />
     </PageContainer>
   );
 }
